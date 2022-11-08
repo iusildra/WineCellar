@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  chief-db:
+    container_name: mychiefcook-db
+    image: postgres:15.0-bullseye
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432" # 5433 pcq j'ai déjà un postgres sur mon pc :)
+    volumes:
+      - ./sql:/home
+      - chief-db-vol:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  chief-db-vol:
