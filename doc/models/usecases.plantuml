@@ -1,0 +1,78 @@
+@startuml usecase
+' skinparam actorStyle awesome
+
+:User: as user
+:Admin: as admin
+
+package "Admin Use Cases" as AdminUseCases {
+  (Visualize Clients) as visualizeClients
+  usecase manageClients as "
+    Manage Clients
+    ..
+    Block/unblock and
+    edit permissions
+  "
+  (Role management) as roleManagement
+  usecase recipeManagement as "
+    Recipe management
+    ..
+    Can remove any recipe
+  "
+  usecase wineManagement as "
+    Wine management
+    ..
+    Can remove any wine
+  "
+  usecase partnerManagement as "
+    Partner management
+    ..
+    CRUD
+  "
+}
+
+package "Authentication Use Cases" as AuthenticationUseCases {
+  (Signin) as signin
+  (Signout) as signout
+  usecase signup as "
+    Signup
+    ..
+    Encrypt password
+  "
+}
+
+package "Normal User Use Cases" as NormalUserUseCases {
+  (Manage profile) as manageProfile
+  (Manage own recipes) as manageRecipes
+  usecase manageIngredients as "
+    Manage ingredients
+    and wines
+    ..
+    Can only create
+    without duplicates
+  "
+  usecase lookForRecipes as  "
+    Look for recipes
+    ..by..
+      name
+      categories
+      ingredients
+  "
+  (Rate and comment) as rateAndComment
+
+  usecase shopping as "
+    Shopping card
+    ..
+    User can buy ingredients/wines
+    or cooked recipes
+    Delivery can be instant
+    or delayed
+  "
+}
+
+admin --|> user
+
+user --> AuthenticationUseCases
+user -u-> NormalUserUseCases
+admin --u-> AdminUseCases
+
+@enduml
