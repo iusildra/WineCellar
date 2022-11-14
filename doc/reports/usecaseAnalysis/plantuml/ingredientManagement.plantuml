@@ -1,0 +1,32 @@
+@startuml ingredientManagementFlow
+start
+:Choose action;
+if (create ingredient ?) then (create)
+  :Enter name;
+  :Add categories;
+  if (is allergen ?) then (yes)
+    :Tick checkbox;
+  else (no)
+  endif
+  :Save ingredient;
+else (no)
+  :Chose ingredient;
+  if ( edit ingredient ? ) then (edit)
+    :Edit informations;
+    :Save ingredient;
+  else ( delete )
+    :Chose ingredient;
+    :Ask for deletion;
+    if (recipes depends\nupon ingredient ?) then (yes)
+      :Warn user;
+    else (no)
+      if ( confirm ? ) then (yes)
+        :Delete ingredient;
+      else (no)
+        :Cancel;
+      endif
+    endif
+  endif
+endif
+stop
+@enduml

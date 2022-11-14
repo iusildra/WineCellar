@@ -1,0 +1,114 @@
+@startuml usecase
+left to right direction
+' skinparam actorStyle awesome
+
+:User: as user
+:Admin: as admin
+
+usecase manageProfile as "
+  Manage profile
+  ..
+  1. login
+  2. logout
+  3. register
+  4. edit profile
+  5. ask for deletion
+"
+
+usecase manageRecipes as "
+  Manage recipes
+  ..
+  1. CRUD
+  2. Search recipes by
+    a. name
+    b. ingredients
+    c. categories
+"
+
+usecase manageRecipeLists as "
+  Manage recipe lists
+  ..
+  1. CRUD
+"
+
+usecase manageCart as "
+  Manage cart
+  ..
+  1. Add to cart
+  2. Remove from cart
+  3. Generate shopping list
+"
+
+usecase managePartner as "
+  Manage partner
+  ..
+  1. CRUD
+"
+
+usecase manageAdvertisement as "
+  Manage advertisement
+  ..
+  1. CRUD
+"
+
+usecase manageCategories as "
+  Manage categories
+  ..
+  1. CRUD
+"
+
+usecase manageIngredients as "
+  Manage ingredients
+  ..
+  1. CRUD
+"
+
+usecase manageComments as "
+  Manage comments
+  ..
+  1. CRUD
+  2. Upvote
+  3. Downvote
+  4. Moderation
+"
+
+usecase manageSuggestions as "
+  Manage suggestions
+  ..
+  1. CRUD
+  2. Accept suggestion
+  3. Reject suggestion
+"
+
+usecase manageNews as "
+  Manage news
+  ..
+  1. Add news
+  2. Update news
+  3. Display news
+"
+
+usecase manageCalendar as "
+  Manage calendar
+  ..
+  1. Set recipe for 1+ meal
+  2. Change a meal's recipe
+  3. Remove a meal
+"
+
+admin --|> user
+
+user -d-> manageCalendar
+user -d-> manageCart
+user -d-> manageComments
+user -d-> manageProfile
+user -d-> manageRecipeLists
+user -d-> manageSuggestions
+
+admin -u-> manageAdvertisement
+admin -u-> manageCategories
+admin -u-> manageIngredients
+admin -u-> manageNews
+admin -u-> managePartner
+admin -u-> manageRecipes
+@enduml
