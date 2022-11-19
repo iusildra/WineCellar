@@ -1,0 +1,107 @@
+\usecasedesc
+{Ingredient management \label{sec:ingredientManagement}}
+{
+  Ingredients are the base of recipes. As for recipes, they can be modified (created, updated, deleted) by Administrators only. They will be able to specify a name, a list of tags (categories) and wether it's allergen or not. If it's allergenic, it must be emphasized. Name, and allergen status are mandatory fields.
+
+  Administrators should be able to search ingredients by name and the result should be sorted by name by default. They should be able to sort by tags, and allergenic status. Results should be paginated and the number of results per page should be configurable. They should also be able to filter by tags and allergenic status.
+
+  \image{ingredientManagement}{0.75}{Ingredient Management}{ingredientManagement}
+}
+{
+  This Use Case starts whenever a Administrator wants to add, update or delete an ingredient to the database
+
+  \paragraph{Basic Flows}
+    \begin{itemize}
+      \item Create an ingredient : The system asks the Administrator to enter the information about the ingredient : name, tags (categories), allergen 
+      \begin{enumerate}
+        \item Once the Administrator provided at least the required information, the system adds the ingredient to the database.
+        \item The system provide a success message, returns the newly created ingredient, and goes back to ingredient management menu.
+      \end{enumerate}
+      \item Update an ingredient : The system ask the Administrator to enter  the new information about the ingredient
+      \begin{enumerate}
+        \item Once the Administrator provided at least the required information, the system updates the ingredient in the database.
+        \item The system provide a success message, updates the ingredient on the application, and goes back to ingredient management menu.
+      \end{enumerate}
+      \item Delete an ingredient : The system ask the Administrator which ingredient he wants to delete
+      \begin{enumerate}
+        \item Once the Administrator chosed the ingredient, the system checks if it is used by any recipe. If it is not, the system deletes the ingredient from the database.
+        \item The system provide a success message, deletes the ingredient on the application, and goes back to ingredient management menu.
+      \end{enumerate}
+    \end{itemize}
+  \paragraph{Alternative Flows}
+  \begin{itemize}
+    \item Create an ingredient :
+    \begin{enumerate}
+      \item If the Administrator does not provide every mandatory fields and tries to validate, the system display an error message as a "toast" and does nothing else.
+      \item If the Administrator cancels, the system goes back to ingredient management menu.
+    \end{enumerate}
+    \item Update an ingredient :
+    \begin{enumerate}
+      \item If the Administrator does not provide every mandatory fields and tries to validate, the system display an error message as a "toast" and does nothing else.
+      \item If the Administrator tries to update an ingredient already use by a recipe, the system display a warning message and ask for confirmation. If the Administrator confirms, the system updates the ingredient in the database and in the app and the normal flow continues. If the Administrator does not confirm, the system does nothing else.
+      \item If the Administrator cancels, the system goes back to ingredient management menu.
+    \end{enumerate}
+    \item Delete an ingredient :
+    \begin{enumerate}
+      \item If the Administrator tries to delete an ingredient already use by a recipe, the system display a error message. Otherwise, the system deletes the ingredient in the database and in the app and the normal flow continues.
+      \item If the Administrator cancels, the system goes back to ingredient management menu.
+    \end{enumerate}
+  \end{itemize}
+}
+{Must be thread-safe in case multiple Administrators are modifying the same ingredient.}
+{The Administrator must be logged onto the system before this use case begins.}
+{If it's successful, the ingredient will be added/updated/deleted from the database. Otherwise, the state remains unchanged.}
+{None}
+
+\usecasedesc
+{Recipe management \label{sec:recipeManagement}}
+{
+  Recipes can be modified (created, updated, deleted) by Administrators only. They will be able to specify a name, a summary, a list of ingredients, some categories, a description, and maybe a picture of it. Recipes can be search by name, tags, ingredients, whether it contains allergens or not, and may be sorted by name or popularity.
+  
+  If a recipe contains allergens, it must be specified and allergenic ingredients must appear in emphasized text. A recipe can also receive many comments and ratings from the users.
+
+  \image{recipeManagement}{0.75}{Recipe Management}{recipeManagement}
+}
+{
+  This Use Case starts when a Administrator wants to add, update or delete a recipe to the database.
+
+  \paragraph{Basic Flows}
+  \begin{itemize}
+    \item Create a recipe : The system asks the Administrator to enter the information about the recipe : name, summary, tags (categories), ingredients, description, picture
+    \begin{enumerate}
+      \item Once the Administrator provided at least the required information, the system adds the recipe to the database.
+      \item The system provide a success message, returns the newly created recipe, and goes back to recipe management menu.
+    \end{enumerate}
+    \item Update a recipe : The system ask the Administrator to enter the new information about the recipe
+    \begin{enumerate}
+      \item Once the Administrator provided at least the required information, the system updates the recipe in the database.
+      \item The system provide a success message, updates the recipe on the application, and goes back to recipe management menu.
+    \end{enumerate}
+    \item Delete a recipe : The system ask the Administrator which recipe he wants to delete
+    \begin{enumerate}
+      \item Once the Administrator chosed the recipe, the system deletes the recipe from the database.
+      \item The system provide a success message, deletes the recipe on the application, and goes back to recipe management menu.
+    \end{enumerate}
+  \end{itemize}
+  \paragraph{Alternative Flows}
+  \begin{itemize}
+    \item Create a recipe :
+    \begin{enumerate}
+      \item If the Administrator does not provide all the mandatory information and tries to validate, the system display an error message as a "toast" and does nothing else.
+      \item If the Administrator cancels, the system goes back to recipe management menu.
+    \end{enumerate}
+    \item Update a recipe :
+    \begin{enumerate}
+      \item If the Administrator does not provide all the mandatory information and tries to validate, the system display an error message as a "toast" and does nothing else.
+      \item If the Administrator cancels, the system goes back to recipe management menu.
+    \end{enumerate}
+    \item Delete a recipe :
+    \begin{enumerate}
+      \item If the Administrator cancels, the system goes back to recipe management menu.
+    \end{enumerate}
+  \end{itemize}
+}
+{Must be thread-safe in case multiple Administrators are modifying the same recipe.}
+{The Administrator must be logged onto the system before this use case begins.}
+{If it's successful, the recipe will be added/updated/deleted from the database. Otherwise, the state remains unchanged.}
+{None}

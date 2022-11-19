@@ -1,0 +1,95 @@
+\usecasedesc{Comment management}
+{
+  This use case describes how a User can see comments and rates, post a comment under a recipe and/or rate a recipe. An Admin can also manage all comments (a kind of moderation, he can delete a comment if he thinks there is an abuse).
+
+  \image{commentManagement}{0.75}{Comment management}{commentManagement}
+  \clearpage
+}
+{
+  \begin{multicols}{2}
+    This use case starts when the User wishes to comment or rate a recipe.
+    \begin{itemize}
+      \item The User opens a recipe and scrolls down to the Comment section below.
+      \item There he can see the average rate and read all comments, that contain each a rate of the recipe.
+      \item If the User clicks on the stars button (to rate the recipe), the Add Comment sub flow is executed.
+    \end{itemize}
+
+    \columnbreak
+  
+    This use case can also start when the Admin is on his moderation section.
+    \begin{itemize}
+      \item The Admin opens the list of comments, or goes to a recipe and scrolls down to the Comment section.
+      \item If the Admin clicks on the Delete Comment button, the Delete Comment sub flow is executed.
+    \end{itemize}
+  \end{multicols}
+
+  \paragraph{Basic Flows}
+  \begin{itemize}
+    \item Add Comment :
+    \begin{enumerate}
+      \item The User has clicked on the stars button (he selected a note between 1-5 stars), then he can possibly fill the form bellow. This form includes:
+      \begin{itemize}
+        \item Name of the comment (optional)
+        \item Content of the comment (optional but need a name)
+      \end{itemize}
+      \item The User needs to click on the Submit button to send the comment.
+    \end{enumerate}
+    \item Delete comment :
+    \begin{enumerate}
+      \item The Admin clicks on the Delete Comment button. A new popup appears asking the Admin if he is sure of his decision.
+      \item The Admin clicks on the Validate button, then the selectionned button is deleted.
+    \end{enumerate}
+  \end{itemize}
+
+  \paragraph{Alternative Flows}
+  \begin{itemize}
+    \item Delete canceled : if in the Delete Comment sub flow the Admin decides not to delete the comment, the delete is canceled and the Basic Flow is restarted at the beginning.
+  \end{itemize}
+}
+{None}
+{The User/Admin needs to be logged in and a recipe needs to be created before this use case begins.}
+{If the use case was successful, the comment is added/modified and the other users can now see the new/modified comment. If the Admin has removed the comment, it’s now no longer visible.
+}
+{None}
+
+\usecasedesc{Calendar management}
+{
+  This use case describes how a User can save his recipes in a calendar and plan when to make them. He can see his calendar whenever he needs to, and delete a recipe from the calendar if he needs to.
+
+  \image{calendarManagement}{0.75}{Calendar management}{calendarManagement}
+}
+{
+  This use case starts when the User wishes to add a recipe to his calendar or see it :
+  \begin{enumerate}
+    \item The User opens a recipe or the list of recipes.
+    \item If the User clicks on the Add to Calendar button (which can be seen on a recipe or on each recipe of the list), the Add to Calendar sub flow is executed.
+    \item If the User clicks on the calendar button/icon, he can see his calendar with all his recipes saved in it.
+    \item If the User clicks on the cross (X) of a recipe saved in his calendar, the Delete from Calendar sub flow is executed.
+  \end{enumerate}
+
+  \paragraph{Basic Flows}
+  \begin{itemize}
+    \item Add to calendar :
+    \begin{enumerate}
+      \item The User clicks on the Add to Calendar button, then a calendar popup is shown and ask for the User to select a date:
+      \begin{itemize}
+        \item Year
+        \item Month
+        \item Day
+        \item Which meal: breakfast, lunch, snack, dinner, other
+      \end{itemize}
+      \item The User needs to click on the Validate button to save the recipe to this date.
+    \end{enumerate}
+    \item Delete from calendar : the User has clicked on the cross (X) of a recipe saved in his calendar, a Validate popup is shown to check if he really needs to delete the recipe saved for this day.
+  \end{itemize}
+
+  \paragraph{Alternative Flows}
+  \begin{itemize}
+    \item Add canceled : if in the Add to Calendar sub flow the User decides not to add the recipe, the saving is canceled and the Basic Flow is restarted at the beginning.
+    \item Delete canceled : if in the Delete from Calendar sub flow the User decides not to delete the recipe, the delete is canceled and the Basic Flow is restarted at the beginning.
+  \end{itemize}
+}
+{None}
+{The User needs to be logged and a recipe needs to be created before this use case begins.}
+{If the use case was successful, the recipe is added to the date in the calendar and the User can now see it in his calendar. Otherwise, the system state is unchanged.}
+{None}

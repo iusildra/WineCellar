@@ -1,0 +1,140 @@
+\usecasedesc{Category Management \label{sec:categoryManagement}}
+{
+  A recipe belongs to one or more categories. The goal is to give simple information about the recipe (for example, the recipe is a "vegetarian" "dish"), but also to be able to apply filters on the recipe search.
+  
+  The different categories can be created, modified and deleted only by administrators connected to their account.
+
+  \image{categoryManagement}{0.75}{Category Management}{categoryManagement}
+}
+{
+  The system requests that the Administrator specify the function he/she would like to perform : either Add a Category, Update a Category, or Delete a Category (see \autoref{fig:categoryManagement}). Once the Administrator provides the requested information, one of the sub flow is executed.
+
+  \paragraph{Basic Flows}
+    \begin{itemize}
+      \item If the Administrator selected "Add a Category", the Add a Category sub flow is executed :
+      \begin{enumerate}
+        \item The system request that the administrator enter new information. This include the name’s category.
+        \item the system generates a id number for the new category, register it in the database, the category is available for recipes and the administrator is informed that the creation worked with the message "The category has been created".
+      \end{enumerate}
+      \item If the Administrator selected "Update a Category", the Update a Category sub flow is executed :
+      \begin{enumerate}
+        \item The administrator selects a category from the list of categories (obtained from the system). The administrator can only change the name’s category.
+        \item The system update the category’s name in the database. The administrator is informed that the update worked with the message "The category has been updated".
+      \end{enumerate}
+      \item If the Administrator selected "Delete a Category", the Delete a Category sub flow is executed :
+      \begin{enumerate}
+        \item The administrator selects a category from the list of category (obtained from the system). The administrator can delete the chosen category and need to confirm to delete. 
+        \item The system update the database therefore deletes the category. The administrator is informed that the delete has worked with the message "The category has been deleting".
+      \end{enumerate}
+    \end{itemize}
+
+  \paragraph{Alternate Flows}
+  \begin{itemize}
+    \item Add Category or Update category with an existing name : the administrator can’t create a category or update a category with an existing name. In this case, the state will not change and the administrator is notified that he is not allowed to do the change/creation with a message "This name is already use".
+    \item Action cancelling : If the Administrator decides to cancel the current action, then the action aborts and the system is unchanged.
+  \end{itemize}
+}
+{
+  None
+}
+{
+  The Administrator must be logged onto the system before this use case begins.
+}
+{
+  If the use case was successful, the category information is added, updated, or deleted from the system. Otherwise, the system state is unchanged.
+}
+{
+  None
+}
+
+\usecasedesc{
+  Ad management \label{sec:adManagement}
+}
+{
+  We have advertisements in the application, to suggest to buy some ingredients with a promotion with our partners. So we need to manage the ads : create an ad, update an ad and delete an ad.
+
+  The different adverts can be created, modified and deleted only by administrators connected to their account.
+
+  \image{adManagement.png}{0.75}{Ad Management}{adManagement}
+}
+{
+  The system requests that the Administrator specify the function he/she would like to perform : Add an Advert, Update an Advert, or Delete an Advert (see \autoref{fig:adManagement}). Once the Administrator provides the requested information, one of the sub flows is executed.
+
+  \paragraph{Basic Flows}
+  \begin{itemize}
+    \item If the Administrator selected “Add an Advert“, the Add an Advert sub flow is executed :
+    \begin{enumerate}
+      \item The system request that the administrator enter new information. This include the  partner, the product, the promotion, the price.
+      \item The system generates a id number for the new advert, register it in the database and the ad is available for the ingredient. The administrator is informed that the creation worked with the message “The advert has been created”.
+    \end{enumerate}
+    \item If the Administrator selected “Update a Category“, the Update an Advert sub flow is executed :
+    \begin{enumerate}
+      \item The administrator selects an ad from the list of adverts (obtained from the system). The administrator can change the  partner, the product, the promotion, the price.
+      \item The system updates the data in the database and the administrator is informed that the update worked with the message “The advert has been updated”.
+    \end{enumerate}
+    \item If the Administrator selected “Delete a Category“, the Delete an Advert sub flow is executed :
+    \begin{enumerate}
+      \item The administrator selects an ad from the list of adverts (obtained from the system). The administrator can delete the chosen advert and need to confirm to delete.
+      \item The system updates the database therefore deletes the ad. The administrator is informed that the delete worked with the message “The advert has been deleted”.
+    \end{enumerate}
+  \end{itemize}
+
+  \paragraph{Alternate Flows}
+  \begin{itemize}
+    \item Action cancelling : If the Administrator decides to cancel the current action, then the action aborts and the system is unchanged.
+  \end{itemize}
+}
+{
+  None
+}
+{
+  The Administrator must be logged onto the system before this use case begins.
+}
+{
+  If the use case was successful, the advertising information is added, updated, or deleted from the system. Otherwise, the system state is unchanged.
+
+}
+{
+  None
+}
+
+\usecasedesc
+{
+  Suggestion Management \label{sec:suggestionManagement}
+}
+{
+  When the customer uses the application, he can sometimes be disappointed because he can’t find a recipe or an ingredient or want to suggest a new feature for the application. The manage suggestions is the CRUD to this. The users will create suggestions and the admins will read, update and delete or implement the suggestion.
+
+  \image{suggestionManagement.png}{0.65}{Suggestion Management}{suggestionManagement}
+}
+{
+  The functionality is available through a button placed in different places in the application. The button to access the suggestion form page is visible in the drop down menu and when searching for an ingredient or recipe the button is directly available on the page if no results match the user's search.
+
+  \paragraph{Basic Flows}
+  \begin{itemize}
+    \item If the Payroll User selected “Propose a Suggestion“, the Add a Suggestion sub flow is executed :
+    \begin{enumerate}
+      \item The customer enters the information on the system. This includes the category of the suggestion (ingredient, recipe, feature) and a text field to detail the request (the name of the ingredient or the new feature requested\dots).
+      \item The system generates a id number for the new suggestion, register it in the data-base and the suggestion is available for admins. The customer is informed that the creation worked with the message “The suggestion has been sent”.
+    \end{enumerate}
+    \item If the Administrator selected “Update a Suggestion“, the Update a Suggestion sub flow is executed :
+    \begin{enumerate}
+      \item The administrator selects a suggestion from the list of suggestion (obtained from the system). The admin can change the suggestion, that is change the text field and the category of the suggestion if the customer is mistaken.
+      \item The system updates changes in the database. The administrator is informed that the update worked with the message “The suggestion has been updated”.
+    \end{enumerate}
+    \item If the Administrator selected “Delete a Suggestion“, the Delete a Suggestion sub flow is executed :
+    \begin{enumerate}
+      \item The administrator selects a suggestion from the list of suggestion (obtained from the system). The administrator can delete the chosen suggestion and need to confirm to delete.
+      \item The system updates the database therefore deletes the ad. The administrator is informed that the delete worked with the message “The advert has been deleted”.
+    \end{enumerate}
+  \end{itemize}
+
+  \paragraph{Alternate Flows}
+  \begin{itemize}
+    \item Action cancelling : If the Administrator decides to cancel the current action, then the action aborts and the system is unchanged.
+  \end{itemize}
+}
+{None}
+{The Administrator must be logged onto the system before this use case begins.}
+{If the use case was successful, the advert information is added, updated, or deleted from the system. Otherwise, the system state is unchanged.}
+{None}

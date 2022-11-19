@@ -115,11 +115,11 @@
 
 \newcommand{\usecasedesc}[7]{
   \subsection{#1}
+  \subsubsection{Brief description}
+  #2
+  \subsubsection{Flow of events}
+  #3
   \begin{multicols}{2}
-    \subsubsection{Brief description}
-    #2
-    \subsubsection{Flow of events}
-    See annex \autoref{#3}
     \subsubsection{Special requirements}
     #4
     \subsubsection{Preconditions}
@@ -245,25 +245,25 @@
 
 \section{Problem Statement}
 \subsection{Context}
-You have been tasked by a start-up with building a proof of concept of their new cooking application. They need a prototype to show to investors and potential customers. The application will be used by chefs to manage their recipes (and their inventory). The application will also be used by customers to search for recipes and eventually wines to come with their meal.
+You have been tasked by a start-up with building a proof of concept of their new cooking application. They need a prototype to show to investors and potential customers. The application will be used by Administrators to manage their recipes (and their inventory). The application will also be used by customers to search for recipes and eventually wines to come with their meal.
 \subsection{Problem}
-The final system will be an interactive web app, but for the proof of concept, you will be building a desktop application capable of running on any devices. It will allow chefs to expose their recipes and partners while users will be able to order meals and wines. The application will also be able to suggest recipes based on the ingredients available in the user's fridge. Once they’ve made their choices, they must be able to pass command to either the restaurants, either to partners if they want to buy ingredients. They should as well receive wine recommandations if they chose to. Users will launch this prototype locally on their computer. For security and consistency reasons, some features will require some permissions (such as moderation).
+The final system will be an interactive web app, but for the proof of concept, you will be building a desktop application capable of running on any devices. It will allow Administrators to expose their recipes and partners while users will be able to order meals and wines. The application will also be able to suggest recipes based on the ingredients available in the user's fridge. Once they’ve made their choices, they must be able to pass command to either the restaurants, either to partners if they want to buy ingredients. They should as well receive wine recommandations if they chose to. Users will launch this prototype locally on their computer. For security and consistency reasons, some features will require some permissions (such as moderation).
 
 For a more pleasant user experience, we’ll need users to be able to create “favorite lists” which must be name and where they can add recipes to easily find later. They must have full ownership of these lists. There will also be a feature to allow users to manage their meal plan up until 3 weeks ahead. They will be able to choose recipes and place them as a midday or evening meal. From the calendar users must be able to see the ingredient shopping list and the calendar should be persistent and auto-update according to the current date (for instance by strike-through past meals).
 
-Users can send feedbacks too, by rating and commenting recipes. To promote helpful comments, there will a be voting system for comments (upvote/downvote) and comments with a high score (lots of upvotes) will be among the first comment in the list, whereas comments with low score (lots of downvotes) will be among the last. In addition, They should be able to suggest new recipes to chefs by giving a description of what they think about (and eventually a name). Chefs will then be able to accept or reject the suggestion.
+Users can send feedbacks too, by rating and commenting recipes. To promote helpful comments, there will a be voting system for comments (upvote/downvote) and comments with a high score (lots of upvotes) will be among the first comment in the list, whereas comments with low score (lots of downvotes) will be among the last. In addition, They should be able to suggest new recipes to Administrators by giving a description of what they think about (and eventually a name). Administrators will then be able to accept or reject the suggestion.
 
-Chefs should be able to add to announcements to their page and manage them (update, hide, delete…). An announcement may have some labels to facilitate the search at a latter point
+Administrators should be able to add to announcements to their page and manage them (update, hide, delete…). An announcement may have some labels to facilitate the search at a latter point
 
 \subsection{Constaints}
 Users should not be forced to expose their private life, so the system will retain as few information as possible :
 \begin{itemize}
-  \item Mandatory fields : their username, email address
-  \item Optional fields : name, address, social network accounts, gender, birthday
+  \item Mandatory fields : their username, email address, password, secret question
+  \item Optional fields : name, address, gender, birthday, phone
 \end{itemize}
 
 \noindent
-Yet, chefs must provide each fields for transparency reasons. Also, some features will required optional fields to be fulfilled, so user must be warned when some fields are missing.
+Yet, Administrators must provide each fields for transparency. Also, some features will required optional fields to be fulfilled, so user must be warned when some fields are missing.
 
 \subsection{Core Features}
 \begin{itemize}
@@ -279,10 +279,12 @@ Yet, chefs must provide each fields for transparency reasons. Also, some feature
 \end{itemize}
 
 \section{Use Cases Model}
-\image{usecase.png}{0.75}{Use Cases Model}{usecasesModel}
+\image{usecase.png}{0.65}{Use Cases Model}{usecasesModel}
 \vfill
 \pagebreak
 \section{Use Cases Estimated Complexity}
+
+\noindent
 \usecase{Manage profile}{Anaïs V.}{5}
 \usecase{Manage recipe lists}{Richard M.}{2}
 \usecase{Manage cart}{Richard M.}{3}
@@ -303,42 +305,11 @@ Yet, chefs must provide each fields for transparency reasons. Also, some feature
 \usecase{Manage advertisement}{Corentin C.}{2}
 
 \section{Use Cases Description}
-\usecasedesc
-{Ingredient management \label{sec:ingredientManagement}}
-{
-  Ingredients are the base of recipes. As for recipes, they can be modified (created, updated, deleted) by chefs only. They will be able to specify a name, a list of tags (categories), a description and wether it's allergen or not. If it's allergenic, it must be emphasized.
+\input{lucas.tex}
+\input{corentin.tex}
+\input{alexis.tex}
+\input{anais.tex}
 
-  Chefs should be able to search ingredients by name and the result should be sorted by name.
-
-  Still, even though it is possible, changing an ingredient it is not recommanded as it may break some recipes. Deleting an ingredient is also possible, but it may break some recipes, so it should be possible only if no recipe depends upong this ingredient. Otherwise, the chef will receive a warning telling him that some recipes will be broken so he will have to update/delete the recipes first.
-}
-{fig:ingredientManagementFlow}
-{Must be thread-safe in case multiple chefs are modifying the same ingredient.}
-{The chef must be logged onto the system before this use case begins.}
-{If it's successful, the ingredient will be added/updated/deleted from the database. Otherwise, the state remains unchanged.}
-{None}
-\usecasedesc
-{Recipe management \label{sec:recipeManagement}}
-{
-  Recipes can be modified (created, updated, deleted) by chefs only. They will be able to specify a name, a list of ingredients (and the quantities), some tags (categories), a description, and maybe a picture of it.
-
-  Recipes can be search by name, tags, ingredients, whether it contains allergens or not, and may be sorted by name or popularity.
-
-  If a recipe contains allergens, it must be specified and allergenic ingredients must appear in emphasized text.
-
-  A recipe can receive many comments and ratings from the users, which can also suggest recipes. Chefs will then accept or reject suggestions.
-}
-{fig:recipeManagementFlow}
-{Must be thread-safe in case multiple chefs are modifying the same recipe.}
-{The chef must be logged onto the system before this use case begins.}
-{If it's successful, the recipe will be added/updated/deleted from the database. Otherwise, the state remains unchanged.}
-{None}
-
-
-
-\clearpage
+\pagebreak
 \section{Annexes}
-\image{ingredientManagementFlow.png}{0.9}{Ingredient management flow diagram (return to \autoref{sec:ingredientManagement})}{ingredientManagementFlow}
-\image{recipeManagementFlow.png}{0.9}{Recipe management flow diagram (return to \autoref{sec:recipeManagement})}{recipeManagementFlow}
-
 \end{document}

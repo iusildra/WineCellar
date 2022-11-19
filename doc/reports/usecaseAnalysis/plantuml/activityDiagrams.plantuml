@@ -1,3 +1,32 @@
+@startuml recipeManagementFlow
+start
+:Choose action;
+if (create recipe ?) then (create)
+  :Enter name;
+  :Add categories;
+  :Add ingredients;
+  :Add description;
+  :Add Suggested\nwines;
+  :Save recipe;
+else (no)
+  :Chose recipe;
+  if ( edit recipe ? ) then (edit)
+    :Edit informations;
+    :Edit Suggested\nwines;
+    :Save recipe;
+  else ( delete )
+    :Chose recipe;
+    :Ask for deletion;
+    if ( confirm ? ) then (yes)
+      :Delete recipe;
+    else (no)
+      :Cancel;
+    endif
+  endif
+endif
+stop
+@enduml
+
 @startuml ingredientManagementFlow
 start
 :Choose action;

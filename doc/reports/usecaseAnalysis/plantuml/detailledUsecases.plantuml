@@ -1,0 +1,152 @@
+@startuml recipeManagement
+left to right direction
+(Recipe management) as management
+(Create recipe) as createR
+(Update recipe) as updateR
+(Delete recipe) as deleteR
+
+management --> createR
+management --> updateR
+management --> deleteR
+@enduml
+
+@startuml ingredientManagement
+left to right direction
+(Ingredient management) as management
+(Create ingredient) as createI
+(Update ingredient) as updateI
+(Delete ingredient) as deleteI
+
+management --> createI
+management --> updateI
+management --> deleteI
+@enduml
+
+@startuml categoryManagement
+
+left to right direction
+
+actor Admin
+
+
+Admin --> (Manage Categories)
+(Manage Categories) --> (Add Categorie)
+(Manage Categories) --> (Update Categorie)
+(Manage Categories) --> (Delete Categorie)
+
+@enduml
+
+@startuml adManagement
+
+left to right direction
+
+actor Admin
+
+
+Admin --> (Manage Averts)
+(Manage Averts) --> (Add Avert)
+(Manage Averts) --> (Update Avert)
+(Manage Averts) --> (Delete Avert)
+
+@enduml
+
+@startuml adminUserManagement
+
+left to right direction
+
+actor Admin
+
+Admin --> (User management)
+(User management) --> (log in)
+(User management) --> (log out)
+(User management) --> (maintain admin information)
+(User management) --> (maintain user information)
+
+@enduml
+
+@startuml userUserManagement
+
+left to right direction
+
+actor User
+
+User --> (User management)
+(User management) --> (log in)
+(User management) --> (log out)
+(User management) --> (register)
+(User management) --> (maintain user information)
+
+@enduml
+
+@startuml newsManagement
+
+left to right direction
+
+actor Admin
+
+Admin --> (News management)
+(News management) --> (add a news)
+(News management) --> (update a news)
+(News management) --> (display a news)
+
+@enduml
+
+@startuml suggestionManagement
+
+left to right direction
+
+actor User
+actor Admin
+
+Admin -|> User
+
+Admin --> (1. Manage Suggestions)
+User --> (2. Manage Suggestions)
+(2. Manage Suggestions) --> (Add Suggestion)
+(1. Manage Suggestions) --> (Update Suggestion)
+(1. Manage Suggestions) --> (Delete Suggestion)
+(1. Manage Suggestions) --> (Read Suggestion)
+@enduml
+
+@startuml commentManagement
+
+left to right direction
+
+actor User as u
+actor Admin as a
+u <|- a
+
+package "Comments management" {
+  usecase (Comment a recipe) as u2
+  usecase (Rate a recipe) as u1
+  usecase (Delete a Comment) as u3
+  usecase (Name the Comment) as u4
+
+
+}
+
+u --> u1
+a --> u3
+u2 .l.> u4 : <<include>>
+u2 .u.> u1 : <<extends>>
+@enduml
+
+@startuml calendarManagement
+
+left to right direction
+
+actor User as u
+
+package "Calendar management" {
+  usecase (Add to calendar) as u1
+  usecase (Select a date & a meal) as u2
+  usecase (See calendar) as u3
+  usecase (Delete from calendar) as u4
+}
+
+u --> u1
+u --> u3
+u --> u4
+u1 ..> u2 : <<include>>
+
+@enduml
