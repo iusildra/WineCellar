@@ -1,0 +1,166 @@
+\usecasedesc{Recipe List}
+{
+  If the user whises to save a recipe, he can use the recipe lists. He can have multiple lists to better sort them (for instance seasonal recipes, or recipes for a specific occasion). There will be a default list named "Favorites". One user can't have two lists with the same name.
+
+  \image{recipeListManagement}{0.75}{Recipe list management}{recipeListManagement}
+}
+{
+  This use case begins when the user wants to access to his lists, either to modify them or read them
+
+  \begin{itemize}
+    \item If the user clicks on the "create a list", then the Create list sub flow is executed
+    \item If the user clicks on a list, then the Display recipes sub flow is executed 
+    \item If the user clicks on the "delete" button of a list, then the Delete list sub flow is executed
+    \item If the user clicks on the "rename" button of a list, then the Rename list sub flow is executed
+    \item If the user clicks on the "add to list" button of a recipe, then the Add to list sub flow is executed
+    \item If the user clicks on the "remove from list" button of a recipe, then the Remove from list sub flow is executed
+  \end{itemize}
+  \paragraph{Basic Flows}
+  \begin{itemize}
+    \item Create lists :
+    \begin{enumerate}
+      \item The system ask the user to enter a name for the new list
+      \item The system creates the list
+      \item The system returns the newly created list to the user and displays it
+    \end{enumerate}
+    \item Display recipes : the system displays the recipes of the list. It may be displayed as a list or as a grid.
+    \item Delete lists :
+    \begin{enumerate}
+      \item The system asks the user to confirm the deletion
+      \item The system deletes the list and removes it from the application
+    \end{enumerate}
+    \item Rename list :
+    \begin{enumerate}
+      \item The system asks the user to enter a new name for the list
+      \item The system renames the list in the database and in the application
+    \end{enumerate}
+    \item Add to list :
+    \begin{enumerate}
+      \item The system asks the user to select the list to which he wants to add the recipe
+      \item The system adds the recipe to the list
+    \end{enumerate}
+    \item Remove from list : the system removes the recipe from the list
+  \end{itemize}
+
+  \paragraph{Alternative Flows}
+  \begin{itemize}
+    \item Remove recipe lists : if the user tries to delete a list that is not empty, the system asks him to confirm the deletion
+    \item Create recipe list : if the user tries to create a list with a name that already exists, the system asks him to enter a new name
+    \item Updating a list : if the user tries to update a list that doesn't exist, the system warns him with a popup
+  \end{itemize}
+}
+{
+  None
+}
+{
+  The user must be logged in to access to his lists.
+}
+{
+  If it’s successful, the lists will be added/updated from the database. Otherwise, the state remains unchanged.
+}
+{
+  None
+}
+
+\usecasedesc{Cart management}
+{
+  The cart is a list of the recipe and ingredients an user ordered. There is only one cart by user and it cannot be deleted, only emptied. On the main page of the cart we'll be able to see the list of ordered recipes and ingredients. "Standalone" ingredients will appear separately from recipes' ingredients.
+
+  \image{cartManagement}{0.95}{Cart management}{cartManagement}
+}
+{
+  This use case begins when a user wants to either add an element to his cart, see his cart or empty it.
+
+  \begin{itemize}
+    \item If the user clicks on the "add to cart" button of a recipe or ingredient, then the Add element to cart sub flow is executed
+    \item If the user clicks on the "remove from cart" button of a recipe or ingredient, then the Remove element from cart sub flow is executed
+    \item If the user clicks on the "change quantity" button of a recipe or ingredient, then the Change quantity sub flow is executed
+    \item If the user clicks on the "empty cart" button, then the Empty cart sub flow is executed
+    \item If the user clicks on the "order" button, then the Order sub flow is executed
+  \end{itemize}
+
+  \paragraph{Basic Flows}
+  \begin{itemize}
+    \item Add element to cart :
+    \begin{enumerate}
+      \item The system asks the user for the quantity he wants
+      \item The system adds the element to the cart
+    \end{enumerate}
+    \item Remove element from cart : the system removes the element from the cart
+    \item Change quantity :
+    \begin{enumerate}
+      \item The system asks the user for the new quantity
+      \item The system updates the quantity of the element in the cart
+    \end{enumerate}
+    \item Empty cart :
+    \begin{enumerate}
+      \item The system asks the user to confirm the emptying
+      \item The system empties the cart
+    \end{enumerate}
+    \item Order :
+    \begin{enumerate}
+      \item The system asks the user to confirm the order. It displays the list of ordered recipes and ingredients and the lists of total quantities of ingredients needed.
+      \item The system ask for the delivery address, phone and payement method. If the user has already entered this information, the system autocomplete the form.
+      \item Once the user has provided the requested information, the system sends the order. For this proof of concept, it will juste be a message with the order information.
+      \item The cart is emptied
+    \end{enumerate}
+  \end{itemize}
+
+  \paragraph{Alternative Flows}
+  \begin{itemize}
+    \item Add element to cart :
+    \begin{enumerate}
+      \item The user wants to add an element that is already in his cart
+      \item The system displays a message to inform him that the element is already in his cart, and launch the "Change quantity" sub flow.
+    \end{enumerate}
+    \item Empty cart : if the user can't clear his cart, for unknown reasons, a message is displayed to inform him that the cart can't be cleared.
+  \end{itemize}
+}
+{None}
+{The user must be logged in to access to his cart.}
+{If it’s successful, the cart will be updated in the database. Otherwise, the state remains unchanged.}
+{None}
+
+\usecasedesc{Partner management}
+{
+  MyChiefCook has a list of Partner companies that are displayed to the users. They may offer discounts or special offers to the users. Users can access to the list of partners and their offers.
+
+  \image{partnerManagement}{0.75}{Partner management}{partnerManagement}
+}
+{
+  This use case begins when an admin wants to manage the list of partners.
+
+  \begin{itemize}
+    \item If the admin clicks on the "add partner" button, then the Add partner sub flow is executed
+    \item If the admin clicks on the "delete partner" button, then the Delete partner sub flow is executed
+    \item If the admin clicks on the "update partner" button, then the Update partner sub flow is executed
+  \end{itemize}
+
+  \paragraph{Basic Flows}
+  \begin{itemize}
+    \item Add partner :
+    \begin{enumerate}
+      \item The system asks the admin to enter the information about a partner (name, description, website) and their offers (description, discount)
+      \item The system adds the partner to the database
+    \end{enumerate}
+    \item Edit partner :
+    \begin{enumerate}
+      \item The system asks the admin to enter the new information about the partner
+      \item The system updates the partner in the database
+    \end{enumerate}
+    \item Delete partner :
+    \begin{enumerate}
+      \item The system asks the admin to confirm the deletion
+      \item The system deletes the partner from the database
+    \end{enumerate}
+  \end{itemize}
+
+  \paragraph{Alternative Flows}
+  \begin{itemize}
+    \item Operation canceled : if the admin cancels the operation, the modification are not saved and the admin is redirected to the partner management page.
+  \end{itemize}
+}
+{None}
+{The user must be logged in and be an admin}
+{If it’s successful, the partner will be added/updated from the database. Otherwise, the state remains unchanged.}
+{None}
