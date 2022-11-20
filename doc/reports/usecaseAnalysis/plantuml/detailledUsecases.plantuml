@@ -1,25 +1,23 @@
 @startuml recipeManagement
 left to right direction
-(Recipe management) as management
 (Create recipe) as createR
 (Update recipe) as updateR
 (Delete recipe) as deleteR
 
-management --> createR
-management --> updateR
-management --> deleteR
+user --> createR
+user --> updateR
+user --> deleteR
 @enduml
 
 @startuml ingredientManagement
 left to right direction
-(Ingredient management) as management
 (Create ingredient) as createI
 (Update ingredient) as updateI
 (Delete ingredient) as deleteI
 
-management --> createI
-management --> updateI
-management --> deleteI
+user --> createI
+user --> updateI
+user --> deleteI
 @enduml
 
 @startuml categoryManagement
@@ -116,18 +114,14 @@ actor User as u
 actor Admin as a
 u <|- a
 
-package "Comments management" {
-  usecase (Comment a recipe) as u2
-  usecase (Rate a recipe) as u1
-  usecase (Delete a Comment) as u3
-  usecase (Name the Comment) as u4
-
-
-}
+usecase (Comment a recipe) as u2
+usecase (Rate a recipe) as u1
+usecase (Delete a Comment) as u3
+usecase (Name the Comment) as u4
 
 u --> u1
 a --> u3
-u2 .l.> u4 : <<include>>
+u2 .> u4 : <<include>>
 u2 .u.> u1 : <<extends>>
 @enduml
 
@@ -137,12 +131,10 @@ left to right direction
 
 actor User as u
 
-package "Calendar management" {
-  usecase (Add to calendar) as u1
-  usecase (Select a date & a meal) as u2
-  usecase (See calendar) as u3
-  usecase (Delete from calendar) as u4
-}
+usecase (Add to calendar) as u1
+usecase (Select a date & a meal) as u2
+usecase (See calendar) as u3
+usecase (Delete from calendar) as u4
 
 u --> u1
 u --> u3
@@ -157,17 +149,13 @@ left to right direction
 actor "User" as user
 actor "Administrator" as admin
 
-package Partners {
+user --> (View Partner Details 1)
+admin -l-|> user
 
-    user --> (View Partner Details 1)
-    admin --|> user
-
-    admin --> (View Partner Details 2)
-    (View Partner Details 2) <|-- (Remove Partner)
-    (View Partner Details 2) <|-- (Edit Partner)
-    (View Partner Details 2) <|-- (Add Partner)
-
-}
+admin --> (View Partner Details 2)
+(View Partner Details 2) ..> (Remove Partner): <<extends>>
+(View Partner Details 2) ..> (Edit Partner): <<extends>>
+(View Partner Details 2) ..> (Add Partner): <<extends>>
 
 
 @enduml
@@ -179,20 +167,15 @@ left to right direction
 actor "User" as user
 actor "Administrator" as admin
 
-package "Recipe Lists" as RecipeLists {
+admin --|> (user)
+(View Recipe Lists) ..> (Recipe List): <<extends>>
+(View Recipe Lists) --> (Remove Recipe Lists)
+(View Recipe Lists) --> (Add Recipe Lists)
+user --> (View Recipe Lists)
 
-
-    admin --|> (user)
-    (View Recipe Lists) --|> (Recipe List)
-    (View Recipe Lists) --> (Remove Recipe Lists)
-    (View Recipe Lists) --> (Add Recipe Lists)
-    user --> (View Recipe Lists)
-
-    (Recipe List) --> (View Recipes)
-    (Recipe List) --> (Add Recipes to Cart)
-    (Recipe List) --> (Remove Recipes)
-
-}
+(Recipe List) --> (View Recipes)
+(Recipe List) --> (Add Recipes to Cart)
+(Recipe List) --> (Remove Recipes)
 @enduml
 
 @startuml cartManagement
@@ -202,17 +185,14 @@ left to right direction
 actor "User" as user
 actor "Administrator" as admin
 
-package "Cart Management" as Cart {
+admin --|> user
+user -->(View Cart)
+user --> (Add to Cart)
 
-    admin --|> user
-    user -->(View Cart)
-    user --> (Add to Cart)
-
-    (View Cart) <-- (Validate Cart): <<extends>>
-    (View Cart) <-- (Remove from Cart) : <<extends>>
-    (View Cart) <-- (Edit Cart) : <<extends>>
-    (View Cart) <-- (Empty Cart) : <<extends>>
-}
+(View Cart) <.l. (Validate Cart): <<extends>>
+(View Cart) <.. (Remove from Cart) : <<extends>>
+(View Cart) <.. (Edit Cart) : <<extends>>
+(View Cart) <.. (Empty Cart) : <<extends>>
 
 
 @enduml
