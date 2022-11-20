@@ -1,4 +1,4 @@
-\documentclass[english,12pt,twoside,a4paper]{article}
+\documentclass[english,12pt,twoside,a4paper]{report}
 \usepackage[semibold]{sourcesanspro}
 \usepackage[utf8]{inputenc}
 \usepackage{mathpazo}
@@ -26,7 +26,7 @@
 \usepackage{courier}
 \usepackage{nameref}
 \usepackage{lastpage}
-\usepackage{blindtext}
+\usepackage{pifont}
 
 \definecolor{Valentia}{RGB}{233,78,82}
 \definecolor{Titleblue}{RGB}{114, 146, 162}
@@ -114,6 +114,24 @@
 }
 
 \newcommand{\usecasedesc}[7]{
+  \section{#1}
+  \subsection{Brief description}
+  #2
+  \subsection{Flow of events}
+  #3
+  \begin{multicols}{2}
+    \subsection{Special requirements}
+    #4
+    \subsection{Preconditions}
+    #5
+    \subsection{Postconditions}
+    #6
+    \subsection{Extension points}
+    #7
+  \end{multicols}
+}
+
+\newcommand{\subusecasedesc}[7]{
   \subsection{#1}
   \subsubsection{Brief description}
   #2
@@ -144,7 +162,7 @@
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% \titleformat{\section}
+% \titleformat{\chapter}
 % {\titlerule
 % \vspace{.8ex}%
 % \Large\bfseries}
@@ -162,7 +180,7 @@
 
 \captionsetup{labelfont={it, bf}, textfont={it}}
 \setlength{\headheight}{15pt}
-\setcounter{tocdepth}{2}
+\setcounter{tocdepth}{1}
 
 \begin{document}
 
@@ -243,10 +261,14 @@
 
 \hypersetup{linkcolor=red}
 
-\section{Problem Statement}
-\subsection{Context}
+\vfill
+\part{Use cases analysis}
+\vfill
+\clearpage
+\chapter{Problem Statement}
+\section{Context}
 You have been tasked by a start-up with building a proof of concept of their new cooking application. They need a prototype to show to investors and potential customers. The application will be used by Administrators to manage their recipes (and their inventory). The application will also be used by customers to search for recipes and eventually wines to come with their meal.
-\subsection{Problem}
+\section{Problem}
 The final system will be an interactive web app, but for the proof of concept, you will be building a desktop application capable of running on any devices. It will allow Administrators to expose their recipes and partners while users will be able to order meals and wines. The application will also be able to suggest recipes based on the ingredients available in the user's fridge. Once they’ve made their choices, they must be able to pass command to either the restaurants, either to partners if they want to buy ingredients. They should as well receive wine recommandations if they chose to. Users will launch this prototype locally on their computer. For security and consistency reasons, some features will require some permissions (such as moderation).
 
 For a more pleasant user experience, we’ll need users to be able to create “favorite lists” which must be name and where they can add recipes to easily find later. They must have full ownership of these lists. There will also be a feature to allow users to manage their meal plan up until 3 weeks ahead. They will be able to choose recipes and place them as a midday or evening meal. From the calendar users must be able to see the ingredient shopping list and the calendar should be persistent and auto-update according to the current date (for instance by strike-through past meals).
@@ -255,7 +277,7 @@ Users can send feedbacks too, by rating and commenting recipes. To promote helpf
 
 Administrators should be able to add to announcements to their page and manage them (update, hide, delete…). An announcement may have some labels to facilitate the search at a latter point
 
-\subsection{Constaints}
+\section{Constaints}
 Users should not be forced to expose their private life, so the system will retain as few information as possible :
 \begin{itemize}
   \item Mandatory fields : their username, email address, password, secret question
@@ -265,7 +287,7 @@ Users should not be forced to expose their private life, so the system will reta
 \noindent
 Yet, Administrators must provide each fields for transparency. Also, some features will required optional fields to be fulfilled, so user must be warned when some fields are missing.
 
-\subsection{Core Features}
+\section{Core Features}
 \begin{itemize}
   \item Chose a recipe from ingredients and eventually auto-ajust proportions to match
         \begin{itemize}
@@ -278,33 +300,33 @@ Yet, Administrators must provide each fields for transparency. Also, some featur
   \item Redirect to partners' website to buy ingredients and/or wines
 \end{itemize}
 
-\section{Use Cases Model}
+\chapter{Use Cases Model}
 \image{usecase.png}{0.65}{Use Cases Model}{usecasesModel}
 \vfill
-\pagebreak
-\section{Use Cases Estimated Complexity}
 
-\noindent
-\usecase{Manage profile}{Anaïs V.}{5}
-\usecase{Manage recipe lists}{Richard M.}{2}
-\usecase{Manage cart}{Richard M.}{3}
+% \chapter{Use Cases Estimated Complexity}
 
-\noindent
-\usecase{Manage recipes}{Lucas N.}{4}
-\usecase{Manage ingredients}{Lucas N.}{2}
-\usecase{Manage categories}{Corentin C.}{1}
+% \noindent
+% \usecase{Manage profile}{Anaïs V.}{5}
+% \usecase{Manage recipe lists}{Richard M.}{2}
+% \usecase{Manage cart}{Richard M.}{3}
 
-\noindent
-\usecase{Manage comments}{Alexis F.}{3}
-\usecase{Manage suggestions}{Corentin C.}{3}
-\usecase{Manage calendar}{Alexis F.}{3}
+% \noindent
+% \usecase{Manage recipes}{Lucas N.}{4}
+% \usecase{Manage ingredients}{Lucas N.}{2}
+% \usecase{Manage categories}{Corentin C.}{1}
 
-\noindent
-\usecase{Manage news}{Anaïs V.}{2}
-\usecase{Manage partners}{Richard M.}{1}
-\usecase{Manage advertisement}{Corentin C.}{2}
+% \noindent
+% \usecase{Manage comments}{Alexis F.}{3}
+% \usecase{Manage suggestions}{Corentin C.}{3}
+% \usecase{Manage calendar}{Alexis F.}{3}
 
-\section{Use Cases Description}
+% \noindent
+% \usecase{Manage news}{Anaïs V.}{2}
+% \usecase{Manage partners}{Richard M.}{1}
+% \usecase{Manage advertisement}{Corentin C.}{2}
+
+\chapter{Use Cases Description}
 \input{lucas.tex}
 \input{corentin.tex}
 \input{alexis.tex}
@@ -312,7 +334,9 @@ Yet, Administrators must provide each fields for transparency. Also, some featur
 \input{anais.tex}
 
 \pagebreak
-\section{Annexes}
+\chapter{Annexes}
+\image{mockups/recipeViewAndComment}{0.65}{Recipe display page}{recipeViewAndComment}
+\vfill
 \image{mockups/homePage}{0.7}{Home page}{homePage}
 \vfill
 \image{mockups/homePageLoggedIn}{0.7}{Home page - logged in}{homePage}
@@ -363,15 +387,13 @@ Yet, Administrators must provide each fields for transparency. Also, some featur
 \vfill
 \image{mockups/genericFormError}{0.6}{Generic entity form - error}{genericFormError}
 \vfill
-\image{mockups/recipeViewAndComment}{0.75}{Recipe display page}{recipeViewAndComment}
-\vfill
 \image{mockups/partnerList}{0.75}{Partner list}{partnerList}
 \vfill
 \image{mockups/partnerDelete}{0.75}{Partner deletion}{partnerDelete}
 \vfill
 \image{mockups/cart}{0.75}{Cart page}{cartPage}
 \vfill
-\image{mockups/cartDelete}{0.75}{cartDelete}{cartDelete}
+\image{mockups/cartDelete}{0.75}{Cart Delete}{cartDelete}
 \vfill
 \image{mockups/infoPopup}{0.75}{Information popup}{infoPopup}
 \vfill
@@ -383,4 +405,6 @@ Yet, Administrators must provide each fields for transparency. Also, some featur
 \vfill
 \image{mockups/dateSelector}{0.75}{Date selector}{dateSelector}
 \vfill
+
+\include{managementReport.tex}
 \end{document}
