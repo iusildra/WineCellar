@@ -1,4 +1,4 @@
-@startuml database
+@startuml model
 hide empty members
 
 class diet {

@@ -1,0 +1,126 @@
+@startuml classDiagram_v1
+hide empty members
+
+interface CRUDEntity {
+  ' + toSQLCreateString() : String
+  ' + toSQLUpdateString() : String
+  ' + toSQLDeleteString() : String
+}
+
+interface Proxy<T> {
+  ' + get(id: UUID): T
+  ' + get(from: Int, to: Int): T[]
+  ' + get(selector: String): T[]
+  ' + getAll(): T[]
+  ' + filter(predicate: Boolean): T[]
+}
+
+class DatabaseUtility {
+  - {static} connectionPool : ???
+  + getDatabaseConnectionPool() : ???
+  + closeDatabaseConnectionPool() : void
+  ' + createEntity(e: CRUDEntity) : void
+  ' + updateEntity(e: CRUDEntity) : void
+  ' + deleteEntity(e: CRUDEntity) : void
+}
+
+class Utilities {
+  + {static} paginate(page: Int, pageSize: Int): Pair<Int, Int>
+}
+
+class RecipeProxy
+class Recipe {
+  ' - id: UUID
+  ' - name: String
+  ' - description: String
+  ' - /allergen: Boolean
+  ' - picture: Image
+}
+
+class FavoriteList {
+  ' - id: UUID
+  ' - name: String
+}
+
+abstract CategoryProxy {
+  ' - categories: Category[]
+}
+class IngredientCategoryProxy
+class RecipeCategoryProxy
+class MealCategoryProxy
+class Category {
+  ' - name: String
+}
+
+
+class Ingredient {
+  ' - id: UUID
+  ' - name: String
+  ' - allergen: Boolean
+}
+
+class Comment {
+  ' - id: UUID
+  ' - rating: Integer
+  ' - comment: Optional<String>
+  ' - date: Date
+}
+
+
+class User {
+  ' - id: UUID
+  ' - username: String
+  ' - email: String
+  ' - name: Optional<String>
+  ' - address: Optional<String>
+  ' - phone: Optional<String>
+  ' - other fields: ...
+  ' + createFavoriteList(name: String): FavoriteList
+  ' + updateFavoriteList(favoriteList: FavoriteList): void
+  ' + deleteFavoriteList(favoriteList: FavoriteList): void
+  ' + addToFavoriteList(favoriteList: FavoriteList, recipe: Recipe): void
+  ' + removeFromFavoriteList(favoriteList: FavoriteList, recipe: Recipe): void
+}
+
+class Chef {
+  ' - id: UUID
+  ' - username: String
+  ' - name: String
+  ' - address: String
+  ' - email: Optional<String>
+  ' - phone: Optional<String>
+  ' - other fields: ...
+  ' + createRecipe(recipe: Recipe): void
+  ' + updateRecipe(recipe: Recipe): void
+  ' + deleteRecipe(recipe: Recipe): void
+}
+
+
+Category          .|> CRUDEntity
+CategoryProxy     .u.|> Proxy
+CategoryProxy "1" o-> "*" Category: > stores
+
+Chef        -u-|> User
+Chef "0..1" *-r-> "1" RecipeProxy: > owns
+
+Comment .|> CRUDEntity
+
+FavoriteList --|> RecipeProxy
+
+Ingredient              .|> CRUDEntity
+Ingredient  "0..1"      --> "1" IngredientCategoryProxy: > is
+IngredientCategoryProxy --|> CategoryProxy
+
+MealCategoryProxy       --|> CategoryProxy
+
+Recipe                   .|> CRUDEntity
+Recipe            "0..1" --> "*" Ingredient: > contains
+Recipe            "0..1" --> "1" RecipeCategoryProxy: > is
+Recipe            "0..1" --> "1" MealCategoryProxy: > is
+Recipe            "1"    *--> "*" Comment: > is commented with
+RecipeCategoryProxy      --|> CategoryProxy
+RecipeProxy              .|> Proxy
+RecipeProxy          "1" o-d-> "*" Recipe: > stores
+
+User "0..1" *-> "*" FavoriteList: > favorite lists
+@enduml
