@@ -1,35 +1,35 @@
 @startuml model
-hide empty members
+' hide empty members
 ' skinparam Linetype polyline
 
 class ingredientCategory {
-  {field} id => serial
+
   {field} name => varchar(255)
 }
 
 class recipeCategory {
-  {field} id => serial
+
   {field} name => varchar(255)
 }
 
 class suggestionCategory {
-  {field} id => serial
+
   {field} name => varchar(255)
 }
 
 class mealCategory {
-  {field} id => serial
+
   {field} name => varchar(255)
 }
 
 class ingredient {
-  {field} id => serial
+
   {field} name => varchar(255)
   {field} allergen => boolean
 }
 
 class recipe {
-  {field} id => serial
+
   {field} name => varchar(255)
   {field} summary => varchar(500)
   {field} description => text
@@ -45,7 +45,7 @@ class advert {
 }
 
 class suggestion {
-  {field} id => serial
+
   {field} title => varchar(255)
   {field} description => text
 }
@@ -76,14 +76,14 @@ class cart_entry {
 }
 
 class partner {
-  {field} id => serial
+
   {field} name => varchar(255)
   {field} description => text
   {field} website => varchar(255)
 }
 
 class news {
-  {field} id => serial
+
   {field} title => varchar(255)
   {field} content => text
   {field} date => date
@@ -91,7 +91,7 @@ class news {
 }
 
 class user {
-  {field} id => serial
+
   {field} name => varchar(255)
   {field} email => varchar(255)
   {field} password => varchar(255)
@@ -106,31 +106,33 @@ class quantity {
   {field} quantity => int
 }
 
-user "1"          -- "1" cart: > owns
-calendar "1" -- "*" calendar_day: > contains
+user "1"          -- "1" cart
+calendar "1" --> "*" calendar_day
 
-advert "*"        -u- "1" ingredient: > is about
-user "*"          -- "*" ingredient: > is allergic to
+advert "*"        -u- "1" ingredient
+user "*"          -- "*" ingredient
 
-advert "*"        -- "1" partner: > is from
+advert "*"        -- "1" partner
 
-comment "*"       -- "1" recipe: > is about
-recipeList "*"    -- "*" recipe: > has
-suggestion "*"    -u- "1" recipe: > is about
+comment "*"       -- "1" recipe
+recipeList "*"    -- "*" recipe
+suggestion "*"    -u- "1" recipe
 
-cart "*"             -- "*" ingredient: > contains
+cart "*"             -- "*" ingredient
+' TODO : ajouter les chiffres pour la liaison
 (recipe, ingredient) .. quantity
-recipe "*"           -- "*" ingredient: > contains
+recipe "*"           -- "*" ingredient
 (cart, ingredient)   .. cart_entry
-calendar_day "*"     -- "*" recipe: > is on
+calendar_day "*"     -- "*" recipe
 (calendar_day, recipe)   .. mealCategory
 
+' ! virer le ": < owns" transforme le diagramme un peu n'importe comment
 calendar "1"      -u- "1" user: < owns
-recipeList "*"    -u- "1" user: > owns
-comment "*"       -u- "1" user: > is from
-news "*"          -- "1" user: > is from
+recipeList "*"    -u- "1" user
+' ? a voir si on garde ou pas
+' comment "1"       -u-> "1" user
 
-ingredient "*"    -- "*" ingredientCategory: > is
-recipe "*"        -- "*" recipeCategory: > is
-suggestion "*"    -d- "1" suggestionCategory: > is
+ingredient "*"    -- "*" ingredientCategory
+recipe "*"        -- "*" recipeCategory
+suggestion "*"    -d- "1" suggestionCategory
 @enduml
