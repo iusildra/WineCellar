@@ -4,50 +4,36 @@
 
 ```plantuml
 hide empty members
-
-class diet {
-  {field} id => serial
-  {field} name => varchar(255)
-}
+' skinparam Linetype polyline
 
 class ingredientCategory {
-  {field} id => serial
   {field} name => varchar(255)
 }
 
 class recipeCategory {
-  {field} id => serial
   {field} name => varchar(255)
 }
 
 class suggestionCategory {
-  {field} id => serial
   {field} name => varchar(255)
 }
 
 class mealCategory {
-  {field} id => serial
-  {field} name => varchar(255)
-}
-
-class role {
-  {field} id => serial
   {field} name => varchar(255)
 }
 
 class ingredient {
-  {field} id => serial
   {field} name => varchar(255)
   {field} allergen => boolean
 }
 
 class recipe {
-  {field} id => serial
   {field} name => varchar(255)
   {field} summary => varchar(500)
   {field} description => text
   {field} image => blob
-  {field} rating => float
+  {field} nbPerson => float
+  {field} /rating => float
 }
 
 
@@ -57,7 +43,6 @@ class advert {
 }
 
 class suggestion {
-  {field} id => serial
   {field} title => varchar(255)
   {field} description => text
 }
@@ -69,11 +54,10 @@ class comment {
   {field} date => date
 }
 
+class calendar
 
-class calendar_entry {
-  {field} id => serial
+class calendar_day {
   {field} date => date
-  {field} quantity => float
 }
 
 
@@ -81,32 +65,27 @@ class recipeList {
   {field} name => varchar(255)
 }
 
+class cart {
+}
 
 class cart_entry {
   quantity => float
 }
 
 class partner {
-  {field} id => serial
   {field} name => varchar(255)
   {field} description => text
   {field} website => varchar(255)
 }
 
-class partnerOffer {
-  {field} promotion => text
-  {field} price => float
-}
-
 class news {
-  {field} id => serial
   {field} title => varchar(255)
   {field} content => text
   {field} date => date
+  {field} photo => blob
 }
 
 class user {
-  {field} id => serial
   {field} name => varchar(255)
   {field} email => varchar(255)
   {field} password => varchar(255)
@@ -114,35 +93,39 @@ class user {
   {field} birthdate => date
   {field} question => varchar(255)
   {field} answer => varchar(255)
+  {field} isAdmin => boolean
 }
 
-advert "*"        -u-> "1" ingredient: > is about
-partnerOffer "*"  -u-> "1" ingredient: is about
-cart_entry "*"          --> "*" ingredient: > contains
-recipe "*"        --> "*" ingredient: > has
-user "*"          --> "*" ingredient: > is allergic to
+class ingredientQuantityForRecipe {
+  {field} quantity => int
+}
 
-advert "*"        --> "1" partner: > is from
-partnerOffer "*"  --> "1" partner: > is from
+advert "*"                      -d-> "1" ingredient
+advert "*"                      -l- "1" partner
 
-calendar_entry "*"      --> "1" recipe: > planned
-comment "*"       --> "1" recipe: > is about
-cart_entry "*"          --> "*" recipe: > contains
-recipeList "*"    --> "*" recipe: > has
-suggestion "*"    -u-> "1" recipe: > is about
+calendar "1"                    --> "*" calendar_day
+cart "1"                        --> "*" cart_entry
+cart_entry "*"                  --> "*" ingredient
+comment "1"                     --> "1" user
 
-calendar_entry "1"      -u-> "1" user: > owns
-cart_entry "1"          -u-> "1" user: > owns
-recipeList "*"    -u-> "1" user: > owns
-comment "*"       -u-> "1" user: > is from
-news "*"          --> "1" user: > is from
+ingredientQuantityForRecipe "*" -- "*" ingredient
 
-calendar_entry "*"      -u-> "1" mealCategory: > is
-ingredient "*"    --> "*" ingredientCategory: > is
-recipe "*"        --> "1" recipeCategory: > is
-recipe "*"        -l-> "1" diet: > is
-suggestion "*"    -d-> "1" suggestionCategory: > is
-user "*"          -u-> "1" role: > is
+mealCategory "*"                --> "*" recipe
+
+recipe  "1"                     -> "*" comment
+recipe "*"                      -- "*" ingredientQuantityForRecipe
+recipeList "*"                  -- "*" recipe
+
+user "1"                        --> "1" calendar
+user "1"                        --> "1" cart
+user "*"                        --l--> "*" ingredient
+user "1"                        --> "*" recipeList
+user -[hidden]u- news
+
+calendar_day "*"                --> "*" mealCategory
+ingredient "*"                  --l--> "*" ingredientCategory
+recipe "*"                      --> "*" recipeCategory
+suggestion "*"                  --> "1" suggestionCategory
 ```
 
 ## Constraints

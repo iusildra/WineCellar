@@ -114,12 +114,12 @@ recipeList "*"                  -- "*" recipe
 
 user "1"                        --> "1" calendar
 user "1"                        --> "1" cart
-user "*"                        -l-> "*" ingredient
+user "*"                        --l--> "*" ingredient
 user "1"                        --> "*" recipeList
 user -[hidden]u- news
 
 calendar_day "*"                --> "*" mealCategory
-ingredient "*"                  -l-> "*" ingredientCategory
+ingredient "*"                  --l--> "*" ingredientCategory
 recipe "*"                      --> "*" recipeCategory
 suggestion "*"                  --> "1" suggestionCategory
 @enduml
