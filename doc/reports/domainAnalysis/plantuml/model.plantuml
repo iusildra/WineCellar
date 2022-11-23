@@ -1,35 +1,29 @@
 @startuml model
-' hide empty members
+hide empty members
 ' skinparam Linetype polyline
 
 class ingredientCategory {
-
   {field} name => varchar(255)
 }
 
 class recipeCategory {
-
   {field} name => varchar(255)
 }
 
 class suggestionCategory {
-
   {field} name => varchar(255)
 }
 
 class mealCategory {
-
   {field} name => varchar(255)
 }
 
 class ingredient {
-
   {field} name => varchar(255)
   {field} allergen => boolean
 }
 
 class recipe {
-
   {field} name => varchar(255)
   {field} summary => varchar(500)
   {field} description => text
@@ -45,7 +39,6 @@ class advert {
 }
 
 class suggestion {
-
   {field} title => varchar(255)
   {field} description => text
 }
@@ -76,14 +69,12 @@ class cart_entry {
 }
 
 class partner {
-
   {field} name => varchar(255)
   {field} description => text
   {field} website => varchar(255)
 }
 
 class news {
-
   {field} title => varchar(255)
   {field} content => text
   {field} date => date
@@ -91,7 +82,6 @@ class news {
 }
 
 class user {
-
   {field} name => varchar(255)
   {field} email => varchar(255)
   {field} password => varchar(255)
@@ -102,37 +92,34 @@ class user {
   {field} isAdmin => boolean
 }
 
-class quantity {
+class ingredientQuantityForRecipe {
   {field} quantity => int
 }
 
-user "1"          -- "1" cart
-calendar "1" --> "*" calendar_day
+advert "*"                      -d-> "1" ingredient
+advert "*"                      -l- "1" partner
 
-advert "*"        -u- "1" ingredient
-user "*"          -- "*" ingredient
+calendar "1"                    --> "*" calendar_day
+cart "1"                        --> "*" cart_entry
+cart_entry "*"                  --> "*" ingredient
+comment "1"                     --> "1" user
 
-advert "*"        -- "1" partner
+ingredientQuantityForRecipe "*" -- "*" ingredient
 
-comment "*"       -- "1" recipe
-recipeList "*"    -- "*" recipe
-suggestion "*"    -u- "1" recipe
+mealCategory "*"                --> "*" recipe
 
-cart "*"             -- "*" ingredient
-' TODO : ajouter les chiffres pour la liaison
-(recipe, ingredient) .. quantity
-recipe "*"           -- "*" ingredient
-(cart, ingredient)   .. cart_entry
-calendar_day "*"     -- "*" recipe
-(calendar_day, recipe)   .. mealCategory
+recipe  "1"                     -> "*" comment
+recipe "*"                      -- "*" ingredientQuantityForRecipe
+recipeList "*"                  -- "*" recipe
 
-' ! virer le ": < owns" transforme le diagramme un peu n'importe comment
-calendar "1"      -u- "1" user: < owns
-recipeList "*"    -u- "1" user
-' ? a voir si on garde ou pas
-' comment "1"       -u-> "1" user
+user "1"                        --> "1" calendar
+user "1"                        --> "1" cart
+user "*"                        -l-> "*" ingredient
+user "1"                        --> "*" recipeList
+user -[hidden]u- news
 
-ingredient "*"    -- "*" ingredientCategory
-recipe "*"        -- "*" recipeCategory
-suggestion "*"    -d- "1" suggestionCategory
+calendar_day "*"                --> "*" mealCategory
+ingredient "*"                  -l-> "*" ingredientCategory
+recipe "*"                      --> "*" recipeCategory
+suggestion "*"                  --> "1" suggestionCategory
 @enduml
