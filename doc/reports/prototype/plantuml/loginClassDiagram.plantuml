@@ -1,0 +1,48 @@
+@startuml loginClassDiagram
+hide empty members
+class LoginWindow {
+  + display()
+}
+
+class LoginController {
+  + login()
+}
+
+Interface DAO {
+  + {abstract} login()
+  + {abstract} validatePassword()
+}
+
+class AuthSystem {
+  + login()
+  + validatePassword()
+}
+
+class ConnectionManager {
+  # {static} pool: DataSource
+  + {static} getConnection(): Connection
+  + {static} releaseConnection(): void
+}
+
+abstract LoginDAOFactory {
+  - instance: DAOFactory
+  - LoginDAOFactory()
+  + getInstance(): DAOFactory
+}
+LoginDAOFactory *-- LoginDAOFactory
+
+class AuthSysFactory
+AuthSysFactory -u-|> LoginDAOFactory
+
+
+database "Postgres\nDatabase" as Postgres {
+
+}
+
+DAO               -u-> ConnectionManager
+AuthSystem        .u.|> DAO
+LoginController   -->  DAO
+LoginWindow       -> LoginController
+ConnectionManager -d-> Postgres
+AuthSysFactory    -d-> AuthSystem: <<instanciate>>
+@enduml

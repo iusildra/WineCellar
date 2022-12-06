@@ -1,0 +1,48 @@
+@startuml packageDiagram
+hide empty members
+package User {
+  class AccountManagement
+  class Cart
+  class CartEntry
+}
+
+package Recipe {
+  class RecipeList
+  class Recipe
+  class RecipeCategory
+  class IngredientQuantity
+  class Comment
+}
+
+package Ingredient {
+  class Ingredient
+  class IngredientCategory
+}
+
+package Suggestions {
+  class Suggestion
+  class SuggestionCategory
+}
+
+package Calendar {
+  class Calendar
+  class CalendarDay
+  class MealCategory
+}
+
+package Partner {
+  class Partner
+  class Advert
+}
+
+package News {
+  class News
+}
+
+User --[hidden]d-- Recipe
+User --[hidden]d-- Ingredient
+User --[hidden]d-- Suggestions
+User --[hidden]u-- Calendar
+User --[hidden]u-- Partner
+User --[hidden]u-- News
+@enduml

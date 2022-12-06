@@ -1,0 +1,36 @@
+@startuml loginSequence
+skinparam responseMessageBelowArrow true
+
+actor User
+participant LoginWindow
+participant LoginController
+participant LoginDAO
+participant ConnectionManager
+
+activate ConnectionManager
+activate User
+
+User -> LoginWindow++: enterUsername()
+User -> LoginWindow: enterPassword()
+User -> LoginWindow: login()
+LoginWindow -> LoginController++: login()
+LoginController -> LoginDAO++: login()
+LoginDAO -> ConnectionManager: validatePwd()
+
+alt password is valid
+    ConnectionManager --> LoginDAO: [User login validated] 
+    LoginDAO --> LoginController--: [success]
+    LoginController --> LoginWindow--: [success]
+    LoginWindow --> User--: display(success)
+    deactivate User
+else password is invalid
+    ConnectionManager --> LoginDAO++: [User login invalid]
+    LoginDAO --> LoginController--: [invalid]
+    activate LoginController
+    LoginController --> LoginWindow--: [invalid]
+    activate LoginWindow
+    activate User
+    LoginWindow --> User--: display(invalid)
+end
+
+@enduml
