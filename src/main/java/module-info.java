@@ -8,6 +8,8 @@ module com.example.App {
 	requires org.kordamp.ikonli.javafx;
 	requires org.kordamp.bootstrapfx.core;
 
-	opens com.cookingchef to javafx.fxml;
-	exports com.cookingchef;
+	opens com.cookingchef.View to javafx.fxml;
+	exports com.cookingchef.View;
+	opens com.cookingchef.Controller to javafx.fxml;
+	exports com.cookingchef.Controller;
 }
