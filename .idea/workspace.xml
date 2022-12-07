@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="54b29c51-f480-411e-9261-509d8b772f5f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/doc/img/LogoPolytech.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/img/LogoUM.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/img/logo-2x.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/img/logo-nobackground.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/models/usecases.plantuml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/META-INF/services/java.sql.Driver" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/reports/prototype/plantuml/loginClassDiagram.plantuml" beforeDir="false" afterPath="$PROJECT_DIR$/doc/reports/prototype/plantuml/loginClassDiagram.plantuml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,6 +17,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="atufqour" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -28,6 +33,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "dart.analysis.tool.window.visible": "false",
     "last_opened_file_path": "/home/lucasn/Projects/Electrizity"
   }
 }]]></component>

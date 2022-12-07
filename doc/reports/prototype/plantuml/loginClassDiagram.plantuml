@@ -24,15 +24,15 @@ class ConnectionManager {
   + {static} releaseConnection(): void
 }
 
-abstract LoginDAOFactory {
+abstract DAOFactory {
   - instance: DAOFactory
-  - LoginDAOFactory()
+  - DAOFactory()
   + getInstance(): DAOFactory
 }
-LoginDAOFactory *-- LoginDAOFactory
+DAOFactory *-- DAOFactory
 
 class AuthSysFactory
-AuthSysFactory -u-|> LoginDAOFactory
+AuthSysFactory -u-|> DAOFactory
 
 
 database "Postgres\nDatabase" as Postgres {
