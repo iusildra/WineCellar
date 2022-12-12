@@ -11,8 +11,8 @@ module com.cookingchef {
 	requires java.sql;
 	requires org.postgresql.jdbc;
 
-	opens com.cookingchef.View to javafx.fxml;
-	exports com.cookingchef.View;
-	opens com.cookingchef.Controller to javafx.fxml;
-	exports com.cookingchef.Controller;
+	opens com.cookingchef.view to javafx.fxml;
+	exports com.cookingchef.view;
+	opens com.cookingchef.controller to javafx.fxml;
+	exports com.cookingchef.controller;
 }

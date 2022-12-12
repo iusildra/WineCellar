@@ -1,7 +1,6 @@
-package com.cookingchef.DAO.Postgres;
+package com.cookingchef.dao;
 
-import com.cookingchef.DAO.Abstract.UserDAO;
-import com.cookingchef.Model.User;
+import com.cookingchef.model.User;
 
 public class PostgresUserDAO extends UserDAO {
 

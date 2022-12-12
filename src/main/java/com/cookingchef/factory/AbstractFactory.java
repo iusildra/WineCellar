@@ -1,8 +1,8 @@
-package com.cookingchef.Factory;
-
-import com.cookingchef.DAO.Abstract.UserDAO;
+package com.cookingchef.factory;
 
 import java.lang.reflect.Type;
+
+import com.cookingchef.dao.UserDAO;
 
 public abstract class AbstractFactory {
 	private static volatile AbstractFactory instance;
@@ -10,10 +10,8 @@ public abstract class AbstractFactory {
 	public abstract UserDAO getUserDAO();
 
 	public static AbstractFactory getInstance(Type type) {
-		if (instance == null) {
-			if(type == PostgresFactory.class) {
+		if (instance == null && type == PostgresFactory.class) {
 				instance = (AbstractFactory) new PostgresFactory();
-			}
 		}
 		return instance;
 	}

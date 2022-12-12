@@ -1,6 +1,6 @@
-package com.cookingchef.DAO.Abstract;
+package com.cookingchef.dao;
 
-import com.cookingchef.Model.User;
+import com.cookingchef.model.User;
 
 public abstract class UserDAO {
 

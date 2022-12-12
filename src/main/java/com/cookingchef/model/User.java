@@ -1,4 +1,4 @@
-package com.cookingchef.Model;
+package com.cookingchef.model;
 
 import java.util.Date;
 

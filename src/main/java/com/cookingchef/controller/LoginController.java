@@ -1,4 +1,4 @@
-package com.cookingchef.Controller;
+package com.cookingchef.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

@@ -1,4 +1,4 @@
-package com.cookingchef.View;
+package com.cookingchef.view;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

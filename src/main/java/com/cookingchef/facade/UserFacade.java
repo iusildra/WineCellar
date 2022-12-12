@@ -1,4 +1,4 @@
-package com.cookingchef.Facade;
+package com.cookingchef.facade;
 
 public class UserFacade {
 	private static volatile UserFacade userFacade;
