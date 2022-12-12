@@ -13,7 +13,7 @@ public class LoginController {
 	}
 
 	@FXML
-	protected void Login() {
+	protected void onClickButtonLogin() {
 		welcomeText.setText("you clicked login");
 	}
 }
