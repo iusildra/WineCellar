@@ -4,7 +4,7 @@ skinparam responseMessageBelowArrow true
 actor User
 participant LoginWindow
 participant LoginController
-participant LoginDAO
+participant UserDAO
 participant ConnectionManager
 
 activate ConnectionManager
@@ -14,18 +14,18 @@ User -> LoginWindow++: enterUsername()
 User -> LoginWindow: enterPassword()
 User -> LoginWindow: login()
 LoginWindow -> LoginController++: login()
-LoginController -> LoginDAO++: login()
-LoginDAO -> ConnectionManager: validatePwd()
+LoginController -> UserDAO++: login()
+UserDAO -> ConnectionManager: validatePwd()
 
 alt password is valid
-    ConnectionManager --> LoginDAO: [User login validated] 
-    LoginDAO --> LoginController--: [success]
+    ConnectionManager --> UserDAO: [User login validated] 
+    UserDAO --> LoginController--: [success]
     LoginController --> LoginWindow--: [success]
     LoginWindow --> User--: display(success)
     deactivate User
 else password is invalid
-    ConnectionManager --> LoginDAO++: [User login invalid]
-    LoginDAO --> LoginController--: [invalid]
+    ConnectionManager --> UserDAO++: [User login invalid]
+    UserDAO --> LoginController--: [invalid]
     activate LoginController
     LoginController --> LoginWindow--: [invalid]
     activate LoginWindow

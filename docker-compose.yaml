@@ -8,7 +8,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5433:5432" # 5433 pcq j'ai déjà un postgres sur mon pc :)
+      - "5432:5432"
     volumes:
       - ./sql:/home
       - chief-db-vol:/var/lib/postgresql/data
