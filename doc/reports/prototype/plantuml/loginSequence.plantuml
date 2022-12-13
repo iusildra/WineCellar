@@ -1,35 +1,29 @@
-@startuml loginSequence
+@startuml
 skinparam responseMessageBelowArrow true
 
 actor User
 participant LoginWindow
 participant LoginController
+participant UserFacade
+participant AbstractFactory
 participant UserDAO
-participant ConnectionManager
+participant DataBase
 
-activate ConnectionManager
 activate User
 
 User -> LoginWindow++: enterUsername()
 User -> LoginWindow: enterPassword()
-User -> LoginWindow: login()
+User -> LoginWindow: onClickButtonLogin()
 LoginWindow -> LoginController++: login()
-LoginController -> UserDAO++: login()
-UserDAO -> ConnectionManager: validatePwd()
+LoginController -> UserFacade++: login():User|Null
+UserFacade -> AbstractFactory++: getUserDAO():UserDAO
+UserFacade -> UserDAO++: getUserbyIDPwd():User|Null
 
-alt password is valid
-    ConnectionManager --> UserDAO: [User login validated] 
-    UserDAO --> LoginController--: [success]
-    LoginController --> LoginWindow--: [success]
-    LoginWindow --> User--: display(success)
-    deactivate User
-else password is invalid
-    ConnectionManager --> UserDAO++: [User login invalid]
-    UserDAO --> LoginController--: [invalid]
-    activate LoginController
-    LoginController --> LoginWindow--: [invalid]
-    activate LoginWindow
-    activate User
+alt User is notNull
+    LoginController --> LoginWindow: connectionSucessful()
+    LoginWindow --> User--: display(homeWindow)
+else User is Null
+    LoginController -> LoginWindow: connectionFailed()
     LoginWindow --> User--: display(invalid)
 end
 
