@@ -1,5 +1,6 @@
 package com.cookingchef.factory;
 
+import com.cookingchef.dao.PostgresUserDAO;
 import com.cookingchef.dao.UserDAO;
 import com.cookingchef.dbutils.ConnectionManager;
 import com.cookingchef.facade.UserFacade;
@@ -21,8 +22,9 @@ public class PostgresFactory implements AbstractFactory {
     }
     @Override
     public UserDAO getUserDAO() {
-        // TODO : implements
-        return null;
+
+        PostgresUserDAO postgresUserDAO = PostgresUserDAO.getPostgresUserDAO();
+        return postgresUserDAO;
     }
 
     @Override
