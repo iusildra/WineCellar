@@ -7,10 +7,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Login extends Application {
+public class LoginPage extends Application {
 	@Override
 	public void start(Stage stage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("hello-view.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(LoginPage.class.getResource("hello-view.fxml"));
 		Scene scene = new Scene(fxmlLoader.load(), 1920, 1080);
 		stage.setTitle("MyChefCook");
 		stage.setScene(scene);

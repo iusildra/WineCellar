@@ -8,9 +8,9 @@ public class ConnectionManagerTests {
 
   @Test
   void validateConnection() throws SQLException {
-    var connection = ConnectionManager.openConnectionPool("postgres", "postgres", "postgres", 5432);
+    var connection = ConnectionManager.getConnection("postgres", "postgres", "postgres", 5432);
     assert connection.isPresent();
-    var conn = connection.get().getConnection();
+    var conn = connection.get();
     var statement = conn.createStatement();
 
     statement.execute("create table tests(id serial primary key, name varchar(100));");
@@ -24,7 +24,7 @@ public class ConnectionManagerTests {
 
   @Test
   void crashWhenWrongConnection() throws SQLException {
-    var connection = ConnectionManager.openConnectionPool("nonExisting", "postgres", "postgres", 0000);
+    var connection = ConnectionManager.getConnection("nonExisting", "postgres", "postgres", 0000);
     assert connection.isEmpty();
     ConnectionManager.closeConnectionPool();
   }
