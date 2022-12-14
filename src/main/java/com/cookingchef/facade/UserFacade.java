@@ -1,5 +1,6 @@
 package com.cookingchef.facade;
 
+import com.cookingchef.dao.PostgresUserDAO;
 import com.cookingchef.dao.UserDAO;
 import com.cookingchef.factory.PostgresFactory;
 import com.cookingchef.model.User;
@@ -19,7 +20,7 @@ public class UserFacade {
 
 	public User login() {
 		PostgresFactory factory = PostgresFactory.getPostgresFactory();
-		UserDAO userDAO = factory.getUserDAO();
-		return userDAO.login();
+		PostgresUserDAO userDAO = factory.getUserDAO();
+		return userDAO.getUserbyIdPwd();
 	}
 }
