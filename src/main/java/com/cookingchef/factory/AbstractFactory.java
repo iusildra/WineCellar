@@ -7,9 +7,7 @@ import com.cookingchef.dao.UserDAO;
 import com.cookingchef.dbutils.ConnectionManager;
 
 public interface AbstractFactory {
-  public static UserDAO getUserDAO() {
-    return null;
-  }
+  public UserDAO getUserDAO();
 
   /**
    * If the connection is successful, return the connection, otherwise return an
@@ -21,8 +19,6 @@ public interface AbstractFactory {
    * @param port     The port number of the database.
    * @return An Optional object.
    */
-  public static Optional<Connection> getPostgresFactory(String dbName, String user, String password,
-      int port) {
-    return ConnectionManager.getConnection(dbName, user, password, port);
-  }
+  public Optional<Connection> getPostgresFactory(String dbName, String user, String password,
+      int port);
 }

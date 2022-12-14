@@ -1,15 +1,25 @@
 package com.cookingchef.facade;
 
+import com.cookingchef.dao.UserDAO;
+import com.cookingchef.factory.PostgresFactory;
+import com.cookingchef.model.User;
+
 public class UserFacade {
-	private static volatile UserFacade userFacade;
+	private static volatile UserFacade instance;
 
 	private UserFacade() {
 	}
 
-	public static synchronized UserFacade createUserFacade() {
-		if (userFacade == null) {
-			userFacade = new UserFacade();
+	public static synchronized UserFacade getUserFacade() {
+		if (instance == null) {
+			instance = new UserFacade();
 		}
-		return userFacade;
+		return instance;
+	}
+
+	public User login() {
+		PostgresFactory factory = PostgresFactory.getPostgresFactory();
+		UserDAO userDAO = factory.getUserDAO();
+		return userDAO.login();
 	}
 }

@@ -8,7 +8,8 @@ public class FactoryTests {
 
   @Test
   void validatePostgresFactory() throws SQLException {
-    var connection = AbstractFactory.getPostgresFactory("postgres", "postgres", "postgres", 5432);
+    PostgresFactory factory = PostgresFactory.getPostgresFactory();
+    var connection = factory.getPostgresFactory("postgres", "postgres", "postgres", 5432);
     assert connection.isPresent();
     assert connection.get().isValid(2);
   }

@@ -1,5 +1,7 @@
 package com.cookingchef.controller;
 
+import com.cookingchef.facade.UserFacade;
+import com.cookingchef.model.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -14,6 +16,13 @@ public class LoginController {
 
 	@FXML
 	protected void onClickButtonLogin() {
-		welcomeText.setText("you clicked login");
+		UserFacade userFacade = UserFacade.getUserFacade();
+		User user = userFacade.login();
+
+		if (user != null) {
+			// TODO redirect to home page
+		} else {
+			// TODO show error message
+		}
 	}
 }
