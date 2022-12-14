@@ -4,7 +4,7 @@
 -- https://tableplus.com/
 --
 -- Database: postgres
--- Generation Time: 2022-12-14 12:12:14.4460
+-- Generation Time: 2022-12-14 18:10:49.2810
 -- -------------------------------------------------------------
 
 
@@ -343,21 +343,21 @@ CREATE TABLE "public"."users" (
     PRIMARY KEY ("id")
 );
 
-ALTER TABLE "public"."comment_user" ADD FOREIGN KEY ("comment_id") REFERENCES "public"."comment"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-ALTER TABLE "public"."comment_user" ADD FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-ALTER TABLE "public"."ingredient_category_ingredient" ADD FOREIGN KEY ("ingredient_id") REFERENCES "public"."ingredient"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-ALTER TABLE "public"."ingredient_category_ingredient" ADD FOREIGN KEY ("ingredient_category_id") REFERENCES "public"."ingredient_category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-ALTER TABLE "public"."partner_advert" ADD FOREIGN KEY ("advert_id") REFERENCES "public"."advert"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-ALTER TABLE "public"."partner_advert" ADD FOREIGN KEY ("partner_id") REFERENCES "public"."partner"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-ALTER TABLE "public"."recipe_category_recipe" ADD FOREIGN KEY ("recipe_id") REFERENCES "public"."recipe"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-ALTER TABLE "public"."recipe_category_recipe" ADD FOREIGN KEY ("recipe_category_id") REFERENCES "public"."recipe_category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-ALTER TABLE "public"."recipe_comment" ADD FOREIGN KEY ("comment_id") REFERENCES "public"."comment"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-ALTER TABLE "public"."recipe_comment" ADD FOREIGN KEY ("recipe_id") REFERENCES "public"."recipe"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-ALTER TABLE "public"."recipe_ingredient" ADD FOREIGN KEY ("ingredient_id") REFERENCES "public"."ingredient"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-ALTER TABLE "public"."recipe_ingredient" ADD FOREIGN KEY ("recipe_id") REFERENCES "public"."recipe"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-ALTER TABLE "public"."recipe_ingredient" ADD FOREIGN KEY ("unit") REFERENCES "public"."unit"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-ALTER TABLE "public"."recipe_list_recipe" ADD FOREIGN KEY ("recipe_list_id") REFERENCES "public"."recipe_list"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-ALTER TABLE "public"."recipe_list_user" ADD FOREIGN KEY ("recipe_list_id") REFERENCES "public"."recipe_list"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-ALTER TABLE "public"."recipe_list_user" ADD FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-ALTER TABLE "public"."suggestion_category_suggestion" ADD FOREIGN KEY ("suggestion_id") REFERENCES "public"."suggestion"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-ALTER TABLE "public"."suggestion_category_suggestion" ADD FOREIGN KEY ("suggestion_category_id") REFERENCES "public"."suggestion_category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "public"."comment_user" ADD FOREIGN KEY ("comment_id") REFERENCES "public"."comment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."comment_user" ADD FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."ingredient_category_ingredient" ADD FOREIGN KEY ("ingredient_id") REFERENCES "public"."ingredient"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."ingredient_category_ingredient" ADD FOREIGN KEY ("ingredient_category_id") REFERENCES "public"."ingredient_category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."partner_advert" ADD FOREIGN KEY ("partner_id") REFERENCES "public"."partner"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."partner_advert" ADD FOREIGN KEY ("advert_id") REFERENCES "public"."advert"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."recipe_category_recipe" ADD FOREIGN KEY ("recipe_category_id") REFERENCES "public"."recipe_category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."recipe_category_recipe" ADD FOREIGN KEY ("recipe_id") REFERENCES "public"."recipe"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."recipe_comment" ADD FOREIGN KEY ("comment_id") REFERENCES "public"."comment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."recipe_comment" ADD FOREIGN KEY ("recipe_id") REFERENCES "public"."recipe"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."recipe_ingredient" ADD FOREIGN KEY ("ingredient_id") REFERENCES "public"."ingredient"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."recipe_ingredient" ADD FOREIGN KEY ("recipe_id") REFERENCES "public"."recipe"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."recipe_ingredient" ADD FOREIGN KEY ("unit") REFERENCES "public"."unit"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."recipe_list_recipe" ADD FOREIGN KEY ("recipe_list_id") REFERENCES "public"."recipe_list"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."recipe_list_user" ADD FOREIGN KEY ("recipe_list_id") REFERENCES "public"."recipe_list"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."recipe_list_user" ADD FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."suggestion_category_suggestion" ADD FOREIGN KEY ("suggestion_category_id") REFERENCES "public"."suggestion_category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."suggestion_category_suggestion" ADD FOREIGN KEY ("suggestion_id") REFERENCES "public"."suggestion"("id") ON DELETE CASCADE ON UPDATE CASCADE;
