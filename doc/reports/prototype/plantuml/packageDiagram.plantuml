@@ -1,48 +1,37 @@
 @startuml packageDiagram
 hide empty members
-package User {
-  class AccountManagement
-  class Cart
-  class CartEntry
+package  controller{
+  class LoginController
 }
 
-package Recipe {
-  class RecipeList
-  class Recipe
-  class RecipeCategory
-  class IngredientQuantity
-  class Comment
+package dao{
+  class PostgresUserDAO
+  class UserDAO
 }
 
-package Ingredient {
-  class Ingredient
-  class IngredientCategory
+package dbutils{
+  class ConnectionManager
 }
 
-package Suggestions {
-  class Suggestion
-  class SuggestionCategory
+package facade{
+  class UserFacade
 }
 
-package Calendar {
-  class Calendar
-  class CalendarDay
-  class MealCategory
+package factory{
+  class AbstractFactory
+  class PostgresFactory
 }
 
-package Partner {
-  class Partner
-  class Advert
+package model{
+  class User
 }
 
-package News {
-  class News
+package view{
+  class Login
 }
+controller --[hidden]d-- dao
+facade --[hidden]d-- view
+dao --[hidden]d-- factory
+view --[hidden]d-- model
 
-User --[hidden]d-- Recipe
-User --[hidden]d-- Ingredient
-User --[hidden]d-- Suggestions
-User --[hidden]u-- Calendar
-User --[hidden]u-- Partner
-User --[hidden]u-- News
 @enduml

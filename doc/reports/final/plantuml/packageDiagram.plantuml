@@ -1,0 +1,165 @@
+@startuml packageDiagram
+hide empty members
+package  controller{
+  package calendarController{
+    class MealCategoryController
+    class CalendarDayController
+    class CalendarController
+  }
+  package partnerController{
+    class AdvertController
+    class PartnerController
+  }
+  package newsController{
+    class NewsController
+  }
+  package userController{
+    class AccountManagementController
+    class CartController
+    class CartEntryController
+    class LoginController
+  }
+  package recipeController{
+    class RecipeController
+    class RecipeListController
+    class RecipeCategoryController
+    class IngredientQuantityController
+    class CommentController
+  }
+  package ingredientController{
+    class IngredientCategoryController
+    class IngredientController
+  }
+  package suggestionsController{
+    class SuggestionCategoryController
+  }
+}
+
+package dao{
+  package calendarDAO{
+    class MealCategoryDAO
+    class CalendarDayDAO
+    class CalendarDAO
+  }
+  package partnerDAO{
+    class AdvertDAO
+    class PartnerDAO
+  }
+  package newsDAO{
+    class NewsDAO
+  }
+  package userDAO{
+    class AccountManagementDAO
+    class CartDAO
+    class CartEntryDAO
+    class PostgresUserDAO
+    class UserDAO
+  }
+  package recipeDAO{
+    class RecipeDAO
+    class RecipeListDAO
+    class RecipeCategoryDAO
+    class IngredientQuantityDAO
+    class CommentDAO
+  }
+  package ingredientDAO{
+    class IngredientCategoryDAO
+    class IngredientDAO
+  }
+  package suggestionsDAO{
+    class SuggestionCategoryDAO
+  }
+}
+
+package dbutils{
+  class ConnectionManager
+}
+
+package facade{
+  class UserFacade
+}
+
+package factory{
+  class AbstractFactory
+  class PostgresFactory
+}
+
+package model{
+  package calendarModel{
+    class MealCategory
+    class CalendarDay
+    class Calendar
+  }
+  package partnerModel{
+    class Advert
+    class Partner
+  }
+  package newsModel{
+    class News
+  }
+  package userModel{
+    class AccountManagement
+    class Cart
+    class CartEntry
+    class User
+  }
+  package recipeModel{
+    class Recipe
+    class RecipeList
+    class RecipeCategory
+    class IngredientQuantity
+    class Comment
+  }
+  package ingredientModel{
+    class IngredientCategory
+    class Ingredient
+  }
+  package suggestionsModel{
+    class SuggestionCategory
+  }
+}
+
+package view{
+  package calendarView{
+    class MealCategoryView
+    class CalendarDayView
+    class CalendarView
+  }
+  package partnerView{
+    class AdvertView
+    class PartnerView
+  }
+  package newsView{
+    class NewsView
+  }
+  package userView{
+    class AccountManagementView
+    class CartView
+    class CartEntryView
+    class UserView
+    class LoginView
+  }
+  package recipeView{
+    class RecipeView
+    class RecipeListView
+    class RecipeCategoryView
+    class IngredientQuantityView
+    class CommentView
+  }
+  package ingredientView{
+    class IngredientCategoryView
+    class IngredientView
+  }
+  package suggestionsView{
+    class SuggestionCategoryView
+  }
+}
+
+controller --[hidden]d-- view
+view --[hidden]d-- model
+model --[hidden]d-- dao
+dao --[hidden]d-- dbutils
+dao --[hidden]d-- facade
+dao --[hidden]d-- factory
+
+@enduml
