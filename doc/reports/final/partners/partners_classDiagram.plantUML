@@ -1,0 +1,41 @@
+@startuml loginClassDiagram
+hide empty members
+class PartnerPage {
+  + onClickButtonCreatePartner()
+  + onClickButtonUpdatePartner()
+  + onClickButtonDeletePartner()
+  + displayPartnerList()
+}
+
+class PartnerController {
+  + createPartner()
+  + updatePartner()
+  + deletePartner()
+}
+
+class PartnerFacade{
+  + createPartnerDAO()
+  + updatePartnerDAO()
+  + deletePartnerDAO()
+}
+
+abstract PartnerDAO {
+  + getPartnerById()
+}
+
+abstract AbstractFactory{
+  + getPartnerDAO()
+  + getInstance()
+}
+
+database "Postgres\nDatabase" as Postgres {
+
+}
+
+PartnerPage -> PartnerController
+PartnerController -> PartnerFacade
+PartnerFacade -> AbstractFactory
+AbstractFactory -> PartnerDAO
+Postgres -> AbstractFactory
+PartnerFacade -> PartnerDAO
+@enduml
