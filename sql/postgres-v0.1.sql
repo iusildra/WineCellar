@@ -4,7 +4,7 @@
 -- https://tableplus.com/
 --
 -- Database: postgres
--- Generation Time: 2022-12-14 18:10:49.2810
+-- Generation Time: 2022-12-21 01:12:55.2740
 -- -------------------------------------------------------------
 
 
@@ -19,6 +19,8 @@ CREATE TABLE "public"."advert" (
     "id" int4 NOT NULL DEFAULT nextval('advert_id_seq'::regclass),
     "description_promotion" text NOT NULL,
     "price" float4 NOT NULL,
+    "partner_id" int4 NOT NULL,
+    "ingredient_id" int4 NOT NULL,
     PRIMARY KEY ("id")
 );
 
@@ -136,20 +138,6 @@ CREATE TABLE "public"."partner" (
     "name" varchar(255) NOT NULL,
     "description" text NOT NULL DEFAULT '""'::text,
     "website" varchar(255) NOT NULL DEFAULT '""'::character varying,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."partner_advert";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS partner_advert_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."partner_advert" (
-    "id" int4 NOT NULL DEFAULT nextval('partner_advert_id_seq'::regclass),
-    "advert_id" int4,
-    "partner_id" int4 NOT NULL,
     PRIMARY KEY ("id")
 );
 
@@ -280,6 +268,7 @@ CREATE TABLE "public"."suggestion" (
     "id" int4 NOT NULL DEFAULT nextval('suggestion_id_seq'::regclass),
     "title" varchar(255) NOT NULL,
     "description" text NOT NULL,
+    "category" int4 NOT NULL,
     PRIMARY KEY ("id")
 );
 
@@ -293,20 +282,6 @@ CREATE SEQUENCE IF NOT EXISTS suggestion_category_id_seq;
 CREATE TABLE "public"."suggestion_category" (
     "id" int4 NOT NULL DEFAULT nextval('suggestion_category_id_seq'::regclass),
     "name" varchar(255) NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."suggestion_category_suggestion";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS suggestion_category_suggestion_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."suggestion_category_suggestion" (
-    "id" int4 NOT NULL DEFAULT nextval('suggestion_category_suggestion_id_seq'::regclass),
-    "suggestion_id" int4 NOT NULL,
-    "suggestion_category_id" int4 NOT NULL,
     PRIMARY KEY ("id")
 );
 
@@ -334,30 +309,40 @@ CREATE TABLE "public"."users" (
     "id" int4 NOT NULL DEFAULT nextval('users_id_seq'::regclass),
     "name" varchar(255) NOT NULL,
     "email" varchar(255) NOT NULL,
-    "password" varchar(1000) NOT NULL,
     "phone" varchar(32) NOT NULL,
-    "birthdate" timestamp,
+    "birthdate" timestamp NOT NULL,
     "question" varchar(255) NOT NULL,
     "answer" varchar(255) NOT NULL,
     "isAdmin" bool NOT NULL DEFAULT false,
+    "password" varchar(60) NOT NULL,
     PRIMARY KEY ("id")
 );
 
+INSERT INTO "public"."unit" ("id", "name") VALUES
+(1, 'mg'),
+(2, 'g'),
+(3, 'kg'),
+(4, 'mL'),
+(5, 'cl'),
+(6, 'L');
+
+INSERT INTO "public"."users" ("id", "name", "email", "phone", "birthdate", "question", "answer", "isAdmin", "password") VALUES
+(7, 'u', 'u', '0613604212', '2022-12-20 22:45:39.647885', 'u?', 'addx', 't', '$2y$10$j1ax6LL0EZwxfP5S9xDfreDCGKo16JG4zLVQzOjsvxNFJMQ1wCvDe');
+
+ALTER TABLE "public"."advert" ADD FOREIGN KEY ("ingredient_id") REFERENCES "public"."ingredient"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."advert" ADD FOREIGN KEY ("partner_id") REFERENCES "public"."partner"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."comment_user" ADD FOREIGN KEY ("comment_id") REFERENCES "public"."comment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."comment_user" ADD FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."ingredient_category_ingredient" ADD FOREIGN KEY ("ingredient_id") REFERENCES "public"."ingredient"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."ingredient_category_ingredient" ADD FOREIGN KEY ("ingredient_category_id") REFERENCES "public"."ingredient_category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "public"."partner_advert" ADD FOREIGN KEY ("partner_id") REFERENCES "public"."partner"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "public"."partner_advert" ADD FOREIGN KEY ("advert_id") REFERENCES "public"."advert"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "public"."recipe_category_recipe" ADD FOREIGN KEY ("recipe_category_id") REFERENCES "public"."recipe_category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."recipe_category_recipe" ADD FOREIGN KEY ("recipe_id") REFERENCES "public"."recipe"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."recipe_category_recipe" ADD FOREIGN KEY ("recipe_category_id") REFERENCES "public"."recipe_category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."recipe_comment" ADD FOREIGN KEY ("comment_id") REFERENCES "public"."comment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."recipe_comment" ADD FOREIGN KEY ("recipe_id") REFERENCES "public"."recipe"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."recipe_ingredient" ADD FOREIGN KEY ("ingredient_id") REFERENCES "public"."ingredient"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "public"."recipe_ingredient" ADD FOREIGN KEY ("recipe_id") REFERENCES "public"."recipe"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."recipe_ingredient" ADD FOREIGN KEY ("unit") REFERENCES "public"."unit"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."recipe_ingredient" ADD FOREIGN KEY ("recipe_id") REFERENCES "public"."recipe"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."recipe_list_recipe" ADD FOREIGN KEY ("recipe_list_id") REFERENCES "public"."recipe_list"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "public"."recipe_list_user" ADD FOREIGN KEY ("recipe_list_id") REFERENCES "public"."recipe_list"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."recipe_list_user" ADD FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "public"."suggestion_category_suggestion" ADD FOREIGN KEY ("suggestion_category_id") REFERENCES "public"."suggestion_category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "public"."suggestion_category_suggestion" ADD FOREIGN KEY ("suggestion_id") REFERENCES "public"."suggestion"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."recipe_list_user" ADD FOREIGN KEY ("recipe_list_id") REFERENCES "public"."recipe_list"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."suggestion" ADD FOREIGN KEY ("category") REFERENCES "public"."suggestion_category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
