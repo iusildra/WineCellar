@@ -2,6 +2,7 @@ package com.cookingchef.controller;
 
 import com.cookingchef.facade.UserFacade;
 import com.cookingchef.model.User;
+import com.cookingchef.view.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -38,6 +39,7 @@ public class LoginController {
 
 		if (user != null) {
 			showText.setText("Welcome " + user.getName());
+			Main.set_Scene("home");
 		} else {
 			showText.setText("Wrong email or password");
 		}
