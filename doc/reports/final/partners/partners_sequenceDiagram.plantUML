@@ -1,0 +1,98 @@
+//CREATE PARTNER
+
+@startuml
+skinparam responseMessageBelowArrow true
+
+actor Admin
+participant PartnerPage
+participant PartnerController
+participant PartnerFacade
+participant AbstractFactory
+participant PartnerDAO
+participant DataBase
+
+activate Admin
+
+PartnerPage -> Admin: displayPartnerList
+Admin -> PartnerPage++: enterName
+Admin -> PartnerPage: enterDescription
+Admin -> PartnerPage: enterWebsite
+Admin -> PartnerPage: clickOnCreatePartner
+PartnerPage -> PartnerController++: onClickButtonCreatePartner()
+PartnerController -> PartnerFacade++: createPartner()
+PartnerFacade -> AbstractFactory++: createPartnerDAO()
+
+alt Partner doesn't exist
+    PartnerController --> PartnerPage: createSucessful()
+    PartnerPage --> Admin--: display(partnerListWindow)
+else Partner already exist
+    PartnerController -> PartnerPage: createFailed()
+    PartnerPage --> Admin--: display(invalid)
+end
+
+@enduml
+
+//UPDATE PARTNER
+
+@startuml
+skinparam responseMessageBelowArrow true
+
+actor Admin
+participant PartnerPage
+participant PartnerController
+participant PartnerFacade
+participant AbstractFactory
+participant PartnerDAO
+participant DataBase
+
+activate Admin
+
+PartnerPage -> Admin: displayPartnerList
+Admin -> PartnerPage++: enterName
+Admin -> PartnerPage: enterDescription
+Admin -> PartnerPage: enterWebsite
+Admin -> PartnerPage: clickOnUpdatePartner
+PartnerPage -> PartnerController++: onClickButtonUpdatePartner()
+PartnerController -> PartnerFacade++: updatePartner()
+PartnerFacade -> AbstractFactory++: updatePartnerDAO()
+
+alt Partner already exist
+    PartnerController --> PartnerPage: updateSucessful()
+    PartnerPage --> Admin--: display(partnerListWindow)
+else Partner doesn't exist
+    PartnerController -> PartnerPage: updateFailed()
+    PartnerPage --> Admin--: display(invalid)
+end
+
+@enduml
+
+//DELETE PARTNER
+
+@startuml
+skinparam responseMessageBelowArrow true
+
+actor Admin
+participant PartnerPage
+participant PartnerController
+participant PartnerFacade
+participant AbstractFactory
+participant PartnerDAO
+participant DataBase
+
+activate Admin
+
+PartnerPage -> Admin: displayPartnerList
+Admin -> PartnerPage: clickOnDeletePartner
+PartnerPage -> PartnerController++: onClickButtonDeletePartner()
+PartnerController -> PartnerFacade++: deletePartner()
+PartnerFacade -> AbstractFactory++: deletePartnerDAO()
+
+alt Partner already exist
+    PartnerController --> PartnerPage: deleteSucessful()
+    PartnerPage --> Admin--: display(partnerListWindow)
+else Partner doesn't exist
+    PartnerController -> PartnerPage: deleteFailed()
+    PartnerPage --> Admin--: display(invalid)
+end
+
+@enduml
