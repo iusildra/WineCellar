@@ -10,9 +10,10 @@ module com.cookingchef {
 	requires org.kordamp.bootstrapfx.core;
 	requires java.sql;
 	requires org.postgresql.jdbc;
+	requires spring.security.crypto;
 
-	opens com.cookingchef.view to javafx.fxml;
-	exports com.cookingchef.view;
+	opens com.cookingchef.View to javafx.fxml;
+	exports com.cookingchef.View;
 	opens com.cookingchef.controller to javafx.fxml;
 	exports com.cookingchef.controller;
 }

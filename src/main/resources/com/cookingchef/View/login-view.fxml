@@ -14,10 +14,6 @@
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-
-    <Button onAction="#onHelloButtonClick" text="Hello!" />
-    <TextField fx:id="email" maxWidth="150.0" promptText="Your email" />
-    <PasswordField fx:id="password" maxWidth="150.0" promptText="Your password" />
    <center>
       <VBox maxHeight="423.0" maxWidth="390.0" prefHeight="423.0" prefWidth="390.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
@@ -28,13 +24,14 @@
                   <Font size="40.0" />
                </font>
             </Text>
-            <TextField promptText="Email" />
-            <PasswordField promptText="Password" />
-            <Button accessibleText="Login" alignment="CENTER" blendMode="DARKEN" cache="true" cacheHint="SCALE" contentDisplay="RIGHT" mnemonicParsing="false" prefHeight="31.0" prefWidth="65.0" style="-fx-translate-x: 325;" text="Login" textAlignment="CENTER" onAction="#onClickButtonLogin">
+            <TextField fx:id="email" promptText="Email" />
+            <PasswordField fx:id="password" promptText="Password" />
+            <Button fx:id="loginButton" accessibleText="Login" alignment="CENTER" blendMode="DARKEN" cache="true" cacheHint="SCALE" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onClickButtonLogin" prefHeight="31.0" prefWidth="65.0" style="-fx-translate-x: 325;" text="Login" textAlignment="CENTER">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </Button>
+            <Text fx:id="showText" strokeType="OUTSIDE" strokeWidth="0.0" text="waiting for connection" />
          </children>
       </VBox>
    </center>

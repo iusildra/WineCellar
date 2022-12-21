@@ -1,4 +1,4 @@
-package com.cookingchef.view;
+package com.cookingchef.View;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +10,7 @@ import java.io.IOException;
 public class LoginPage extends Application {
 	@Override
 	public void start(Stage stage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(LoginPage.class.getResource("hello-view.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(LoginPage.class.getResource("login-view.fxml"));
 		Scene scene = new Scene(fxmlLoader.load(), 1920, 1080);
 		stage.setTitle("MyChefCook");
 		stage.setScene(scene);

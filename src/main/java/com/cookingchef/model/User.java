@@ -3,6 +3,7 @@ package com.cookingchef.model;
 import java.util.Date;
 
 public class User {
+	private int id;
 	private String name;
 	private String email;
 	private String password;
@@ -12,7 +13,8 @@ public class User {
 	private String answer;
 	private Boolean isAdmin;
 
-	public User(String name, String email, String password, String phone, Date birthdate, String question, String answer, Boolean isAdmin) {
+	public User(int id,String name, String email, String password, String phone, Date birthdate, String question, String answer, Boolean isAdmin) {
+		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.password = password;
@@ -23,4 +25,22 @@ public class User {
 		this.isAdmin = isAdmin;
 	}
 
+	@Override
+	public String toString() {
+		return "User{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", email='" + email + '\'' +
+				", password='" + password + '\'' +
+				", phone='" + phone + '\'' +
+				", birthdate=" + birthdate +
+				", question='" + question + '\'' +
+				", answer='" + answer + '\'' +
+				", isAdmin=" + isAdmin +
+				'}';
+	}
+
+	public String getName() {
+		return name;
+	}
 }
