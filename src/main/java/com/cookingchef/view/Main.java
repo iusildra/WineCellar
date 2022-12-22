@@ -1,5 +1,6 @@
 package com.cookingchef.view;
 
+import com.cookingchef.dbutils.ConnectionManager;
 import com.cookingchef.model.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -8,16 +9,15 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
-
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main extends Application {
 
 	private static User user;
 
 	private static VBox root = new VBox();
-	private static Dictionary<String, Pane> scenes = new Hashtable<String, Pane>();
+	private static Map<String, Pane> scenes = new HashMap<>();
 
 	public static User getUser() {
 		return user;
@@ -27,7 +27,7 @@ public class Main extends Application {
 		Main.user = user;
 	}
 
-	public static Dictionary<String, Pane> getScenes() {
+	public static Map<String, Pane> getScenes() {
 		return scenes;
 	}
 
@@ -35,7 +35,7 @@ public class Main extends Application {
 		return scenes.get(name);
 	}
 
-	public static void setScenes(Dictionary<String, Pane> scenes) {
+	public static void setScenes(Map<String, Pane> scenes) {
 		Main.scenes = scenes;
 	}
 
@@ -43,7 +43,7 @@ public class Main extends Application {
 		scenes.put(name, pane);
 	}
 
-	public static void set_Scene(String scene) {
+	public static void setScene(String scene) {
 		root.getChildren().clear();
 		root.getChildren().add(scenes.get(scene));
 	}
@@ -54,6 +54,8 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
+		var defaultVal = "postgres";
+		ConnectionManager.openConnectionPool(defaultVal, defaultVal, defaultVal, 5432);
 		addScene("login", FXMLLoader.load(Main.class.getResource("login-view.fxml")));
 		addScene("home", FXMLLoader.load(Main.class.getResource("home-view.fxml")));
 		root.getChildren().add(getScene("login"));
@@ -63,5 +65,4 @@ public class Main extends Application {
 		stage.setMaximized(true);
 		stage.show();
 	}
-
 }

@@ -2,18 +2,19 @@ package com.cookingchef.dao;
 
 import com.cookingchef.dbutils.ConnectionManager;
 import com.cookingchef.model.User;
+import com.cookingchef.model.UserDbFields;
+
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.sql.*;
-import java.util.Optional;
 
-
-
-public class PostgresUserDAO extends UserDAO {
+public class PostgresUserDAO implements UserDAO {
 
 	private static volatile PostgresUserDAO instance;
 
-	private PostgresUserDAO() {}
+	private PostgresUserDAO() {
+	}
+
 	public static PostgresUserDAO getPostgresUserDAO() {
 		if (instance == null) {
 			instance = new PostgresUserDAO();
@@ -22,29 +23,33 @@ public class PostgresUserDAO extends UserDAO {
 	}
 
 	@Override
-	public User getUserByEmailPwd(String email,String password) throws SQLException {
-		Optional<Connection> conn = ConnectionManager.getConnection("postgres", "postgres", "postgres", 5432);
+	public User getUserByEmailPwd(String email, String password) {
+		var query = "SELECT * FROM users WHERE email = ?";
+		
+		try {
+			var conn = ConnectionManager.getConnection();
+			var stmt = conn.prepareStatement(query);
+			stmt.setString(1, email);
 
-		String sql = "SELECT * FROM users WHERE email = ?";
-		PreparedStatement stmt = conn.get().prepareStatement(sql);
-		stmt.setString(1, email);
+			var rs = stmt.executeQuery();
 
-		ResultSet rs = stmt.executeQuery();
-
-		if (rs.next()) {
-			String hashed = rs.getString("password");
-			if (BCrypt.checkpw(password, hashed)) {
-				return new User(
-						rs.getInt("id"),
-						rs.getString("name"),
-						rs.getString("email"),
-						rs.getString("password"),
-						rs.getString("phone"),
-						rs.getDate("birthdate"),
-						rs.getString("question"),
-						rs.getString("answer"),
-						rs.getBoolean("isAdmin"));
+			if (rs.next()) {
+				String hashed = rs.getString(UserDbFields.PASSWORD.value);
+				if (BCrypt.checkpw(password, hashed)) {
+					return new User(
+							rs.getInt(UserDbFields.ID.value),
+							rs.getString(UserDbFields.NAME.value),
+							rs.getString(UserDbFields.EMAIL.value),
+							rs.getString(UserDbFields.PASSWORD.value),
+							rs.getString(UserDbFields.PHONE.value),
+							rs.getDate(UserDbFields.BIRTHDATE.value),
+							rs.getString(UserDbFields.QUESTION.value),
+							rs.getString(UserDbFields.ANSWER.value),
+							rs.getBoolean(UserDbFields.IS_ADMIN.value));
+				}
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

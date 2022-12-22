@@ -39,7 +39,7 @@ public class LoginController {
 
 		if (user != null) {
 			showText.setText("Welcome " + user.getName());
-			Main.set_Scene("home");
+			Main.setScene("home");
 		} else {
 			showText.setText("Wrong email or password");
 		}

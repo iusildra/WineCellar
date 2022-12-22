@@ -2,10 +2,7 @@ package com.cookingchef.dao;
 
 import com.cookingchef.model.User;
 
-import java.sql.SQLException;
+public interface UserDAO {
 
-public abstract class UserDAO {
-
-	//	TODO implement this method
-	public abstract User getUserByEmailPwd(String email, String password) throws SQLException;
+	public abstract User getUserByEmailPwd(String email, String password);
 }
