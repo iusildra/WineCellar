@@ -53,6 +53,49 @@ CalendarPage -> User: display(true)
 else Recipe not removed
 CalendarPage -> User: display(false)
 end
+@enduml
 
+@startuml calendarClassDiagram
+hide empty members
+class CalendarPage {
+  + showPopup()
+  + showCalendar()
+  + selectDate()
+  + selectCategory()
+  + onValidate()
+  + onRemoveRecipe()
+  + displayResult(success: Boolean)
+}
 
+class CalendarController {
+  + addRecipeToCalendar()
+  + removeRecipeFromCalendar()
+}
+
+class CalendarFacade{
+  + getCalendarDAO()
+  + addRecipeToCalendar()
+  + removeRecipeFromCalendar()
+}
+
+abstract CalendarDAO {
+  + insertCalendarEntry()
+  + deleteCalendarEntry()
+}
+
+abstract AbstractFactory{
+  + getCalendarDAO()
+  + getInstance()
+}
+
+database "Postgres\nDatabase" as Postgres {
+
+}
+
+CalendarPage       "1" -->  "1" CalendarController: > controlled by
+CalendarController "1" -->  "1" CalendarFacade: > uses
+CalendarFacade     "1" -u-> "1" AbstractFactory: > uses
+AbstractFactory    "1" -->  "1" CalendarDAO: > creates
+AbstractFactory    "1" -d-> "1" Postgres: > write
+CalendarFacade     "1" -u-> "1" CalendarDAO: > uses
 @enduml
