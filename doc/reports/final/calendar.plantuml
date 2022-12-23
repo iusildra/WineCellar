@@ -6,7 +6,7 @@ participant RecipePage
 participant CalendarPage
 participant CalendarController
 participant CalendarFacade
-participant AbstractFactory
+participant AbstractCalendarFactory
 participant CalendarDAO
 
 === Add a recipe ==
@@ -20,7 +20,7 @@ User -> CalendarPage: validate()
 CalendarPage -> CalendarPage: showPopup()
 CalendarPage -> CalendarController++: onValidate()
 CalendarController -> CalendarFacade++: addRecipeToCalendar()
-CalendarFacade -> AbstractFactory++: getCalendarDAO()
+CalendarFacade -> AbstractCalendarFactory++: getCalendarDAO()
 return calendarDAO
 CalendarFacade -> CalendarDAO++: addRecipeToCalendar()
 alt Calendar place already taken
@@ -42,7 +42,7 @@ User -> CalendarPage: clickOnActionButton()
 User -> CalendarPage: removeRecipe()
 CalendarPage -> CalendarController++: onRemoveRecipe(): Boolean
 CalendarController -> CalendarFacade++: removeRecipeFromCalendar(): Boolean
-CalendarFacade -> AbstractFactory++: getCalendarDAO()
+CalendarFacade -> AbstractCalendarFactory++: getCalendarDAO()
 return calendarDAO
 CalendarFacade -> CalendarDAO++: removeRecipeFromCalendar(): Boolean
 deactivate CalendarDAO
@@ -64,7 +64,7 @@ class CalendarPage {
   + selectCategory()
   + onValidate()
   + onRemoveRecipe()
-  + displayResult(success: Boolean)
+  + displayResult()
 }
 
 class CalendarController {
@@ -78,24 +78,27 @@ class CalendarFacade{
   + removeRecipeFromCalendar()
 }
 
-abstract CalendarDAO {
+interface AbstractCalendarDAO {
   + insertCalendarEntry()
   + deleteCalendarEntry()
 }
 
-abstract AbstractFactory{
+class CalendarDAO {
+}
+
+interface AbstractCalendarFactory{
   + getCalendarDAO()
-  + getInstance()
 }
 
-database "Postgres\nDatabase" as Postgres {
-
+class CalendarFactory {
 }
+
+CalendarFactory .u.|> AbstractCalendarFactory
+CalendarDAO     .r.|> AbstractCalendarDAO
 
 CalendarPage       "1" -->  "1" CalendarController: > controlled by
-CalendarController "1" -->  "1" CalendarFacade: > uses
-CalendarFacade     "1" -u-> "1" AbstractFactory: > uses
-AbstractFactory    "1" -->  "1" CalendarDAO: > creates
-AbstractFactory    "1" -d-> "1" Postgres: > write
-CalendarFacade     "1" -u-> "1" CalendarDAO: > uses
+CalendarController "1" -d->  "1" CalendarFacade: > uses
+CalendarFacade     "1" -l-> "1" AbstractCalendarFactory: > uses
+CalendarFactory    "1" -->  "1" CalendarDAO: > creates
+CalendarFacade     "1" --> "1" CalendarDAO: > uses
 @enduml
