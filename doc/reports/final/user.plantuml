@@ -2,16 +2,16 @@
 skinparam responseMessageBelowArrow true
 
 actor User
-participant HomePage
-participant HomePageController
+participant Navbar
+participant NavbarController
 
 activate User
 
-User -> HomePage++: clickOnLogout()
-HomePage -> HomePageController++: onClickButtonLogout()
-HomePageController -> HomePageController: logout()
-HomePageController -> HomePage--: loggedOut()
-HomePage --> User--: display(loginWindow)
+User -> Navbar++: clickOnLogout()
+Navbar -> NavbarController++: onClickButtonLogout()
+NavbarController -> NavbarController: logout()
+NavbarController -> Navbar--: loggedOut()
+Navbar --> User--: display(loginWindow)
 @enduml
 
 @startuml registerSequenceDiagram
@@ -135,4 +135,56 @@ else accountDeleted is false
   AdminPageController -> AdminPage--: deleteUserFailed()
   AdminPage --> Admin--: display(users)
 end
+@enduml
+
+@startuml userClassDiagram
+hide empty members
+
+rectangle GUI {
+  class RegisterPage
+  class Navbar
+  class AdminPage
+
+  RegisterPage -[hidden]d- Navbar
+  Navbar -[hidden]d- AdminPage
+}
+
+rectangle Controller {
+  class RegisterController
+  class NavbarController
+  class AdminController
+
+  RegisterController -[hidden]d- NavbarController
+  NavbarController -[hidden]d- AdminController
+}
+
+rectangle DAO {
+  interface AbstractUserDAO
+  interface AbstractAdminDAO
+  AbstractAdminDAO -|> AbstractUserDAO
+
+  class UserDAO
+  class AdminDAO
+
+  UserDAO ..|> AbstractUserDAO
+  AdminDAO ..|> AbstractAdminDAO
+}
+
+interface AbstractFactory
+class UserFactory
+
+class UserFacade
+class AdminFacade
+
+AdminFacade -d-|> UserFacade
+UserFactory .u.|> AbstractFactory
+
+GUI         "1" ->  "1" Controller: controlled by
+Controller  "1" --> "1" UserFacade: > uses
+UserFacade  "1" -r-> "1" AbstractFactory
+UserFactory "1" --> "1" UserDAO: > creates
+UserFactory "1" --> "1" AdminDAO: > creates
+
+UserFacade  "1" --> "1" UserDAO: > uses
+AdminFacade "1" --> "1" AdminDAO: > uses
 @enduml
