@@ -7,5 +7,6 @@ SQL_FILES=$(ls $SQL_FILES_LOC)
 
 for FILE in $SQL_FILES
 do
-    docker exec -it mychiefcook-db psql -U postgres -f home/$FILE
+    echo $FILE
+    # docker exec -it mychiefcook-db psql -U postgres -f home/$FILE
 done
