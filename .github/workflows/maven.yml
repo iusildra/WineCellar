@@ -24,9 +24,7 @@ jobs:
     - name: Launch postgres database
       run: docker-compose up -d
     - name: Fill database
-      run: |
-        chmod +x ./import-data.sh
-        ./import-data.sh
+      run: sh ./import-data.sh
     - name: Set up JDK 19
       uses: actions/setup-java@v3
       with:
