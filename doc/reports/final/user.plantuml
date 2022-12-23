@@ -1,0 +1,138 @@
+@startuml loggingOutSequenceDiagram
+skinparam responseMessageBelowArrow true
+
+actor User
+participant HomePage
+participant HomePageController
+
+activate User
+
+User -> HomePage++: clickOnLogout()
+HomePage -> HomePageController++: onClickButtonLogout()
+HomePageController -> HomePageController: logout()
+HomePageController -> HomePage--: loggedOut()
+HomePage --> User--: display(loginWindow)
+@enduml
+
+@startuml registerSequenceDiagram
+skinparam responseMessageBelowArrow true
+
+actor User
+participant RegisterPage
+participant RegisterController
+participant UserFacade
+participant AbstractFactory
+participant UserDAO
+participant DataBase
+
+activate User
+
+User -> RegisterPage++: enterMandatoryFields()
+User -> RegisterPage: enterOptionalFields()
+User -> RegisterPage: clickOnRegister
+RegisterPage -> RegisterController++: onClickButtonRegister()
+RegisterController -> RegisterController: checkFields()
+alt fields' value are correct and mandatory fields are filled in
+  RegisterController -> UserFacade++: Register():User|Null
+  UserFacade -> AbstractFactory++: getUserDAO():UserDAO
+  UserFacade -> UserDAO++: getUserbyIDPwd():User|Null
+
+  alt User is not null
+      RegisterController --> RegisterPage: connectionSucessful()
+      RegisterPage --> User--: display(homeWindow)
+  else User is Null
+      RegisterController -> RegisterPage: connectionFailed()
+      RegisterPage --> User--: display(invalid)
+  end
+else some preconditions are not met
+  RegisterController -> RegisterPage: invalidFields()
+  RegisterPage --> User--: display(invalid)
+end
+@enduml
+
+@startuml changeInformationSequenceDiagram
+skinparam responseMessageBelowArrow true
+
+actor User
+participant Navbar
+participant NavbarController
+participant UserFacade
+participant AbstractFactory
+participant UserDAO
+
+=== Change information ==
+activate User
+
+User -> Navbar++: clickOnChangeInformation()
+Navbar -> Navbar: displayPopup()
+User -> Navbar: enterNewInformation()
+User -> Navbar: clickOnValidate()
+Navbar -> NavbarController++: onClickButtonValidate()
+NavbarController -> UserFacade++: changeInformation():User|Null
+UserFacade -> AbstractFactory++: getUserDAO():UserDAO
+return userDAO
+UserFacade -> UserDAO++: changeInformation():User|Null
+return user
+deactivate UserFacade
+alt user is not null
+
+  NavbarController -> Navbar: changeInformationSuccessful()
+  Navbar --> User: display(homeWindow)
+else user is null
+  NavbarController -> Navbar--: changeInformationFailed()
+  Navbar --> User--: display(invalid)
+end
+
+=== Delete account ==
+
+User -> Navbar++: clickOnDeleteAccount()
+Navbar -> Navbar: displayPopup()
+User -> Navbar: clickOnConfirm()
+Navbar -> NavbarController++: onClickButtonConfirm()
+NavbarController -> UserFacade++: askForDeletion()
+UserFacade -> AbstractFactory++: getUserDAO():UserDAO
+return userDAO
+UserFacade -> UserDAO++: askForDeletion()
+return
+return
+return
+return displayRequestSent()
+@enduml
+
+@startuml accountDeletionSequenceDiagram
+skinparam responseMessageBelowArrow true
+
+actor Admin
+participant AdminPage
+participant AdminPageController
+participant AdminFacade
+participant AbstractFactory
+participant AdminDAO
+
+activate Admin
+
+Admin -> AdminPage++: clickOnManageUsers()
+AdminPage -> AdminPageController++: onClickButtonManageUsers()
+AdminPageController -> AdminFacade++: getUsers():List<User>
+AdminFacade -> AbstractFactory++: getAdminDAO()
+return AdminDAO
+AdminFacade -> AdminDAO++: getUsers():List<User>
+return userList
+return userList
+AdminPageController -> AdminPage--: displayUsers()
+AdminPage --> Admin--: display(users)
+Admin -> AdminPage++: clickOnUserDeletion()
+AdminPage -> AdminPageController++: onClickButtonUserDeletion()
+AdminPageController -> AdminFacade++: deleteUser():boolean
+AdminFacade -> AbstractFactory++: getAdminDAO()
+return AdminDAO
+AdminFacade -> AdminDAO++: deleteUser():boolean
+return accountDeleted
+alt accountDeleted is true
+  AdminPageController -> AdminPage: deleteUserSuccessful()
+  AdminPage --> Admin: display(users)
+else accountDeleted is false
+  AdminPageController -> AdminPage--: deleteUserFailed()
+  AdminPage --> Admin--: display(users)
+end
+@enduml
