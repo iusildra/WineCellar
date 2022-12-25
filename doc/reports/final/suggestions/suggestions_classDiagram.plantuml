@@ -1,22 +1,92 @@
-@startuml
+@startuml SuggestionsUser
 hide empty members
 
-
 class Suggestion {
-    + int id
-    + String title
-    + String description
-    + String author
+    +int id
+    +String title
+    +String description
+    +int authorId
+    +String category
 }
 
 class SuggestionPage {
+    + Suggestion suggestion
     + OnClickSendSuggestion()
     + OnClickCancel()
 }
 
-class SuggestionPageController {
-    + SuggestionPageController()
+class SuggestionController {
+    + SuggestionController()
     + OnClickSendSuggestion()
+}
+
+class SuggestionFacade {
+    + SuggestionDAO suggestionDAO
+    + SuggestionFacade()
+    + SendSuggestion()
+}
+
+interface AbstractFactory {
+    + GetSuggestionDAO()
+}
+
+class PostgresFactory {
+    + GetSuggestionDAO()
+}
+
+class SuggestionDAO {
+    + SuggestionDAO()
+    + CreateSuggestion()
+    + GetSuggestion()
+    + GetSuggestions()
+    + UpdateSuggestion()
+    + DeleteSuggestion()
+}
+
+Suggestion -- SuggestionPage
+AbstractFactory <|-- PostgresFactory
+SuggestionFacade -- PostgresFactory
+PostgresFactory *-- SuggestionDAO
+SuggestionPage -- SuggestionController
+SuggestionController -- SuggestionFacade
+SuggestionFacade .. SuggestionDAO
+
+@enduml
+
+@startuml SuggestionsPanel
+
+class Suggestion {
+    +int id
+    +String title
+    +String description
+    +int authorId
+    +String category
+}
+
+class SuggestionPanelPage {
+    + Suggestion[] suggestions
+    + ViewSuggestionDetails()
+    + DeleteSuggestion()
+}
+
+class SuggestionPanelController {
+    + SuggestionPanelController()
+    + ViewSuggestionDetails()
+    + DeleteSuggestion()
+}
+
+class SuggestionFacade {
+    + SuggestionDAO suggestionDAO
+    + SuggestionFacade()
+    + DeleteSuggestion()
+}
+
+interface AbstractFactory {
+    + GetSuggestionDAO()
+}
+
+class PostgresFactory {
+    + GetSuggestionDAO()
 }
 
 class SuggestionDAO {
@@ -27,8 +97,12 @@ class SuggestionDAO {
     + DeleteSuggestion()
 }
 
-SuggestionPage <|-- SuggestionPageController
-SuggestionPageController o-- SuggestionDAO
-
+Suggestion -- SuggestionPanelPage
+AbstractFactory <|-- PostgresFactory
+SuggestionFacade -- PostgresFactory
+PostgresFactory *-- SuggestionDAO
+SuggestionFacade .. SuggestionDAO
+SuggestionPanelPage -- SuggestionPanelController
+SuggestionPanelController -- SuggestionFacade
 
 @enduml
