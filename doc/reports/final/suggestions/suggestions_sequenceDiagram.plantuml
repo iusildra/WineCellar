@@ -4,110 +4,122 @@ skinparam responseMessageBelowArrow true
 
  actor User
  participant "SuggestionPage" as UI
+ participant "SuggestionController" as Controller
  participant "SuggestionFacade" as Facade
  participant "AbstractFactory" as Factory
  participant "SuggestionDAO" as DAO
  participant "Database" as DB
 
     UI -> User : display empty Fields
-    User -> UI : onClickSendSuggestion()
-    UI -> Facade++ : sendSuggestion()
+    User -> UI++ : enter title
+    User -> UI : enter description
+    User -> UI : enter category
+    UI -> Controller++ : OnClickSendSuggestion()
+    Controller -> Facade++ : SendSuggestion()
+    Facade -> Factory++ : GetSuggestionDAO()
+    Factory -> DAO++ :
+    DAO -> DB++ : createSuggestion()
+    DB --> DAO : success
+    DAO --> Facade : success
+    Facade --> Controller : success
+    Controller -> UI : DisplayStatus(success)
+    UI --> User : display success
 
 @enduml
+
+// UPDATE
 
 @startuml
 skinparam responseMessageBelowArrow true
 
 actor Admin
-participant PartnerPage
-participant PartnerController
-participant PartnerFacade
-participant AbstractFactory
-participant PartnerDAO
-participant DataBase
+ participant "SuggestionPage" as UI
+ participant "SuggestionController" as Controller
+ participant "SuggestionFacade" as Facade
+ participant "AbstractFactory" as Factory
+ participant "SuggestionDAO" as DAO
+ participant "Database" as DB
 
-activate Admin
+    UI -> Admin : display Fields with data
+    Admin -> UI++ : modify title
+    Admin -> UI : modify description
+    Admin -> UI : modify category
+    UI -> Controller++ : OnClickUpdateSuggestion()
 
-PartnerPage -> Admin: displayPartnerList
-Admin -> PartnerPage++: enterName
-Admin -> PartnerPage: enterDescription
-Admin -> PartnerPage: enterWebsite
-Admin -> PartnerPage: clickOnCreatePartner
-PartnerPage -> PartnerController++: onClickButtonCreatePartner()
-PartnerController -> PartnerFacade++: createPartner()
-PartnerFacade -> AbstractFactory++: createPartnerDAO()
+    Controller -> Facade++ : UpdateSuggestion()
+    Facade -> Factory++ : GetSuggestionDAO()
+    Factory -> DAO++ :
+    DAO -> DB++ : UpdateSuggestion()
+    DB -> DAO : success
+    DAO -> Facade : success
+    Facade -> Controller : success
+    Controller -> UI : DisplayStatus(success)
+    UI -> Admin : display success
 
-alt Partner doesn't exist
-    PartnerController --> PartnerPage: createSucessful()
-    PartnerPage --> Admin--: display(partnerListWindow)
-else Partner already exist
-    PartnerController -> PartnerPage: createFailed()
-    PartnerPage --> Admin--: display(invalid)
+alt Updating Cancel
+    UI -> Controller : OnClickCancelUpdateSuggestion()
+    Controller -> UI : DisplayStatus(cancel)
+else Suggestion doesn't exist
+    UI -> Controller : OnClickUpdateSuggestion()
+    Controller -> Facade : UpdateSuggestion()
+    Facade -> Factory : GetSuggestionDAO()
+    Factory -> DAO :
+    DAO -> DB : UpdateSuggestion()
+    DB -> DAO : fail
+    DAO -> Facade : fail
+    Facade -> Controller : fail
+    Controller -> UI : DisplayStatus(fail)
+    UI -> Admin : display fail
 end
 
 @enduml
 
-//UPDATE PARTNER
+// DELETE
 
 @startuml
 skinparam responseMessageBelowArrow true
 
 actor Admin
-participant PartnerPage
-participant PartnerController
-participant PartnerFacade
-participant AbstractFactory
-participant PartnerDAO
-participant DataBase
+ participant "SuggestionPage" as UI
+ participant "SuggestionController" as Controller
+ participant "SuggestionFacade" as Facade
+ participant "AbstractFactory" as Factory
+ participant "SuggestionDAO" as DAO
+ participant "Database" as DB
 
-activate Admin
+    UI -> Admin : display list of suggestions
+    Admin -> UI++ : click delete button
+    UI -> Controller++ : OnClickDeleteSuggestion()
+    Controller --> UI : DisplayConfirmation()
+    UI -> Admin : display confirmation
+    Admin -> UI : click Confirm
+    UI -> Controller : OnClickDeleteSuggestion(confirm = TRUE)
+    Controller -> Facade++ : DeleteSuggestion()
+    Facade -> Factory++ : GetSuggestionDAO()
+    Factory -> DAO++ :
+    DAO -> DB++ : DeleteSuggestion()
+    DB -> DAO : success
+    DAO -> Facade : success
+    Facade -> Controller : success
+    Controller -> UI : DisplayStatus(success)
+    UI -> Admin : display success
 
-PartnerPage -> Admin: displayPartnerList
-Admin -> PartnerPage++: enterName
-Admin -> PartnerPage: enterDescription
-Admin -> PartnerPage: enterWebsite
-Admin -> PartnerPage: clickOnUpdatePartner
-PartnerPage -> PartnerController++: onClickButtonUpdatePartner()
-PartnerController -> PartnerFacade++: updatePartner()
-PartnerFacade -> AbstractFactory++: updatePartnerDAO()
-
-alt Partner already exist
-    PartnerController --> PartnerPage: updateSucessful()
-    PartnerPage --> Admin--: display(partnerListWindow)
-else Partner doesn't exist
-    PartnerController -> PartnerPage: updateFailed()
-    PartnerPage --> Admin--: display(invalid)
-end
-
-@enduml
-
-//DELETE PARTNER
-
-@startuml
-skinparam responseMessageBelowArrow true
-
-actor Admin
-participant PartnerPage
-participant PartnerController
-participant PartnerFacade
-participant AbstractFactory
-participant PartnerDAO
-participant DataBase
-
-activate Admin
-
-PartnerPage -> Admin: displayPartnerList
-Admin -> PartnerPage: clickOnDeletePartner
-PartnerPage -> PartnerController++: onClickButtonDeletePartner()
-PartnerController -> PartnerFacade++: deletePartner()
-PartnerFacade -> AbstractFactory++: deletePartnerDAO()
-
-alt Partner already exist
-    PartnerController --> PartnerPage: deleteSucessful()
-    PartnerPage --> Admin--: display(partnerListWindow)
-else Partner doesn't exist
-    PartnerController -> PartnerPage: deleteFailed()
-    PartnerPage --> Admin--: display(invalid)
+alt Updating Cancel
+    Admin --> UI : click cancel
+    UI ->  Admin : display list of suggestions
+    UI -> Controller : OnClickCancelDeleteSuggestion()
+    Controller -> UI : DisplayStatus(cancel)
+else Suggestion doesn't exist
+    UI -> Controller : OnClickDeleteSuggestion()
+    Controller -> Facade : DeleteSuggestion()
+    Facade -> Factory : GetSuggestionDAO()
+    Factory -> DAO :
+    DAO -> DB : DeleteSuggestion()
+    DB -> DAO : fail
+    DAO -> Facade : fail
+    Facade -> Controller : fail
+    Controller -> UI : DisplayStatus(fail)
+    UI -> Admin : display fail
 end
 
 @enduml
