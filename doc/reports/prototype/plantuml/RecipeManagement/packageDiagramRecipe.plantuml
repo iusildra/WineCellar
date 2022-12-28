@@ -1,0 +1,38 @@
+@startuml packageDiagram
+
+hide empty members
+package  controller{
+  class RecipeController
+}
+
+package dao{
+  class PostgresRecipeDAO
+  interface RecipeDAO
+}
+
+package dbutils{
+  class ConnectionManager
+}
+
+package facade{
+  class RecipeFacade
+}
+
+package factory{
+  interface RecipeAbstractFactory
+  class PostgresRecipeFactory
+}
+
+package model{
+  class Recipe
+}
+
+package view{
+  class Main
+}
+controller --[hidden]d-- dao
+facade --[hidden]d-- view
+dao --[hidden]d-- factory
+view --[hidden]d-- model
+
+@enduml

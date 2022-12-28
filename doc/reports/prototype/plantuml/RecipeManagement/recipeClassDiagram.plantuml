@@ -1,0 +1,73 @@
+@startuml recipeClassDiagram
+
+class RecipePage {
+  + display()
+}
+
+class RecipeController {
+  # onClickButtonCreate()
+  # onClickButtonDelete()
+  # onClickButtonUpdate()
+}
+
+
+class RecipeFacade {
+  - recipeDAO: RecipeDAO
+  + createRecipe()
+  + updateRecipe()
+  + deleteRecipe()
+}
+
+
+interface RecipeAbstractFactory {
+  + {abstract} getRecipeDAO() : RecipeDAO
+
+}
+
+
+class PostgresRecipeFactory {
+  + getPostgresRecipeFactory(): PostgresRecipeFactory
+  + get RecipeDAO() : RecipeDAO
+}
+
+
+Interface RecipeDAO {
+  + {abstract} createRecipe()
+  + {abstract} updateRecipe()
+  + {abstract} deleteRecipe()
+}
+
+
+class PostgresRecipeDAO{
+  + getPostgresRecipeDAO() : RecipeDAO
+  + createRecipe()
+  + updateRecipe()
+  + deleteRecipe()
+}
+
+
+class ConnectionManager {
+  # {static} PGConnectionPoolDataSource: DataSource
+  + {static} openConnectionPool(): void
+  + {static} getConnection(): Connection
+  + {static} closeConnectionPool(): void
+}
+
+
+database "Postgres\nDatabase" as Postgres {
+
+}
+
+class PostgresRecipeFactory extends RecipeAbstractFactory
+class PostgresRecipeDAO extends RecipeDAO
+
+RecipePage --> RecipeController
+RecipeController --> RecipeFacade
+RecipeFacade -- RecipeAbstractFactory
+RecipeAbstractFactory -- RecipeDAO
+RecipeDAO -- ConnectionManager
+ConnectionManager --> Postgres
+
+
+
+@enduml
