@@ -6,7 +6,7 @@ package  controller{
 
 package dao{
   class PostgresUserDAO
-  class UserDAO
+  interface UserDAO
 }
 
 package dbutils{
@@ -18,7 +18,7 @@ package facade{
 }
 
 package factory{
-  class AbstractFactory
+  interface AbstractFactory
   class PostgresFactory
 }
 

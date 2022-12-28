@@ -10,6 +10,7 @@ participant UserDAO
 participant DataBase
 
 activate User
+activate DataBase
 
 User -> LoginPage++: enterUsername
 User -> LoginPage: enterPassword
@@ -20,7 +21,7 @@ UserFacade -> AbstractFactory++: getUserDAO():UserDAO
 UserFacade -> UserDAO++: getUserbyIDPwd():User|Null
 
 alt User is notNull
-    LoginController --> LoginPage: connectionSucessful()
+    LoginController --> LoginPage: connectionSuccessful()
     LoginPage --> User--: display(homeWindow)
 else User is Null
     LoginController -> LoginPage: connectionFailed()
