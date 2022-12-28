@@ -1,0 +1,36 @@
+@startuml UpdateIngredient
+skinparam responseMessageBelowArrow true
+
+actor User
+participant IngredientPage
+participant IngredientController
+participant IngredientFacade
+participant IngredientAbstractFactory
+participant IngredientDAO
+participant DataBase
+
+activate User
+activate DataBase
+
+User -> IngredientPage++ : changeInformations
+User -> IngredientPage : clickOnUpdate
+
+IngredientPage -> IngredientController++ : updateIngredient()
+
+IngredientController -> IngredientFacade++ : updateIngredient(): True|Error
+
+IngredientFacade -> IngredientAbstractFactory++ : getIngredientDAO(): IngredientDAO
+IngredientFacade -> IngredientDAO++ : updateIngredient(): True|Error
+
+alt return True
+  IngredientController -> IngredientPage : updateSuccessful()
+
+  IngredientPage -> User : display("L'ingrédient a été mis à jour")
+
+else return Error
+  IngredientController -> IngredientPage : updateFailed()
+
+  IngredientPage -> User : display(Error)
+end
+
+@enduml

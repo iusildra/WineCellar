@@ -1,0 +1,73 @@
+@startuml IngredientClassDiagram
+
+class IngredientPage {
+  + display()
+}
+
+class IngredientController {
+  # onClickButtonCreate()
+  # onClickButtonDelete()
+  # onClickButtonUpdate()
+}
+
+
+class IngredientFacade {
+  - IngredientDAO: IngredientDAO
+  + createIngredient()
+  + updateIngredient()
+  + deleteIngredient()
+}
+
+
+interface IngredientAbstractFactory {
+  + {abstract} getIngredientDAO() : IngredientDAO
+
+}
+
+
+class PostgresIngredientFactory {
+  + getPostgresIngredientFactory(): PostgresIngredientFactory
+  + get IngredientDAO() : IngredientDAO
+}
+
+
+Interface IngredientDAO {
+  + {abstract} createIngredient()
+  + {abstract} updateIngredient()
+  + {abstract} deleteIngredient()
+}
+
+
+class PostgresIngredientDAO{
+  + getPostgresIngredientDAO() : IngredientDAO
+  + createIngredient()
+  + updateIngredient()
+  + deleteIngredient()
+}
+
+
+class ConnectionManager {
+  # {static} PGConnectionPoolDataSource: DataSource
+  + {static} openConnectionPool(): void
+  + {static} getConnection(): Connection
+  + {static} closeConnectionPool(): void
+}
+
+
+database "Postgres\nDatabase" as Postgres {
+
+}
+
+class PostgresIngredientFactory extends IngredientAbstractFactory
+class PostgresIngredientDAO extends IngredientDAO
+
+IngredientPage --> IngredientController
+IngredientController --> IngredientFacade
+IngredientFacade -- IngredientAbstractFactory
+IngredientAbstractFactory -- IngredientDAO
+IngredientDAO -- ConnectionManager
+ConnectionManager --> Postgres
+
+
+
+@enduml

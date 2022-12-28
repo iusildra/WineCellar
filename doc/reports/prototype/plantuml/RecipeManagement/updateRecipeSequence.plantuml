@@ -1,4 +1,4 @@
-@startuml CreateRecipe
+@startuml UpdateRecipe
 skinparam responseMessageBelowArrow true
 
 actor User
@@ -25,7 +25,7 @@ RecipeFacade -> RecipeDAO++ : updateRecipe(): True|Error
 alt return True
   RecipeController -> RecipePage : updateSuccessful()
 
-  RecipePage -> User : display("La recette a été mis à jour")
+  RecipePage -> User : display("La recette a été mise à jour")
 
 else return Error
   RecipeController -> RecipePage : updateFailed()
