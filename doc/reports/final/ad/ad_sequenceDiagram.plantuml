@@ -1,0 +1,64 @@
+@startuml
+
+actor User
+
+participant "AdvPage" as UI
+participant "AdvController" as Controller
+participant "AdvFacade" as Facade
+participant "AbstractFactory" as Factory
+participant "AdvDAO" as DAO
+
+== Create Advertisement ==
+User -> UI++ : click on button Create Advertisement
+UI -> Controller++ : PopupCreateAdv()
+Controller --> UI : showCreateAdv()
+UI --> User : Display Create Advertisement Popup
+User -> UI : fill in the form
+User -> UI : click on button Create
+UI -> Controller : createAdv()
+Controller -> Facade++ : createAdv()
+Facade -> Factory++ : getAdvDAO()
+Factory --> Facade : AdvDAO
+Facade -> DAO++ : createAdv()
+DAO --> Facade : true
+Facade --> Controller : true
+Controller --> UI : DisplayStatus(true)
+UI --> User : Display Success Message
+
+== Update Advertisement ==
+
+User -> UI : click on button Update Advertisement
+UI -> Controller : PopupUpdateAdv()
+Controller --> UI : showUpdateAdv()
+UI --> User : Display Update Advertisement Popup
+User -> UI : fill in the form
+User -> UI : click on button Update
+UI -> Controller : updateAdv()
+Controller -> Facade : updateAdv()
+Facade -> Factory : getAdvDAO()
+Factory --> Facade : AdvDAO
+Facade -> DAO : updateAdv()
+DAO --> Facade : true
+Facade --> Controller : true
+Controller --> UI : DisplayStatus(true)
+UI --> User : Display Success Message
+
+== Delete Advertisement ==
+
+User -> UI : click on button Delete Advertisement
+UI -> Controller : PopupDeleteAdv()
+Controller --> UI : showDeleteAdv()
+UI --> User : Display Delete Advertisement Popup
+User -> UI : click confirm
+UI -> Controller : deleteAdv()
+Controller -> Facade : deleteAdv()
+Facade -> Factory : getAdvDAO()
+Factory --> Facade : AdvDAO
+Facade -> DAO : deleteAdv()
+DAO --> Facade : true
+Facade --> Controller : true
+Controller --> UI : DisplayStatus(true)
+UI --> User : Display Success Message
+
+
+@enduml
