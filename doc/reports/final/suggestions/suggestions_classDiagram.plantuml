@@ -63,7 +63,7 @@ SuggestionFacade --> AbstractFactory
 PostgresFactory --> SuggestionDAO
 SuggestionPage --> SuggestionController
 SuggestionController --> SuggestionFacade
-SuggestionFacade .. SuggestionDAO
+SuggestionFacade --> SuggestionDAO
 Suggestion <-- SuggestionPanelPage
 SuggestionPanelPage --> SuggestionPanelController
 SuggestionPanelController --> SuggestionFacade
