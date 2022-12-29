@@ -1,14 +1,14 @@
 package com.cookingchef.model;
 
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Optional;
 
-import com.cookingchef.dbutils.ConnectionManager;
 import com.cookingchef.dbutils.DbEntity;
+import com.cookingchef.factory.PostgresFactory;
 
 public class User implements DbEntity {
-	private final int id;
+	private int id;
 	private String name;
 	private String email;
 	private String password;
@@ -17,6 +17,18 @@ public class User implements DbEntity {
 	private String question;
 	private String answer;
 	private Boolean isAdmin;
+
+	public User(String name, String email, String password, String phone, Date birthdate, String question,
+			String answer, Boolean isAdmin) {
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.phone = phone;
+		this.birthdate = birthdate;
+		this.question = question;
+		this.answer = answer;
+		this.isAdmin = isAdmin;
+	}
 
 	public User(int id, String name, String email, String password, String phone, Date birthdate, String question,
 			String answer, Boolean isAdmin) {
@@ -156,50 +168,20 @@ public class User implements DbEntity {
 	}
 
 	@Override
-	public PreparedStatement create() throws SQLException {
-		var query = "INSERT INTO users (name, email, phone, birthdate, question, answer, is_admin, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING id";
-		var conn = ConnectionManager.getConnection();
-		var stmt = conn.prepareStatement(query);
-		stmt.setString(1, this.name);
-		stmt.setString(2, this.email);
-		stmt.setString(3, this.phone);
-		stmt.setTimestamp(4, new java.sql.Timestamp(this.birthdate.getTime()));
-		stmt.setString(5, this.question);
-		stmt.setString(6, this.answer);
-		stmt.setBoolean(7, this.isAdmin);
-		stmt.setString(8, this.password);
-		return stmt;
+	public Optional<Integer> createInDb() throws SQLException {
+		var newId = PostgresFactory.getPostgresFactory().getUserDAO().registerUserInDb(this);
+		if (newId.isPresent())
+			this.id = newId.get();
+		return newId;
 	}
 
 	@Override
-	public PreparedStatement update() throws SQLException {
-		var query = "UPDATE users SET name=?, email=?, phone=?, birthdate=?, question=?, answer=?, is_admin=?, password=? WHERE email=?";
-		var conn = ConnectionManager.getConnection();
-		var stmt = conn.prepareStatement(query);
-		stmt.setString(1, this.name);
-		stmt.setString(2, this.email);
-		stmt.setString(3, this.phone);
-		stmt.setTimestamp(4, new java.sql.Timestamp(this.birthdate.getTime()));
-		stmt.setString(5, this.question);
-		stmt.setString(6, this.answer);
-		stmt.setBoolean(7, this.isAdmin);
-		stmt.setString(8, this.password);
-		stmt.setString(9, this.email);
-		return stmt;
+	public void updateInDb() throws SQLException {
+		PostgresFactory.getPostgresFactory().getUserDAO().updateUserInDb(this);
 	}
 
 	@Override
-	public PreparedStatement delete() throws SQLException {
-		var query = "DELETE FROM users WHERE email=?";
-		var conn = ConnectionManager.getConnection();
-		var stmt = conn.prepareStatement(query);
-		stmt.setString(1, this.email);
-		return stmt;
-	}
-
-	@Override
-	public PreparedStatement read() {
-		// TODO Auto-generated method stub
-		return null;
+	public void removeFromDb() throws SQLException {
+		PostgresFactory.getPostgresFactory().getUserDAO().removeUserFromDb(this);
 	}
 }

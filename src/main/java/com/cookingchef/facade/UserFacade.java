@@ -5,9 +5,11 @@ import com.cookingchef.factory.PostgresFactory;
 import com.cookingchef.model.User;
 
 import java.sql.SQLException;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class UserFacade {
-	private static volatile UserFacade instance;
+	private static AtomicReference<UserFacade> instance = new AtomicReference<>();
 	private UserDAO userDAO;
 
 	private UserFacade() {
@@ -15,17 +17,12 @@ public class UserFacade {
 		this.userDAO = factory.getUserDAO();
 	}
 
-	public static synchronized UserFacade getUserFacade() {
-		if (instance == null) {
-			instance = new UserFacade();
-
-		}
-		return instance;
+	public static UserFacade getUserFacade() {
+		instance.compareAndSet(null, new UserFacade());
+		return instance.get();
 	}
 
-	public User login(String email,String password) throws SQLException {
-
-
+	public Optional<User> login(String email,String password) throws SQLException {
 		return this.userDAO.getUserByEmailPwd(email,password);
 	}
 }

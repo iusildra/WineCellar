@@ -2,11 +2,12 @@ package com.cookingchef.dbutils;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.postgresql.ds.PGConnectionPoolDataSource;
 
 public class ConnectionManager {
-  private static volatile PGConnectionPoolDataSource dataSource;
+  private static AtomicReference<PGConnectionPoolDataSource> dataSource = new AtomicReference<>();
 
   private ConnectionManager() {
   }
@@ -19,23 +20,23 @@ public class ConnectionManager {
    * @param password The password for the user.
    * @param port     The port number of the PostgreSQL server.
    */
-  public static synchronized void openConnectionPool(String dbName, String user, String password,
+  public static void openConnectionPool(String dbName, String user, String password,
       int port) {
-    if (dataSource == null) {
-      dataSource = new PGConnectionPoolDataSource();
-      dataSource.setDatabaseName(dbName);
-      dataSource.setUser(user);
-      dataSource.setPassword(password);
-      dataSource.setPortNumbers(new int[] { port });
-    }
+    var ds = new PGConnectionPoolDataSource();
+
+    ds.setDatabaseName(dbName);
+    ds.setUser(user);
+    ds.setPassword(password);
+    ds.setPortNumbers(new int[] { port });
+
+    dataSource.compareAndSet(null, ds);
   }
 
   /**
    * If the connection pool is open, close it.
    */
-  public static synchronized void closeConnectionPool() {
-    // TODO: correct this shit
-    dataSource = null;
+  public static void setDataSource(PGConnectionPoolDataSource source) {
+    dataSource.set(source);
   }
 
   /**
@@ -48,7 +49,11 @@ public class ConnectionManager {
    * @param port     The port number of the database.
    * @return A connection to the database.
    */
-  public static synchronized Connection getConnection() throws SQLException {
-    return dataSource.getPooledConnection().getConnection();
+  public static Connection getConnection() {
+    try {
+      return dataSource.get().getPooledConnection().getConnection();
+    } catch (SQLException e) {
+      return null;
+    }
   }
 }

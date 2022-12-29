@@ -6,6 +6,7 @@ import java.time.Instant;
 
 import org.junit.jupiter.api.Test;
 
+import com.cookingchef.factory.PostgresFactory;
 import com.cookingchef.model.User;
 
 public class DbEntitiesTests {
@@ -15,32 +16,52 @@ public class DbEntitiesTests {
   }
 
   @Test
-  void createUserTest() throws SQLException {
-    var user = new User(-1, "abc", "abc", "$2y$10$QdCYs/d73sagv5Lm13ZJ8.lRAS0lT51fS9TsRa9zO6Kw5QOEIlNe6", "abc",
+  void createUser() throws SQLException {
+    var user = new User("abc", "abc", "$2y$10$QdCYs/d73sagv5Lm13ZJ8.lRAS0lT51fS9TsRa9zO6Kw5QOEIlNe6", "abc",
         Date.from(Instant.now()), "none", "none", false);
-    var stmt = user.create();
-    stmt.executeQuery();
+    var userId = user.createInDb().get();
+    var newUser = PostgresFactory.getPostgresFactory().getUserDAO().getUserById(userId);
 
-    assert stmt.getResultSet().next();
+    assert newUser != null;
 
-    user.delete().executeUpdate();
+    user.removeFromDb();
   }
 
   @Test
-  void updateUserTest() throws SQLException {
-    var user = new User(-1, "abc", "abc", "$2y$10$QdCYs/d73sagv5Lm13ZJ8.lRAS0lT51fS9TsRa9zO6Kw5QOEIlNe6", "abc",
+  void updateUser() throws SQLException {
+    var user = new User("abc", "abc", "$2y$10$QdCYs/d73sagv5Lm13ZJ8.lRAS0lT51fS9TsRa9zO6Kw5QOEIlNe6", "abc",
         Date.from(Instant.now()), "none", "none", false);
-    user.create().executeQuery();
+
+    var newId = user.createInDb();
 
     user.setName("def");
-    user.update().executeUpdate();
+    user.updateInDb();
 
-    var query = "SELECT * FROM users WHERE name = 'def'";
-    var rs = ConnectionManager.getConnection().prepareStatement(query).executeQuery();
-    rs.next();
+    var newUser = PostgresFactory.getPostgresFactory().getUserDAO().getUserById(newId.get());
 
-    assert rs.getString(2).equals("def");
+    assert newUser.isPresent();
+    assert newUser.get().getEmail().equals("abc");
 
-    user.delete().executeUpdate();
+    user.removeFromDb();
+  }
+
+  @Test
+  void updateUserInDbAfterMulitpleEmailUpdates() throws SQLException {
+    var user = new User("abc", "abc", "$2y$10$QdCYs/d73sagv5Lm13ZJ8.lRAS0lT51fS9TsRa9zO6Kw5QOEIlNe6", "abc",
+        Date.from(Instant.now()), "none", "none", false);
+
+    var newId = user.createInDb();
+
+    user.setName("def");
+    user.setEmail("def");
+    user.setEmail("ghi"); // This update shouldn't change the old email
+    user.updateInDb();
+
+    var updatedUser = PostgresFactory.getPostgresFactory().getUserDAO().getUserById(newId.get());
+
+    assert updatedUser.isPresent();
+    assert updatedUser.get().getEmail().equals("ghi");
+
+    user.removeFromDb();
   }
 }
