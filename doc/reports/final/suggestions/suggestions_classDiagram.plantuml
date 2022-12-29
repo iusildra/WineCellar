@@ -60,7 +60,7 @@ class SuggestionPanelController {
 Suggestion <-- SuggestionPage
 AbstractFactory <|-- PostgresFactory
 SuggestionFacade --> AbstractFactory
-PostgresFactory *-- SuggestionDAO
+PostgresFactory --> SuggestionDAO
 SuggestionPage --> SuggestionController
 SuggestionController --> SuggestionFacade
 SuggestionFacade .. SuggestionDAO
