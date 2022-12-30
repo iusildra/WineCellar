@@ -38,7 +38,7 @@ public class LoginController {
 
 		if (user.isPresent()) {
 			showText.setText("Welcome " + user.get().getName());
-			Main.setScene("home");
+			Main.redirect("home");
 		} else {
 			showText.setText("Wrong email or password");
 		}
