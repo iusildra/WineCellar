@@ -1,0 +1,124 @@
+@startuml
+
+skinparam responseMessageBelowArrow true
+
+ actor User
+ participant "SuggestionPage" as UI
+ participant "SuggestionController" as Controller
+ participant "SuggestionFacade" as Facade
+ participant "AbstractFactory" as Factory
+ participant "SuggestionDAO" as DAO
+ participant "Database" as DB
+
+    UI -> User : display empty Fields
+    User -> UI++ : enter title
+    User -> UI : enter description
+    User -> UI : enter category
+    UI -> Controller++ : OnClickSendSuggestion()
+    Controller -> Facade++ : SendSuggestion()
+Facade -> Factory++ : GetSuggestionDAO()
+return suggestionDAO
+Facade -> DAO++ : createSuggestion()
+return success
+return : success
+return : DisplayStatus(success)
+return : display success
+
+@enduml
+
+// UPDATE
+
+@startuml
+skinparam responseMessageBelowArrow true
+
+actor Admin
+ participant "SuggestionPage" as UI
+ participant "SuggestionController" as Controller
+ participant "SuggestionFacade" as Facade
+ participant "AbstractFactory" as Factory
+ participant "SuggestionDAO" as DAO
+ participant "Database" as DB
+
+    UI -> Admin : display Fields with data
+    Admin -> UI++ : modify title
+    Admin -> UI : modify description
+    Admin -> UI : modify category
+    UI -> Controller++ : OnClickUpdateSuggestion()
+
+    Controller -> Facade++ : UpdateSuggestion()
+    Facade -> Factory++ : GetSuggestionDAO()
+    Factory -> DAO++ :
+    DAO -> DB++ : UpdateSuggestion()
+    DB -> DAO : success
+    DAO -> Facade : success
+    Facade -> Controller : success
+    Controller -> UI : DisplayStatus(success)
+    UI -> Admin : display success
+
+alt Updating Cancel
+    UI -> Controller : OnClickCancelUpdateSuggestion()
+    Controller -> UI : DisplayStatus(cancel)
+else Suggestion doesn't exist
+    UI -> Controller : OnClickUpdateSuggestion()
+    Controller -> Facade : UpdateSuggestion()
+    Facade -> Factory : GetSuggestionDAO()
+    Factory -> DAO :
+    DAO -> DB : UpdateSuggestion()
+    DB -> DAO : fail
+    DAO -> Facade : fail
+    Facade -> Controller : fail
+    Controller -> UI : DisplayStatus(fail)
+    UI -> Admin : display fail
+end
+
+@enduml
+
+// DELETE
+
+@startuml
+skinparam responseMessageBelowArrow true
+
+actor Admin
+ participant "SuggestionPage" as UI
+ participant "SuggestionController" as Controller
+ participant "SuggestionFacade" as Facade
+ participant "AbstractFactory" as Factory
+ participant "SuggestionDAO" as DAO
+ participant "Database" as DB
+
+    UI -> Admin : display list of suggestions
+    Admin -> UI++ : click delete button
+    UI -> Controller++ : OnClickDeleteSuggestion()
+    Controller --> UI : DisplayConfirmation()
+    UI -> Admin : display confirmation
+    Admin -> UI : click Confirm
+    UI -> Controller : OnClickDeleteSuggestion(confirm = TRUE)
+    Controller -> Facade++ : DeleteSuggestion()
+    Facade -> Factory++ : GetSuggestionDAO()
+    Factory -> DAO++ :
+    DAO -> DB++ : DeleteSuggestion()
+    DB -> DAO : success
+    DAO -> Facade : success
+    Facade -> Controller : success
+    Controller -> UI : DisplayStatus(success)
+    UI -> Admin : display success
+
+alt Updating Cancel
+    Admin --> UI : click cancel
+    UI ->  Admin : display list of suggestions
+    UI -> Controller : OnClickCancelDeleteSuggestion()
+    Controller -> UI : DisplayStatus(cancel)
+else Suggestion doesn't exist
+    UI -> Controller : OnClickDeleteSuggestion()
+    Controller -> Facade : DeleteSuggestion()
+    Facade -> Factory : GetSuggestionDAO()
+    Factory -> DAO :
+    DAO -> DB : DeleteSuggestion()
+    DB -> DAO : fail
+    DAO -> Facade : fail
+    Facade -> Controller : fail
+    Controller -> UI : DisplayStatus(fail)
+    UI -> Admin : display fail
+end
+
+@enduml
