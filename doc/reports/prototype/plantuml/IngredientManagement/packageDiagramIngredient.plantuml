@@ -27,12 +27,13 @@ package model{
   class Ingredient
 }
 
+' less generic name
 package view{
-  class Main
+  class RecipePage
 }
-controller --[hidden]d-- dao
-facade --[hidden]d-- view
-dao --[hidden]d-- factory
-view --[hidden]d-- model
+controller  --[hidden]d-- dao
+facade      --[hidden]d-- view
+dao         --[hidden]d-- factory
+view        --[hidden]d-- model
 
 @enduml

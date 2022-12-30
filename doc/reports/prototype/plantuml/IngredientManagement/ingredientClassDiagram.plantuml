@@ -1,18 +1,23 @@
 @startuml IngredientClassDiagram
+hide empty members
 
 class IngredientPage {
   + display()
+  + showList()
+  + showForm()
+  + onCreate()
+  + onDelete()
+  + onUpdate()
 }
 
 class IngredientController {
-  # onClickButtonCreate()
-  # onClickButtonDelete()
-  # onClickButtonUpdate()
+  + createIngredient()
+  + deleteIngredient()
+  + updateIngredient()
 }
 
 
 class IngredientFacade {
-  - IngredientDAO: IngredientDAO
   + createIngredient()
   + updateIngredient()
   + deleteIngredient()
@@ -47,26 +52,33 @@ class PostgresIngredientDAO{
 
 
 class ConnectionManager {
-  # {static} PGConnectionPoolDataSource: DataSource
+  ' it is private and should be accessed by any other classes except with the available methods
+  - {static} PGConnectionPoolDataSource: DataSource
   + {static} openConnectionPool(): void
   + {static} getConnection(): Connection
   + {static} closeConnectionPool(): void
 }
 
 
-database "Postgres\nDatabase" as Postgres {
+' not an object, so not sure it's needed
+' database "Postgres\nDatabase" as Postgres {
 
-}
+' }
 
-class PostgresIngredientFactory extends IngredientAbstractFactory
-class PostgresIngredientDAO extends IngredientDAO
+PostgresIngredientFactory -u-|> IngredientAbstractFactory
+PostgresIngredientDAO     -l-|> IngredientDAO
 
-IngredientPage --> IngredientController
-IngredientController --> IngredientFacade
-IngredientFacade -- IngredientAbstractFactory
-IngredientAbstractFactory -- IngredientDAO
-IngredientDAO -- ConnectionManager
-ConnectionManager --> Postgres
+IngredientPage            "1" -r-> "1" IngredientController: <  controls
+IngredientController      "1" -r-> "1" IngredientFacade: > interact with
+IngredientFacade          "1" --> "1" IngredientAbstractFactory: > uses
+PostgresIngredientFactory "1" --> "1" PostgresIngredientDAO: > create
+PostgresIngredientDAO     "1" --> "1" ConnectionManager:> get connection from
+' ConnectionManager         --> Postgres
+
+' an interface cannot have association starting from it (it can't have attributes unless they are static)
+' the factory generate a concrete object, so we need to link it to the concrete class instead of the interface. But we still need it as a contract
+' not useful to store the DAO in facade, we can fetch it anytime we need it (pure composition/delegation)
+' the UI needs methods to deal with actions (validate creation...) that will call the controller to do the specific tasks
 
 
 

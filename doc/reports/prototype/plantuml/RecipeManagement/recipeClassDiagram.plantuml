@@ -1,18 +1,24 @@
+' same remarks as for ingredientClassDiagram
 @startuml recipeClassDiagram
+hide empty members
 
 class RecipePage {
   + display()
+  + showList()
+  + showForm()
+  + onCreate()
+  + onDelete()
+  + onUpdate()
 }
 
 class RecipeController {
-  # onClickButtonCreate()
-  # onClickButtonDelete()
-  # onClickButtonUpdate()
+  + createRecipe()
+  + deleteRecipe()
+  + updateRecipe()
 }
 
 
 class RecipeFacade {
-  - recipeDAO: RecipeDAO
   + createRecipe()
   + updateRecipe()
   + deleteRecipe()
@@ -47,26 +53,26 @@ class PostgresRecipeDAO{
 
 
 class ConnectionManager {
-  # {static} PGConnectionPoolDataSource: DataSource
+  - {static} PGConnectionPoolDataSource: DataSource
   + {static} openConnectionPool(): void
   + {static} getConnection(): Connection
   + {static} closeConnectionPool(): void
 }
 
 
-database "Postgres\nDatabase" as Postgres {
+' database "Postgres\nDatabase" as Postgres {
 
-}
+' }
 
-class PostgresRecipeFactory extends RecipeAbstractFactory
-class PostgresRecipeDAO extends RecipeDAO
+PostgresRecipeFactory -u-|> RecipeAbstractFactory
+PostgresRecipeDAO     -l-|> RecipeDAO
 
-RecipePage --> RecipeController
-RecipeController --> RecipeFacade
-RecipeFacade -- RecipeAbstractFactory
-RecipeAbstractFactory -- RecipeDAO
-RecipeDAO -- ConnectionManager
-ConnectionManager --> Postgres
+RecipePage            -r-> RecipeController: <  controls
+RecipeController      -r-> RecipeFacade: > interact with
+RecipeFacade          --> RecipeAbstractFactory: > uses
+PostgresRecipeFactory --> PostgresRecipeDAO: > create
+PostgresRecipeDAO     --> ConnectionManager: > get connection from
+' ConnectionManager     --> Postgres
 
 
 
