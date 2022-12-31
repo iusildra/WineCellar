@@ -14,11 +14,12 @@ activate User
 User -> RecipePage++: selectRecipe()
 User -> RecipePage: clickOnCalendarButton()
 return recipe
-User -> CalendarPage++: selectDate()
+CalendarController -> CalendarPage++: showPopup()
+activate CalendarController
+User -> CalendarPage: selectDate()
 User -> CalendarPage: selectCategory()
 User -> CalendarPage: validate()
-CalendarPage -> CalendarPage: showPopup()
-CalendarPage -> CalendarController++: onValidate()
+CalendarPage -> CalendarController: onValidate()
 CalendarController -> CalendarFacade++: addRecipeToCalendar()
 CalendarFacade -> AbstractCalendarFactory++: getCalendarDAO()
 return calendarDAO
@@ -57,19 +58,15 @@ end
 
 @startuml calendarClassDiagram
 hide empty members
-class CalendarPage {
+
+class CalendarController {
   + showPopup()
   + showCalendar()
   + selectDate()
   + selectCategory()
-  + onValidate()
+  + onAddRecipe()
   + onRemoveRecipe()
   + displayResult()
-}
-
-class CalendarController {
-  + addRecipeToCalendar()
-  + removeRecipeFromCalendar()
 }
 
 class CalendarFacade{
@@ -96,7 +93,6 @@ class CalendarFactory {
 CalendarFactory .u.|> AbstractCalendarFactory
 CalendarDAO     .r.|> AbstractCalendarDAO
 
-CalendarPage       "1" -->  "1" CalendarController: > controlled by
 CalendarController "1" -d->  "1" CalendarFacade: > uses
 CalendarFacade     "1" -l-> "1" AbstractCalendarFactory: > uses
 CalendarFactory    "1" -->  "1" CalendarDAO: > creates
