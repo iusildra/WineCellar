@@ -27,9 +27,8 @@ package model{
   class Ingredient
 }
 
-' less generic name
 package view{
-  class RecipePage
+  class Main
 }
 controller  --[hidden]d-- dao
 facade      --[hidden]d-- view

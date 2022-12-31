@@ -1,19 +1,17 @@
 @startuml IngredientClassDiagram
 hide empty members
 
-class IngredientPage {
+class Main {
   + display()
-  + showList()
-  + showForm()
-  + onCreate()
-  + onDelete()
-  + onUpdate()
 }
 
 class IngredientController {
-  + createIngredient()
-  + deleteIngredient()
-  + updateIngredient()
+  + display()
+  + showList()
+  + showForm()
+  + onCreateIngredient()
+  + onDeleteIngredient()
+  + onUpdateIngredient()
 }
 
 
@@ -68,7 +66,7 @@ class ConnectionManager {
 PostgresIngredientFactory -u-|> IngredientAbstractFactory
 PostgresIngredientDAO     -l-|> IngredientDAO
 
-IngredientPage            "1" -r-> "1" IngredientController: <  controls
+Main            "1" -r-> "1" IngredientController: <  controls
 IngredientController      "1" -r-> "1" IngredientFacade: > interact with
 IngredientFacade          "1" --> "1" IngredientAbstractFactory: > uses
 PostgresIngredientFactory "1" --> "1" PostgresIngredientDAO: > create

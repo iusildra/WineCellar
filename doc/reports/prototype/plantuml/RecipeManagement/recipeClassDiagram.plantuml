@@ -4,14 +4,11 @@ hide empty members
 
 class RecipePage {
   + display()
-  + showList()
-  + showForm()
-  + onCreate()
-  + onDelete()
-  + onUpdate()
 }
 
 class RecipeController {
+  + showList()
+  + showForm()
   + createRecipe()
   + deleteRecipe()
   + updateRecipe()

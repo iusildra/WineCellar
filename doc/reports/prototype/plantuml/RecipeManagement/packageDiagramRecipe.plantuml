@@ -26,9 +26,9 @@ package factory{
 package model{
   class Recipe
 }
-' less generic names
+
 package view{
-  class RecipePage
+  class Main
 }
 controller  --[hidden]d-- dao
 facade      --[hidden]d-- view
