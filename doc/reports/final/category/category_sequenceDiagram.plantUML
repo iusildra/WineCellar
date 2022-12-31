@@ -92,7 +92,7 @@ return
 
 alt Category already exist
     CategoryController --> View.Main: deleteSucessful()
-    View.Main --> Admin: display(The category has been deleting)
+    View.Main --> Admin: display(The category has been deleted)
 else Category doesn't exist
     CategoryController -> View.Main--: deleteFailed()
     View.Main --> Admin--: display(invalid)
