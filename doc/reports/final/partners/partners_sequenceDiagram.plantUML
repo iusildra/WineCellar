@@ -1,10 +1,8 @@
-//CREATE PARTNER
-
-@startuml
+@startuml <Create partner>
 skinparam responseMessageBelowArrow true
 
 actor Admin
-participant PartnerPage
+participant View.Main
 participant PartnerController
 participant PartnerFacade
 participant AbstractFactory
@@ -13,32 +11,33 @@ participant DataBase
 
 activate Admin
 
-PartnerPage -> Admin: displayPartnerList()
-Admin -> PartnerPage++: enterName
-Admin -> PartnerPage: enterDescription
-Admin -> PartnerPage: enterWebsite
-Admin -> PartnerPage: clickOnCreatePartner
-PartnerPage -> PartnerController++: onClickButtonCreatePartner()
+Admin -> View.Main++: enterInformations
+Admin -> View.Main: onClickButtonCreatePartner()
+View.Main -> PartnerController++: createPartner()
 PartnerController -> PartnerFacade++: createPartner()
-PartnerFacade -> AbstractFactory++: createPartnerDAO()
+PartnerFacade -> AbstractFactory++: getPartnerDAO()
+return PartnerDAO
+PartnerFacade -> PartnerDAO++: createPartner()
+return
+return
 
 alt Partner doesn't exist
-    PartnerController --> PartnerPage: createSucessful()
-    PartnerPage --> Admin--: display(partnerListWindow)
+    PartnerController --> View.Main: createSucessful()
+    View.Main --> Admin: display(partnerListWindow)
 else Partner already exist
-    PartnerController -> PartnerPage: createFailed()
-    PartnerPage --> Admin--: display(invalid)
+    PartnerController -> View.Main--: createFailed()
+    View.Main --> Admin--: display(invalid)
 end
 
 @enduml
 
-//UPDATE PARTNER
+== small ==
 
-@startuml
+@startuml <Update Partner>
 skinparam responseMessageBelowArrow true
 
 actor Admin
-participant PartnerPage
+participant View.Main
 participant PartnerController
 participant PartnerFacade
 participant AbstractFactory
@@ -47,32 +46,33 @@ participant DataBase
 
 activate Admin
 
-PartnerPage -> Admin: displayPartnerList
-Admin -> PartnerPage++: enterName
-Admin -> PartnerPage: enterDescription
-Admin -> PartnerPage: enterWebsite
-Admin -> PartnerPage: clickOnUpdatePartner
-PartnerPage -> PartnerController++: onClickButtonUpdatePartner()
+Admin -> View.Main++: enterInformations
+Admin -> View.Main: onClickButtonUpdatePartner()
+View.Main -> PartnerController++: updatePartner()
 PartnerController -> PartnerFacade++: updatePartner()
-PartnerFacade -> AbstractFactory++: updatePartnerDAO()
+PartnerFacade -> AbstractFactory++: getPartnerDAO()
+return PartnerDAO
+PartnerFacade -> PartnerDAO++: updatePartnerDAO()
+return
+return
 
 alt Partner already exist
-    PartnerController --> PartnerPage: updateSucessful()
-    PartnerPage --> Admin--: display(partnerListWindow)
+    PartnerController --> View.Main: updateSucessful()
+    View.Main --> Admin: display(partnerListWindow)
 else Partner doesn't exist
-    PartnerController -> PartnerPage: updateFailed()
-    PartnerPage --> Admin--: display(invalid)
+    PartnerController -> View.Main--: updateFailed()
+    View.Main --> Admin--: display(invalid)
 end
 
 @enduml
 
-//DELETE PARTNER
+== small ==
 
-@startuml
+@startuml <Delete partner>
 skinparam responseMessageBelowArrow true
 
 actor Admin
-participant PartnerPage
+participant View.Main
 participant PartnerController
 participant PartnerFacade
 participant AbstractFactory
@@ -81,18 +81,21 @@ participant DataBase
 
 activate Admin
 
-PartnerPage -> Admin: displayPartnerList
-Admin -> PartnerPage: clickOnDeletePartner
-PartnerPage -> PartnerController++: onClickButtonDeletePartner()
+Admin -> View.Main++: onClickButtonDeletePartner()
+View.Main -> PartnerController++: deletePartner()
 PartnerController -> PartnerFacade++: deletePartner()
-PartnerFacade -> AbstractFactory++: deletePartnerDAO()
+PartnerFacade -> AbstractFactory++: getPartnerDAO()
+return PartnerDAO
+PartnerFacade -> PartnerDAO++: deletePartnerDAO()
+return
+return
 
 alt Partner already exist
-    PartnerController --> PartnerPage: deleteSucessful()
-    PartnerPage --> Admin--: display(partnerListWindow)
+    PartnerController --> View.Main: deleteSucessful()
+    View.Main --> Admin: display(partnerListWindow)
 else Partner doesn't exist
-    PartnerController -> PartnerPage: deleteFailed()
-    PartnerPage --> Admin--: display(invalid)
+    PartnerController -> View.Main--: deleteFailed()
+    View.Main --> Admin--: display(invalid)
 end
 
 @enduml

@@ -1,41 +1,74 @@
-@startuml loginClassDiagram
+@startuml PartnerClassDiagram
 hide empty members
-class PartnerPage {
+
+class Main {
+  + display()
   + onClickButtonCreatePartner()
   + onClickButtonUpdatePartner()
   + onClickButtonDeletePartner()
-  + displayPartnerList()
 }
 
 class PartnerController {
+  + createPartner()
+  + deletePartner()
+  + updatePartner()
+  + createSucessful()
+  + updateSucessful()
+  + deleteSucessful()
+  + createFailed()
+  + updateFailed()
+  + deleteFailed()
+}
+
+
+class PartnerFacade {
   + createPartner()
   + updatePartner()
   + deletePartner()
 }
 
-class PartnerFacade{
-  + createPartnerDAO()
-  + updatePartnerDAO()
-  + deletePartnerDAO()
-}
 
-abstract PartnerDAO {
-  + getPartnerById()
-}
-
-abstract AbstractFactory{
-  + getPartnerDAO()
-  + getInstance()
-}
-
-database "Postgres\nDatabase" as Postgres {
+interface PartnerAbstractFactory {
+  + {abstract} getPartnerDAO() : PartnerDAO
 
 }
 
-PartnerPage -> PartnerController
-PartnerController -> PartnerFacade
-PartnerFacade -> AbstractFactory
-AbstractFactory -> PartnerDAO
-Postgres -> AbstractFactory
-PartnerFacade -> PartnerDAO
+
+class PostgresPartnerFactory {
+  + getPostgresPartnerFactory(): PostgresPartnerFactory
+  + getPartnerDAO() : PartnerDAO
+}
+
+
+Interface PartnerDAO {
+  + {abstract} createPartner()
+  + {abstract} updatePartner()
+  + {abstract} deletePartner()
+}
+
+
+class PostgresPartnerDAO{
+  + getPostgresPartnerDAO() : PartnerDAO
+  + createPartner()
+  + updatePartner()
+  + deletePartner()
+}
+
+
+class ConnectionManager {
+  - {static} PGConnectionPoolDataSource: DataSource
+  + {static} openConnectionPool(): void
+  + {static} getConnection(): Connection
+  + {static} closeConnectionPool(): void
+}
+
+PostgresPartnerFactory -u-|> PartnerAbstractFactory
+PostgresPartnerDAO     -l-|> PartnerDAO
+
+Main            "1" -r-> "1" PartnerController: <  controls
+PartnerController      "1" -r-> "1" PartnerFacade: > interact with
+PartnerFacade          "1" --> "1" PartnerAbstractFactory: > uses
+PostgresPartnerFactory "1" --> "1" PostgresPartnerDAO: > create
+PostgresPartnerDAO     "1" --> "1" ConnectionManager:> get connection from
+
 @enduml
