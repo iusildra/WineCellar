@@ -1,0 +1,71 @@
+@startuml CategoryClassDiagram
+hide empty members
+
+class Main {
+  + display()
+  + onClickButtonCreateCategory()
+  + onClickButtonUpdateCategory()
+  + onClickButtonDeleteCategory()
+}
+
+class CategoryController {
+  + createCategory()
+  + deleteCategory()
+  + updateCategory()
+  + createSucessful(boolean)
+  + updateSucessful(boolean)
+  + deleteSucessful(boolean)
+}
+
+
+class CategoryFacade {
+  + createCategory()
+  + updateCategory()
+  + deleteCategory()
+}
+
+
+interface CategoryAbstractFactory {
+  + {abstract} getCategoryDAO() : CategoryDAO
+
+}
+
+
+class PostgresCategoryFactory {
+  + getPostgresCategoryFactory(): PostgresCategoryFactory
+  + getCategoryDAO() : CategoryDAO
+}
+
+
+Interface CategoryDAO {
+  + {abstract} createCategory()
+  + {abstract} updateCategory()
+  + {abstract} deleteCategory()
+}
+
+
+class PostgresCategoryDAO{
+  + getPostgresCategoryDAO() : CategoryDAO
+  + createCategory()
+  + updateCategory()
+  + deleteCategory()
+}
+
+
+class ConnectionManager {
+  - {static} PGConnectionPoolDataSource: DataSource
+  + {static} openConnectionPool(): void
+  + {static} getConnection(): Connection
+  + {static} closeConnectionPool(): void
+}
+
+PostgresCategoryFactory -u-|> CategoryAbstractFactory
+PostgresCategoryDAO     -l-|> CategoryDAO
+
+Main            "1" -r-> "1" CategoryController: <  controls
+CategoryController      "1" -r-> "1" CategoryFacade: > interact with
+CategoryFacade          "1" --> "1" CategoryAbstractFactory: > uses
+PostgresCategoryFactory "1" --> "1" PostgresCategoryDAO: > create
+PostgresCategoryDAO     "1" --> "1" ConnectionManager:> get connection from
+
+@enduml

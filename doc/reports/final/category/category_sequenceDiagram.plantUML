@@ -1,0 +1,101 @@
+@startuml Create category
+skinparam responseMessageBelowArrow true
+
+actor Admin
+participant View.Main
+participant CategoryController
+participant CategoryFacade
+participant AbstractFactory
+participant CategoryDAO
+participant DataBase
+
+activate Admin
+
+Admin -> View.Main++: enterInformations
+Admin -> View.Main: onClickButtonCreateCategory()
+View.Main -> CategoryController++: createCategory()
+CategoryController -> CategoryFacade++: createCategory()
+CategoryFacade -> AbstractFactory++: getCategoryDAO()
+return CategoryDAO
+CategoryFacade -> CategoryDAO++: createCategory()
+return
+return
+
+alt Category doesn't exist
+    CategoryController --> View.Main: createSucessful()
+    View.Main --> Admin: display(The category has been created)
+else Category already exist
+    CategoryController -> View.Main--: createFailed()
+    View.Main --> Admin--: display(invalid)
+end
+
+@enduml
+
+== small ==
+
+@startuml Update Category
+skinparam responseMessageBelowArrow true
+
+actor Admin
+participant View.Main
+participant CategoryController
+participant CategoryFacade
+participant AbstractFactory
+participant CategoryDAO
+participant DataBase
+
+activate Admin
+
+Admin -> View.Main++: enterInformations
+Admin -> View.Main: onClickButtonUpdateCategory()
+View.Main -> CategoryController++: updateCategory()
+CategoryController -> CategoryFacade++: updateCategory()
+CategoryFacade -> AbstractFactory++: getCategoryDAO()
+return CategoryDAO
+CategoryFacade -> CategoryDAO++: updateCategory()
+return
+return
+
+alt Category already exist
+    CategoryController --> View.Main: updateSucessful()
+    View.Main --> Admin: display("The category has been updated)
+else Category doesn't exist
+    CategoryController -> View.Main--: updateFailed()
+    View.Main --> Admin--: display(invalid)
+end
+
+@enduml
+
+== small ==
+
+@startuml Delete partner
+skinparam responseMessageBelowArrow true
+
+actor Admin
+participant View.Main
+participant CategoryController
+participant CategoryFacade
+participant AbstractFactory
+participant CategoryDAO
+participant DataBase
+
+activate Admin
+
+Admin -> View.Main++: onClickButtonDeleteCategory()
+View.Main -> CategoryController++: deleteCategory()
+CategoryController -> CategoryFacade++: deleteCategory()
+CategoryFacade -> AbstractFactory++: getCategoryDAO()
+return CategoryDAO
+CategoryFacade -> CategoryDAO++: deleteCategory()
+return
+return
+
+alt Category already exist
+    CategoryController --> View.Main: deleteSucessful()
+    View.Main --> Admin: display(The category has been deleting)
+else Category doesn't exist
+    CategoryController -> View.Main--: deleteFailed()
+    View.Main --> Admin--: display(invalid)
+end
+
+@enduml
