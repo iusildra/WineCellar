@@ -10,14 +10,12 @@ participant RecipeDAO
 participant DataBase
 
 activate User
-' activate DataBase
 
 User -> RecipePage++ : changeInformations
 User -> RecipePage : clickOnUpdate
 
 RecipePage -> RecipeController++ : updateRecipe()
 
-' same remarks as or updateingredientSequence
 RecipeController -> RecipeFacade++ : updateRecipe()
 
 RecipeFacade -> RecipeAbstractFactory++ : getRecipeDAO(): RecipeDAO

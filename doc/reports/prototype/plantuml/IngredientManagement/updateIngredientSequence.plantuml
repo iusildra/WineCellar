@@ -10,15 +10,12 @@ participant IngredientDAO
 participant DataBase
 
 activate User
-' just to be like the other diagrams
-' activate DataBase
 
 User -> IngredientPage++ : changeInformations
 User -> IngredientPage : clickOnUpdate
 
 IngredientPage -> IngredientController++ : updateIngredient()
 
-' if error means the update fails, it's better to throw an exception (we can show the error message to the user)
 IngredientController -> IngredientFacade++ : updateIngredient()
 
 IngredientFacade -> IngredientAbstractFactory++ : getIngredientDAO(): IngredientDAO

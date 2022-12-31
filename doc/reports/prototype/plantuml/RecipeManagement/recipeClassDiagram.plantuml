@@ -1,4 +1,3 @@
-' same remarks as for ingredientClassDiagram
 @startuml recipeClassDiagram
 hide empty members
 
@@ -57,10 +56,6 @@ class ConnectionManager {
 }
 
 
-' database "Postgres\nDatabase" as Postgres {
-
-' }
-
 PostgresRecipeFactory -u-|> RecipeAbstractFactory
 PostgresRecipeDAO     -l-|> RecipeDAO
 
@@ -69,7 +64,6 @@ RecipeController      -r-> RecipeFacade: > interact with
 RecipeFacade          --> RecipeAbstractFactory: > uses
 PostgresRecipeFactory --> PostgresRecipeDAO: > create
 PostgresRecipeDAO     --> ConnectionManager: > get connection from
-' ConnectionManager     --> Postgres
 
 
 

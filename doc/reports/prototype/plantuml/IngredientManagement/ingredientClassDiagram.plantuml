@@ -50,18 +50,11 @@ class PostgresIngredientDAO{
 
 
 class ConnectionManager {
-  ' it is private and should be accessed by any other classes except with the available methods
   - {static} PGConnectionPoolDataSource: DataSource
   + {static} openConnectionPool(): void
   + {static} getConnection(): Connection
   + {static} closeConnectionPool(): void
 }
-
-
-' not an object, so not sure it's needed
-' database "Postgres\nDatabase" as Postgres {
-
-' }
 
 PostgresIngredientFactory -u-|> IngredientAbstractFactory
 PostgresIngredientDAO     -l-|> IngredientDAO
@@ -71,13 +64,4 @@ IngredientController      "1" -r-> "1" IngredientFacade: > interact with
 IngredientFacade          "1" --> "1" IngredientAbstractFactory: > uses
 PostgresIngredientFactory "1" --> "1" PostgresIngredientDAO: > create
 PostgresIngredientDAO     "1" --> "1" ConnectionManager:> get connection from
-' ConnectionManager         --> Postgres
-
-' an interface cannot have association starting from it (it can't have attributes unless they are static)
-' the factory generate a concrete object, so we need to link it to the concrete class instead of the interface. But we still need it as a contract
-' not useful to store the DAO in facade, we can fetch it anytime we need it (pure composition/delegation)
-' the UI needs methods to deal with actions (validate creation...) that will call the controller to do the specific tasks
-
-
-
 @enduml
