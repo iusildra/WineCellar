@@ -2,8 +2,6 @@ package com.cookingchef.dbutils;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import java.sql.SQLException;
 
 public class ConnectionManagerTests {
@@ -28,12 +26,10 @@ public class ConnectionManagerTests {
 
   @Test
   void crashWhenWrongConnection() throws SQLException {
-    ConnectionManager.closeConnectionPool();
-    assertThrows(SQLException.class, () -> {
-      ConnectionManager.openConnectionPool("nonExisting", "postgres", "postgres", 0000);
-      ConnectionManager.getConnection();
-    });
-    ConnectionManager.closeConnectionPool();
+    ConnectionManager.setDataSource(null);
+    ConnectionManager.openConnectionPool("nonExisting", "postgres", "postgres", 0000);
+    assert ConnectionManager.getConnection() == null;
+    ConnectionManager.setDataSource(null);
     ConnectionManager.openConnectionPool("postgres", "postgres", "postgres", 5432);
   }
 }

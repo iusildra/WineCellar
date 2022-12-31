@@ -1,20 +1,20 @@
 package com.cookingchef.factory;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import com.cookingchef.dao.PostgresUserDAO;
 import com.cookingchef.dao.UserDAO;
 
 public class PostgresFactory implements AbstractFactory {
 
-  private static volatile PostgresFactory instance;
+  private static AtomicReference<PostgresFactory> instance = new AtomicReference<>();
 
   private PostgresFactory() {
   }
 
-  public static synchronized PostgresFactory getPostgresFactory() {
-    if (instance == null) {
-      instance = new PostgresFactory();
-    }
-    return instance;
+  public static PostgresFactory getPostgresFactory() {
+    instance.compareAndSet(null, new PostgresFactory());
+    return instance.get();
   }
   
   @Override

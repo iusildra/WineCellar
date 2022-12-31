@@ -1,7 +1,6 @@
 package com.cookingchef.controller;
 
 import com.cookingchef.facade.UserFacade;
-import com.cookingchef.model.User;
 import com.cookingchef.view.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -35,11 +34,11 @@ public class LoginController {
 	@FXML
 	protected void onClickButtonLogin() throws SQLException {
 		UserFacade userFacade = UserFacade.getUserFacade();
-		User user = userFacade.login(this.getEmail(), this.getPassword());
+		var user = userFacade.login(this.getEmail(), this.getPassword());
 
-		if (user != null) {
-			showText.setText("Welcome " + user.getName());
-			Main.setScene("home");
+		if (user.isPresent()) {
+			showText.setText("Welcome " + user.get().getName());
+			Main.redirect("home");
 		} else {
 			showText.setText("Wrong email or password");
 		}

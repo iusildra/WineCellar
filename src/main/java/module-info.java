@@ -9,7 +9,7 @@ module com.cookingchef {
 	requires org.kordamp.ikonli.javafx;
 	requires org.kordamp.bootstrapfx.core;
 	requires transitive java.sql;
-	requires org.postgresql.jdbc;
+	requires transitive org.postgresql.jdbc;
 	requires spring.security.crypto;
 
 	opens com.cookingchef.view to javafx.fxml;

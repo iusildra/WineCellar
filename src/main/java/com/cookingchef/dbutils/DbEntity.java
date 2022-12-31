@@ -1,14 +1,26 @@
 package com.cookingchef.dbutils;
 
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public interface DbEntity {
-  public PreparedStatement create() throws SQLException;
 
-  public PreparedStatement update() throws SQLException;
+  /**
+   * Create an entity in the database and return it's new ID
+   * @return the id of the newly created entity. Returns an empty option if it failed
+   * @throws SQLException
+   */
+  public Optional<Integer> createInDb() throws SQLException;
 
-  public PreparedStatement delete() throws SQLException;
+  /**
+   * Update an entity in the database
+   * @throws SQLException
+   */
+  public void updateInDb() throws SQLException;
 
-  public PreparedStatement read() throws SQLException;
+  /**
+   * Update an entity in the database
+   * @throws SQLException
+   */
+  public void removeFromDb() throws SQLException;
 }

@@ -43,7 +43,7 @@ public class Main extends Application {
 		scenes.put(name, pane);
 	}
 
-	public static void setScene(String scene) {
+	public static void redirect(String scene) {
 		root.getChildren().clear();
 		root.getChildren().add(scenes.get(scene));
 	}
