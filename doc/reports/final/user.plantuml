@@ -10,8 +10,8 @@ activate User
 User -> Navbar++: clickOnLogout()
 Navbar -> NavbarController++: onClickButtonLogout()
 NavbarController -> NavbarController: logout()
-NavbarController -> Navbar--: loggedOut()
-Navbar --> User--: display(loginWindow)
+return loggedOut()
+return display(loginWindow)
 @enduml
 
 @startuml registerSequenceDiagram
@@ -55,7 +55,8 @@ skinparam responseMessageBelowArrow true
 
 actor User
 participant Navbar
-participant NavbarController
+participant UserInfoPage
+participant UserInfoController
 participant UserFacade
 participant AbstractFactory
 participant UserDAO
@@ -64,11 +65,13 @@ participant UserDAO
 activate User
 
 User -> Navbar++: clickOnChangeInformation()
-Navbar -> Navbar: displayPopup()
-User -> Navbar: enterNewInformation()
-User -> Navbar: clickOnValidate()
-Navbar -> NavbarController++: onClickButtonValidate()
-NavbarController -> UserFacade++: changeInformation():User|Null
+Navbar -> UserInfoController--: displayPopup()
+activate UserInfoController
+UserInfoController --> UserInfoPage++: showPopup()
+User -> UserInfoPage: enterNewInformation()
+User -> UserInfoPage: clickOnValidate()
+UserInfoPage -> UserInfoController: onClickButtonValidate()
+UserInfoController -> UserFacade++: changeInformation():User|Null
 UserFacade -> AbstractFactory++: getUserDAO():UserDAO
 return userDAO
 UserFacade -> UserDAO++: changeInformation():User|Null
@@ -76,27 +79,29 @@ return user
 deactivate UserFacade
 alt user is not null
 
-  NavbarController -> Navbar: changeInformationSuccessful()
-  Navbar --> User: display(homeWindow)
+  UserInfoController -> UserInfoPage: changeInformationSuccessful()
+  UserInfoPage --> User: display(homeWindow)
 else user is null
-  NavbarController -> Navbar--: changeInformationFailed()
-  Navbar --> User--: display(invalid)
+  UserInfoController -> UserInfoPage--: changeInformationFailed()
+  UserInfoPage --> User--: display(invalid)
 end
 
 === Delete account ==
 
 User -> Navbar++: clickOnDeleteAccount()
-Navbar -> Navbar: displayPopup()
-User -> Navbar: clickOnConfirm()
-Navbar -> NavbarController++: onClickButtonConfirm()
-NavbarController -> UserFacade++: askForDeletion()
+Navbar -> UserInfoController--: displayPopup()
+activate UserInfoController
+UserInfoController --> UserInfoPage++: showPopup()
+User -> UserInfoPage: clickOnConfirm()
+UserInfoPage -> UserInfoController: onClickButtonConfirm()
+UserInfoController -> UserFacade++: askForDeletion()
 UserFacade -> AbstractFactory++: getUserDAO():UserDAO
 return userDAO
 UserFacade -> UserDAO++: askForDeletion()
 return
 return
-return
-return displayRequestSent()
+UserInfoController -> UserInfoPage--: requestSent()
+UserInfoPage --> User--: displayRequestSent()
 @enduml
 
 @startuml accountDeletionSequenceDiagram
@@ -141,21 +146,30 @@ end
 hide empty members
 
 rectangle GUI {
+  class Main
+  
   class RegisterPage
   class Navbar
   class AdminPage
+  class UserInfoPage
 
-  RegisterPage -[hidden]d- Navbar
-  Navbar -[hidden]d- AdminPage
+  Main "1" o-u-> "1" RegisterPage
+  Main "1" o-r-> "1" Navbar
+  Main "1" o-l-> "1" AdminPage
+  Main "1" o-d-> "1" UserInfoPage
+
+  ' RegisterPage -[hidden]d- Navbar
+  ' Navbar -[hidden]d- AdminPage
 }
 
 rectangle Controller {
   class RegisterController
-  class NavbarController
   class AdminController
+  class UserInfoController
+  class NavbarController
 
-  RegisterController -[hidden]d- NavbarController
-  NavbarController -[hidden]d- AdminController
+  RegisterController -[hidden]d- AdminController
+  AdminController -[hidden]r- UserInfoController
 }
 
 rectangle DAO {
