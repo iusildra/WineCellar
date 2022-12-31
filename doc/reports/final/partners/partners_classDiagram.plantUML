@@ -12,12 +12,9 @@ class PartnerController {
   + createPartner()
   + deletePartner()
   + updatePartner()
-  + createSucessful()
-  + updateSucessful()
-  + deleteSucessful()
-  + createFailed()
-  + updateFailed()
-  + deleteFailed()
+  + createSucessful(boolean)
+  + updateSucessful(boolean)
+  + deleteSucessful(boolean)
 }
 
 
