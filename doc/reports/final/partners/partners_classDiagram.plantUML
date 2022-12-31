@@ -1,0 +1,71 @@
+@startuml PartnerClassDiagram
+hide empty members
+
+class Main {
+  + display()
+  + onClickButtonCreatePartner()
+  + onClickButtonUpdatePartner()
+  + onClickButtonDeletePartner()
+}
+
+class PartnerController {
+  + createPartner()
+  + deletePartner()
+  + updatePartner()
+  + createSucessful(boolean)
+  + updateSucessful(boolean)
+  + deleteSucessful(boolean)
+}
+
+
+class PartnerFacade {
+  + createPartner()
+  + updatePartner()
+  + deletePartner()
+}
+
+
+interface PartnerAbstractFactory {
+  + {abstract} getPartnerDAO() : PartnerDAO
+
+}
+
+
+class PostgresPartnerFactory {
+  + {static} getPostgresPartnerFactory(): PostgresPartnerFactory
+  + getPartnerDAO() : PartnerDAO
+}
+
+
+Interface PartnerDAO {
+  + {abstract} createPartner()
+  + {abstract} updatePartner()
+  + {abstract} deletePartner()
+}
+
+
+class PostgresPartnerDAO{
+  + {static} getPostgresPartnerDAO() : PartnerDAO
+  + createPartner()
+  + updatePartner()
+  + deletePartner()
+}
+
+
+class ConnectionManager {
+  - {static} PGConnectionPoolDataSource: DataSource
+  + {static} openConnectionPool(): void
+  + {static} getConnection(): Connection
+  + {static} closeConnectionPool(): void
+}
+
+PostgresPartnerFactory -u-|> PartnerAbstractFactory
+PostgresPartnerDAO     -l-|> PartnerDAO
+
+Main            "1" -r-> "1" PartnerController: <  controls
+PartnerController      "1" -r-> "1" PartnerFacade: > interact with
+PartnerFacade          "1" --> "1" PartnerAbstractFactory: > uses
+PostgresPartnerFactory "1" --> "1" PostgresPartnerDAO: > create
+PostgresPartnerDAO     "1" --> "1" ConnectionManager:> get connection from
+
+@enduml

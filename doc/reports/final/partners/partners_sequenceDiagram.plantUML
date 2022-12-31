@@ -1,0 +1,101 @@
+@startuml <Create partner>
+skinparam responseMessageBelowArrow true
+
+actor Admin
+participant View.Main
+participant PartnerController
+participant PartnerFacade
+participant AbstractFactory
+participant PartnerDAO
+participant DataBase
+
+activate Admin
+
+Admin -> View.Main++: enterInformations
+Admin -> View.Main: onClickButtonCreatePartner()
+View.Main -> PartnerController++: createPartner()
+PartnerController -> PartnerFacade++: createPartner()
+PartnerFacade -> AbstractFactory++: getPartnerDAO()
+return PartnerDAO
+PartnerFacade -> PartnerDAO++: createPartner()
+return
+return
+
+alt Partner doesn't exist
+    PartnerController --> View.Main: createSucessful()
+    View.Main --> Admin: display(partnerListWindow)
+else Partner already exist
+    PartnerController -> View.Main--: createFailed()
+    View.Main --> Admin--: display(invalid)
+end
+
+@enduml
+
+== small ==
+
+@startuml <Update Partner>
+skinparam responseMessageBelowArrow true
+
+actor Admin
+participant View.Main
+participant PartnerController
+participant PartnerFacade
+participant AbstractFactory
+participant PartnerDAO
+participant DataBase
+
+activate Admin
+
+Admin -> View.Main++: enterInformations
+Admin -> View.Main: onClickButtonUpdatePartner()
+View.Main -> PartnerController++: updatePartner()
+PartnerController -> PartnerFacade++: updatePartner()
+PartnerFacade -> AbstractFactory++: getPartnerDAO()
+return PartnerDAO
+PartnerFacade -> PartnerDAO++: updatePartner()
+return
+return
+
+alt Partner already exist
+    PartnerController --> View.Main: updateSucessful()
+    View.Main --> Admin: display(partnerListWindow)
+else Partner doesn't exist
+    PartnerController -> View.Main--: updateFailed()
+    View.Main --> Admin--: display(invalid)
+end
+
+@enduml
+
+== small ==
+
+@startuml <Delete partner>
+skinparam responseMessageBelowArrow true
+
+actor Admin
+participant View.Main
+participant PartnerController
+participant PartnerFacade
+participant AbstractFactory
+participant PartnerDAO
+participant DataBase
+
+activate Admin
+
+Admin -> View.Main++: onClickButtonDeletePartner()
+View.Main -> PartnerController++: deletePartner()
+PartnerController -> PartnerFacade++: deletePartner()
+PartnerFacade -> AbstractFactory++: getPartnerDAO()
+return PartnerDAO
+PartnerFacade -> PartnerDAO++: deletePartner()
+return
+return
+
+alt Partner already exist
+    PartnerController --> View.Main: deleteSucessful()
+    View.Main --> Admin: display(partnerListWindow)
+else Partner doesn't exist
+    PartnerController -> View.Main--: deleteFailed()
+    View.Main --> Admin--: display(invalid)
+end
+
+@enduml
