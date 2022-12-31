@@ -9,9 +9,9 @@ class RecipePage {
 class RecipeController {
   + showList()
   + showForm()
-  + createRecipe()
-  + deleteRecipe()
-  + updateRecipe()
+  + onClickCreateRecipe()
+  + onClickDeleteRecipe()
+  + onClickUpdateRecipe()
 }
 
 

@@ -2,16 +2,16 @@
 hide empty members
 
 class Main {
-  + display()
+  + main()
 }
 
 class IngredientController {
   + display()
   + showList()
   + showForm()
-  + onCreateIngredient()
-  + onDeleteIngredient()
-  + onUpdateIngredient()
+  + onClickCreateIngredient()
+  + onClickDeleteIngredient()
+  + onClickUpdateIngredient()
 }
 
 
