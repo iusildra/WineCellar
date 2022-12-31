@@ -52,7 +52,7 @@ View.Main -> PartnerController++: updatePartner()
 PartnerController -> PartnerFacade++: updatePartner()
 PartnerFacade -> AbstractFactory++: getPartnerDAO()
 return PartnerDAO
-PartnerFacade -> PartnerDAO++: updatePartnerDAO()
+PartnerFacade -> PartnerDAO++: updatePartner()
 return
 return
 
@@ -86,7 +86,7 @@ View.Main -> PartnerController++: deletePartner()
 PartnerController -> PartnerFacade++: deletePartner()
 PartnerFacade -> AbstractFactory++: getPartnerDAO()
 return PartnerDAO
-PartnerFacade -> PartnerDAO++: deletePartnerDAO()
+PartnerFacade -> PartnerDAO++: deletePartner()
 return
 return
 
