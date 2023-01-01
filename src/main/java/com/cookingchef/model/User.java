@@ -1,14 +1,10 @@
 package com.cookingchef.model;
 
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.Optional;
 
-import com.cookingchef.dbutils.DbEntity;
-import com.cookingchef.factory.PostgresFactory;
-
-public class User implements DbEntity {
-	private int id;
+public class User {
+	private Optional<Integer> id = Optional.empty();
 	private String name;
 	private String email;
 	private String password;
@@ -32,7 +28,7 @@ public class User implements DbEntity {
 
 	public User(int id, String name, String email, String password, String phone, Date birthdate, String question,
 			String answer, Boolean isAdmin) {
-		this.id = id;
+		this.id = Optional.of(id);
 		this.name = name;
 		this.email = email;
 		this.password = password;
@@ -46,8 +42,18 @@ public class User implements DbEntity {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Optional<Integer> getId() {
 		return id;
+	}
+
+	/**
+	 * Set the ID only once, if it is not already set.
+	 * 
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		if (this.id.isEmpty())
+			this.id = Optional.of(id);
 	}
 
 	/**
@@ -55,6 +61,13 @@ public class User implements DbEntity {
 	 */
 	public Date getBirthdate() {
 		return birthdate;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
 	}
 
 	/**
@@ -163,25 +176,18 @@ public class User implements DbEntity {
 				'}';
 	}
 
-	public String getName() {
-		return name;
+	@Override
+	public int hashCode() {
+		return id.hashCode() + name.hashCode() + email.hashCode() + password.hashCode() + phone.hashCode() + question.hashCode() + answer.hashCode() + isAdmin.hashCode();
 	}
 
 	@Override
-	public Optional<Integer> createInDb() throws SQLException {
-		var newId = PostgresFactory.getPostgresFactory().getUserDAO().registerUserInDb(this);
-		if (newId.isPresent())
-			this.id = newId.get();
-		return newId;
-	}
+	public boolean equals(Object obj) {
+		if (obj instanceof User) {
+			var user = (User) obj;
+			return this.hashCode() == user.hashCode();
 
-	@Override
-	public void updateInDb() throws SQLException {
-		PostgresFactory.getPostgresFactory().getUserDAO().updateUserInDb(this);
-	}
-
-	@Override
-	public void removeFromDb() throws SQLException {
-		PostgresFactory.getPostgresFactory().getUserDAO().removeUserFromDb(this);
+		}
+		return false;
 	}
 }

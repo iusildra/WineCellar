@@ -1,4 +1,4 @@
-package com.cookingchef.dbutils;
+package com.cookingchef.user;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -6,25 +6,31 @@ import java.time.Instant;
 
 import org.junit.jupiter.api.Test;
 
+import com.cookingchef.dao.UserDAO;
+import com.cookingchef.dbutils.ConnectionManager;
 import com.cookingchef.factory.PostgresFactory;
 import com.cookingchef.model.User;
 
-public class DbEntitiesTests {
+public class DAOTests {
 
-  public DbEntitiesTests() {
+  private UserDAO userDAO;
+  
+  public DAOTests() {
     ConnectionManager.openConnectionPool("postgres", "postgres", "postgres", 5432);
+    var factory = new PostgresFactory();
+    this.userDAO = factory.getUserDAO();
   }
 
   @Test
   void createUser() throws SQLException {
     var user = new User("abc", "abc", "$2y$10$QdCYs/d73sagv5Lm13ZJ8.lRAS0lT51fS9TsRa9zO6Kw5QOEIlNe6", "abc",
         Date.from(Instant.now()), "none", "none", false);
-    var userId = user.createInDb().get();
-    var newUser = PostgresFactory.getPostgresFactory().getUserDAO().getUserById(userId);
+    userDAO.registerUserInDb(user);
+    var newUser = userDAO.getUserById(user.getId().get());
 
     assert newUser != null;
 
-    user.removeFromDb();
+    userDAO.removeUserFromDb(user);
   }
 
   @Test
@@ -32,17 +38,19 @@ public class DbEntitiesTests {
     var user = new User("abc", "abc", "$2y$10$QdCYs/d73sagv5Lm13ZJ8.lRAS0lT51fS9TsRa9zO6Kw5QOEIlNe6", "abc",
         Date.from(Instant.now()), "none", "none", false);
 
-    var newId = user.createInDb();
+    userDAO.registerUserInDb(user);
 
     user.setName("def");
-    user.updateInDb();
+    userDAO.updateUserInDb(user);
 
-    var newUser = PostgresFactory.getPostgresFactory().getUserDAO().getUserById(newId.get());
+    var newUser = userDAO.getUserById(user.getId().get());
 
-    assert newUser.isPresent();
-    assert newUser.get().getEmail().equals("abc");
+    System.out.println(user);
+    System.out.println(newUser.get());
 
-    user.removeFromDb();
+    assert newUser.get().equals(user);
+
+    userDAO.removeUserFromDb(user);
   }
 
   @Test
@@ -50,18 +58,17 @@ public class DbEntitiesTests {
     var user = new User("abc", "abc", "$2y$10$QdCYs/d73sagv5Lm13ZJ8.lRAS0lT51fS9TsRa9zO6Kw5QOEIlNe6", "abc",
         Date.from(Instant.now()), "none", "none", false);
 
-    var newId = user.createInDb();
+    userDAO.registerUserInDb(user);
 
     user.setName("def");
     user.setEmail("def");
     user.setEmail("ghi"); // This update shouldn't change the old email
-    user.updateInDb();
+    userDAO.updateUserInDb(user);
 
-    var updatedUser = PostgresFactory.getPostgresFactory().getUserDAO().getUserById(newId.get());
+    var updatedUser = userDAO.getUserById(user.getId().get());
 
-    assert updatedUser.isPresent();
-    assert updatedUser.get().getEmail().equals("ghi");
+    assert updatedUser.get().equals(user);
 
-    user.removeFromDb();
+    userDAO.removeUserFromDb(user);
   }
 }

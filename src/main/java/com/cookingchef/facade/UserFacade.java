@@ -13,7 +13,7 @@ public class UserFacade {
 	private UserDAO userDAO;
 
 	private UserFacade() {
-		PostgresFactory factory = PostgresFactory.getPostgresFactory();
+		var factory = new PostgresFactory();
 		this.userDAO = factory.getUserDAO();
 	}
 

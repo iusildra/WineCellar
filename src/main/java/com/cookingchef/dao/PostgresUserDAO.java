@@ -96,7 +96,9 @@ public class PostgresUserDAO implements UserDAO {
 
 			var rs = stmt.executeQuery();
 			rs.next();
-			return Optional.of(rs.getInt(UserDbFields.ID.value));
+			var newId = rs.getInt(UserDbFields.ID.value);
+			user.setId(newId);
+			return Optional.of(newId);
 		}
 	}
 
@@ -114,7 +116,7 @@ public class PostgresUserDAO implements UserDAO {
 			stmt.setString(6, user.getAnswer());
 			stmt.setBoolean(7, user.getIsAdmin());
 			stmt.setString(8, user.getPassword());
-			stmt.setInt(9, user.getId());
+			stmt.setInt(9, user.getId().get());
 
 			stmt.executeUpdate();
 		}
@@ -126,7 +128,7 @@ public class PostgresUserDAO implements UserDAO {
 		var conn = ConnectionManager.getConnection();
 
 		try (var stmt = conn.prepareStatement(query)) {
-			stmt.setInt(1, user.getId());
+			stmt.setInt(1, user.getId().get());
 
 			stmt.executeUpdate();
 		}
