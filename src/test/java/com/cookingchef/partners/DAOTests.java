@@ -6,47 +6,47 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
+import com.cookingchef.dao.PartnerDAO;
 import com.cookingchef.dbutils.ConnectionManager;
 import com.cookingchef.factory.PostgresFactory;
 import com.cookingchef.model.Partner;
 
 public class DAOTests {
 
+  final PartnerDAO partnerDAO;
+
   DAOTests() {
     ConnectionManager.openConnectionPool("postgres", "postgres", "postgres", 5432);
+    var factory = new PostgresFactory();
+    this.partnerDAO = factory.getPartnerDAO();
   }
 
   @Test
   void createPartner() throws SQLException {
     var partner = new Partner("abc", "abc", "abc");
-    partner.createInDb();
+    partnerDAO.registerPartnerInDb(partner);
 
-    var newPartner = PostgresFactory.getPostgresFactory()
-        .getPartnerDAO()
-        .getPartnerById(partner.getId().get());
+    var newPartner = partnerDAO.getPartnerById(partner.getId().get());
 
     assert newPartner.get().equals(partner);
 
-    partner.removeFromDb();
+    partnerDAO.removePartnerFromDb(partner);
   }
 
   @Test
   void updatePartner() throws SQLException {
     var partner = new Partner("abc", "abc", "abc");
-    partner.createInDb();
+    partnerDAO.registerPartnerInDb(partner);
 
     partner.setName("def");
     partner.setDescription("def");
     partner.setWebsite("def");
 
-    partner.updateInDb();
+    partnerDAO.updatePartnerInDb(partner);
 
-    var fetchedPartner = PostgresFactory.getPostgresFactory()
-        .getPartnerDAO()
-        .getPartnerById(partner.getId().get())
-        .get();
+    var fetchedPartner = partnerDAO.getPartnerById(partner.getId().get()).get();
 
-    partner.removeFromDb();
+    partnerDAO.removePartnerFromDb(partner);
 
     assert fetchedPartner.equals(partner);
   }
@@ -54,11 +54,11 @@ public class DAOTests {
   @Test
   void deletePartner() throws SQLException {
     var partner = new Partner("abc", "abc", "abc");
-    partner.createInDb();
+    partnerDAO.registerPartnerInDb(partner);
 
-    partner.removeFromDb();
+    partnerDAO.removePartnerFromDb(partner);
 
-    var fetchedPartner = PostgresFactory.getPostgresFactory().getPartnerDAO().getPartnerById(partner.getId().get());
+    var fetchedPartner = partnerDAO.getPartnerById(partner.getId().get());
 
     assert !fetchedPartner.isPresent();
   }
@@ -71,13 +71,13 @@ public class DAOTests {
     partners.add(new Partner("ghi", "ghi", "ghi"));
 
     for (var partner : partners) {
-      partner.createInDb();
+      partnerDAO.registerPartnerInDb(partner);
     }
 
-    var fetchedPartners = PostgresFactory.getPostgresFactory().getPartnerDAO().getPartners();
+    var fetchedPartners = partnerDAO.getPartners();
 
     for (var partner : partners) {
-      partner.removeFromDb();
+      partnerDAO.removePartnerFromDb(partner);
     }
 
     assert fetchedPartners.stream()
@@ -94,14 +94,11 @@ public class DAOTests {
   @Test
   void getPartnerById() throws SQLException {
     var partner = new Partner("abc", "abc", "abc");
-    partner.createInDb();
+    partnerDAO.registerPartnerInDb(partner);
 
-    var fetchedPartner = PostgresFactory.getPostgresFactory()
-        .getPartnerDAO()
-        .getPartnerById(partner.getId().get())
-        .get();
+    var fetchedPartner = partnerDAO.getPartnerById(partner.getId().get()).get();
 
-    partner.removeFromDb();
+    partnerDAO.removePartnerFromDb(partner);
 
     assert fetchedPartner.equals(partner);
   }

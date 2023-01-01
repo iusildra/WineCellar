@@ -41,7 +41,9 @@ public class PostgresPartnerDAO implements PartnerDAO {
       stmt.executeQuery();
       var rs = stmt.getResultSet();
       rs.next();
-      return Optional.of(rs.getInt(PartnerDbFields.ID.value));
+      var newId = rs.getInt(PartnerDbFields.ID.value);
+      partner.setId(newId);
+      return Optional.of(newId);
     }
   }
 

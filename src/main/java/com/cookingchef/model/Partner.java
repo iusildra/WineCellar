@@ -1,13 +1,9 @@
 package com.cookingchef.model;
 
-import java.sql.SQLException;
 import java.util.Optional;
 
-import com.cookingchef.dbutils.DbEntity;
-import com.cookingchef.factory.PostgresFactory;
-
-public class Partner implements DbEntity {
-  private Optional<Integer> id;
+public class Partner {
+  private Optional<Integer> id = Optional.empty();
   private String name;
   private String description;
   private String website;
@@ -41,6 +37,16 @@ public class Partner implements DbEntity {
    */
   public Optional<Integer> getId() {
     return id;
+  }
+
+  /**
+   * Set the ID only once, if it is not already set.
+   * 
+   * @param id The id of the object.
+   */
+  public void setId(int id) {
+    if (this.id.isEmpty())
+      this.id = Optional.of(id);
   }
 
   /**
@@ -86,25 +92,6 @@ public class Partner implements DbEntity {
   }
 
   @Override
-  public Optional<Integer> createInDb() throws SQLException {
-    var newId = PostgresFactory.getPostgresFactory().getPartnerDAO().registerPartnerInDb(this);
-    this.id = newId;
-    return newId;
-  }
-
-  @Override
-  public void updateInDb() throws SQLException {
-    PostgresFactory.getPostgresFactory().getPartnerDAO().updatePartnerInDb(this);
-
-  }
-
-  @Override
-  public void removeFromDb() throws SQLException {
-    PostgresFactory.getPostgresFactory().getPartnerDAO().removePartnerFromDb(this);
-
-  }
-
-  @Override
   public int hashCode() {
     return this.id.hashCode() + this.name.hashCode() + this.description.hashCode() + this.website.hashCode();
   }
@@ -113,10 +100,7 @@ public class Partner implements DbEntity {
   public boolean equals(Object obj) {
     if (obj instanceof Partner) {
       var other = (Partner) obj;
-      return this.id.equals(other.id)
-          && this.name.equals(other.name)
-          && this.description.equals(other.description)
-          && this.website.equals(other.website);
+      return this.hashCode() == other.hashCode();
     }
     return false;
   }
