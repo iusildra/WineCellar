@@ -1,71 +1,78 @@
 @startuml SuggestionsUser
 hide empty members
 
-class Suggestion {
-    +int id
-    +String title
-    +String description
-    +int authorId
-    +String category
-}
-
-class SuggestionPage {
-    + Suggestion suggestion
-    + OnClickSendSuggestion()
-    + OnClickCancel()
+class Main {
+  + display()
 }
 
 class SuggestionController {
-    + SuggestionController()
-    + OnClickSendSuggestion()
+  + SuggestionController()
+  + ViewSuggestionDetails()
+  + OnClickSendSuggestion()
+  + OnClickUpdateSuggestion()
+  + DeleteSuggestion()
+  + OnClickCancel()
 }
 
-class SuggestionFacade {
-    + SuggestionDAO suggestionDAO
-    + SuggestionFacade()
-    + SendSuggestion()
-    + UpdateSuggestion()
-    + DeleteSuggestion()
+class UserSuggestionFacade {
+  - SuggestionDAO suggestionDAO
+  + UserSuggestionFacade()
+  + SendSuggestion()
+  + UpdateSuggestion()
+  + DeleteSuggestion()
 }
 
 interface AbstractFactory {
-    + GetSuggestionDAO()
+  + getUserSuggestionDAO()
+  + getAdminSuggestionDAO()
 }
 
-class PostgresFactory {
-    + GetSuggestionDAO()
+class PostgresFactory extends AbstractFactory {
+  + getUserSuggestionDAO()
+  + getAdminSuggestionDAO()
 }
 
-class SuggestionDAO {
-    + SuggestionDAO()
-    + CreateSuggestion()
-    + GetSuggestion()
-    + GetSuggestions()
-    + UpdateSuggestion()
-    + DeleteSuggestion()
+interface SuggestionUserDAO {
+  + CreateSuggestion()
+  + GetSuggestion()
+  + GetSuggestions()
 }
 
-class SuggestionPanelPage {
-    + Suggestion[] suggestions
-    + ViewSuggestionDetails()
-    + DeleteSuggestion()
+interface SuggestionAdminDAO extends SuggestionUserDAO {
+  + UpdateSuggestion()
+  + DeleteSuggestion()
 }
 
-class SuggestionPanelController {
-    + SuggestionPanelController()
-    + ViewSuggestionDetails()
-    + DeleteSuggestion()
+class PostgresUserSuggestionDAO {
+  + {static} getPostgresUserSuggestionDAO()
+  + createSuggestion()
+  + getSuggestion()
+  + getSuggestions()
+  + updateSuggestion()
+  + deleteSuggestion()
 }
 
-Suggestion <-- SuggestionPage
-AbstractFactory <|-- PostgresFactory
-SuggestionFacade --> AbstractFactory
-PostgresFactory --> SuggestionDAO
-SuggestionPage --> SuggestionController
-SuggestionController --> SuggestionFacade
-SuggestionFacade --> SuggestionDAO
-Suggestion <-- SuggestionPanelPage
-SuggestionPanelPage --> SuggestionPanelController
-SuggestionPanelController --> SuggestionFacade
+class PostgresAdminSuggestionDAO extends PostgresUserSuggestionDAO {
+  + {static} getPostgresAdminSuggestionDAO()
+  + updateSuggestion()
+  + deleteSuggestion()
+}
+
+class ConnectionManager {
+  - {static} PGConnectionPoolDataSource: DataSource
+  + {static} openConnectionPool(): void
+  + {static} getConnection(): Connection
+  + {static} closeConnectionPool(): void
+}
+
+PostgresUserSuggestionDAO   .l.|> SuggestionUserDAO
+PostgresAdminSuggestionDAO  .l.|> SuggestionAdminDAO
+
+Main                        -r-> SuggestionController: < controls
+SuggestionController        -r-> UserSuggestionFacade: > uses
+UserSuggestionFacade        --> AbstractFactory: > uses
+PostgresFactory             -l-> PostgresUserSuggestionDAO: > creates
+PostgresFactory             --> PostgresAdminSuggestionDAO: > creates
+PostgresUserSuggestionDAO   -u-> ConnectionManager: > get connection from
 
 @enduml
