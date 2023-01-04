@@ -2,38 +2,40 @@
 
 hide empty members
 
-class "commentPage" as UI {
+class "Main" as UI {
+    +redirect()
+}
+
+class "commentController" as Controller {
     -Comment com
-    +commentPage()
     +onClickButtonAddComment()
     +onClickButtonDeleteComment()
     +onClickButtonEditComment()
 }
 
-class "commentController" as Controller {
-    +commentPageController()
-    +addComment()
-    +deleteComment()
-    +editComment()
-}
-
 class "commentFacade" as Facade {
     +getCommentDAO()
+    +getComments()
     +addComment()
     +deleteComment()
     +editComment()
 }
 
-class "commentDAO" as DAO {
-
+interface "commentDAO" as DAO {
     +getComment()
+    +getComments()
     +createComment()
     +updateComment()
     +deleteComment()
 
 }
 
-class AbstractFactory {
+interface AbstractFactory {
+    +getCommentDAO()
+    +getInstance()
+}
+
+class PostgresDAOFactory implements AbstractFactory {
     +getCommentDAO()
     +getInstance()
 }
