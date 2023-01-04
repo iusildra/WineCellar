@@ -3,15 +3,12 @@ hide empty members
 
 class Main {
   + display()
-  + onClickButtonCreatePartner()
-  + onClickButtonUpdatePartner()
-  + onClickButtonDeletePartner()
 }
 
 class PartnerController {
-  + createPartner()
-  + deletePartner()
-  + updatePartner()
+  + onClickButtonCreatePartner()
+  + onClickButtonUpdatePartner()
+  + onClickButtonDeletePartner()
   + createSucessful(boolean)
   + updateSucessful(boolean)
   + deleteSucessful(boolean)
