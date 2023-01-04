@@ -1,0 +1,77 @@
+@startuml CartClassDiagram
+hide empty members
+
+class Main {
+  + display()
+  + onClickButtonValidateCart()
+  + onClickButtonEditCart()
+  + onClickButtonAddToCart()
+  + onClickButtonDeleteCart()
+}
+
+class CartController {
+  + validateCart()
+  + emptyCart()
+  + updateCart()
+  + addToCart()
+  + createSucessful(boolean)
+  + updateSucessful(boolean)
+  + addSuccessful(boolean)
+  + emptySucessful(boolean)
+}
+
+
+class CartFacade {
+  + validateCart()
+  + updateCart()
+  + addToCart()
+  + emptyCart()
+}
+
+
+interface CartAbstractFactory {
+  + {abstract} getCartDAO() : CartDAO
+
+}
+
+
+class PostgresCartFactory {
+  + {static} getPostgresCartFactory(): PostgresCartFactory
+  + getCartDAO() : CartDAO
+}
+
+
+Interface CartDAO {
+  + {abstract} validateCart()
+  + {abstract} updateCart()
+  + {abstract} addToCart()
+  + {abstract} emptyCart()
+}
+
+
+class PostgresCartDAO{
+  + {static} getPostgresCartDAO() : CartDAO
+  + validateCart()
+  + updateCart()
+  + addToCart()
+  + emptyCart()
+}
+
+
+class ConnectionManager {
+  - {static} PGConnectionPoolDataSource: DataSource
+  + {static} openConnectionPool(): void
+  + {static} getConnection(): Connection
+  + {static} closeConnectionPool(): void
+}
+
+PostgresCartFactory -u-|> CartAbstractFactory
+PostgresCartDAO     -l-|> CartDAO
+
+Main            "1" -r-> "1" CartController: <  controls
+CartController      "1" -r-> "1" CartFacade: > interact with
+CartFacade          "1" --> "1" CartAbstractFactory: > uses
+PostgresCartFactory "1" --> "1" PostgresCartDAO: > create
+PostgresCartDAO     "1" --> "1" ConnectionManager:> get connection from
+
+@enduml
