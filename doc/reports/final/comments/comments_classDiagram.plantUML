@@ -1,0 +1,49 @@
+@startuml
+
+hide empty members
+
+class "commentPage" as UI {
+    -Comment com
+    +commentPage()
+    +onClickButtonAddComment()
+    +onClickButtonDeleteComment()
+    +onClickButtonEditComment()
+}
+
+class "commentController" as Controller {
+    +commentPageController()
+    +addComment()
+    +deleteComment()
+    +editComment()
+}
+
+class "commentFacade" as Facade {
+    +getCommentDAO()
+    +addComment()
+    +deleteComment()
+    +editComment()
+}
+
+class "commentDAO" as DAO {
+
+    +getComment()
+    +createComment()
+    +updateComment()
+    +deleteComment()
+
+}
+
+class AbstractFactory {
+    +getCommentDAO()
+    +getInstance()
+}
+
+UI       "1" -->  "1" Controller: > controlled by
+Controller "1" -->  "1" Facade: > uses
+Facade     "1" -u-> "1" AbstractFactory: > uses
+AbstractFactory    "1" -->  "1" DAO: > creates
+Facade     "1" -u-> "1" DAO: > uses
+
+
+
+@enduml
