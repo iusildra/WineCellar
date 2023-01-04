@@ -2,7 +2,7 @@
 
 actor User
 
-participant "CommentPage" as UI
+participant "Main" as UI
 participant "CommentController" as Controller
 participant "CommentFacade" as Facade
 participant "AbstractFactory" as Factory
