@@ -1,8 +1,9 @@
-package com.cookingchef.dao;
+package com.cookingchef.dao.Postgres;
 
 import java.sql.SQLException;
 import java.util.concurrent.atomic.AtomicReference;
 
+import com.cookingchef.dao.AdminSuggestionDAO;
 import com.cookingchef.dbutils.ConnectionManager;
 import com.cookingchef.model.Suggestion;
 

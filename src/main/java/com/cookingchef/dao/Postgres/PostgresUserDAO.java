@@ -1,5 +1,6 @@
-package com.cookingchef.dao;
+package com.cookingchef.dao.Postgres;
 
+import com.cookingchef.dao.UserDAO;
 import com.cookingchef.dbutils.ConnectionManager;
 import com.cookingchef.model.User;
 import com.cookingchef.model.UserDbFields;
