@@ -4,7 +4,7 @@
 -- https://tableplus.com/
 --
 -- Database: postgres
--- Generation Time: 2022-12-28 18:31:34.8440
+-- Generation Time: 2023-01-04 09:16:20.0520
 -- -------------------------------------------------------------
 
 
@@ -78,8 +78,9 @@ CREATE SEQUENCE IF NOT EXISTS ingredient_id_seq;
 -- Table Definition
 CREATE TABLE "public"."ingredient" (
     "id" int4 NOT NULL DEFAULT nextval('ingredient_id_seq'::regclass),
-    "name" varchar(255),
+    "name" varchar(255) NOT NULL,
     "allergen" bool NOT NULL DEFAULT false,
+    "src" bytea,
     PRIMARY KEY ("id")
 );
 
@@ -314,7 +315,7 @@ CREATE TABLE "public"."users" (
     "birthdate" timestamp NOT NULL,
     "question" varchar(255) NOT NULL,
     "answer" varchar(255) NOT NULL,
-    "is_admin" bool NOT NULL DEFAULT false,
+    "isAdmin" bool NOT NULL DEFAULT false,
     "password" varchar(60) NOT NULL,
     PRIMARY KEY ("id")
 );
@@ -327,24 +328,24 @@ INSERT INTO "public"."unit" ("id", "name") VALUES
 (5, 'cl'),
 (6, 'L');
 
-INSERT INTO "public"."users" ("id", "name", "email", "phone", "birthdate", "question", "answer", "is_admin", "password") VALUES
-(0, 'u', 'u', '0613604212', '2022-12-20 22:45:39.647885', 'u?', 'addx', 't', '$2y$10$j1ax6LL0EZwxfP5S9xDfreDCGKo16JG4zLVQzOjsvxNFJMQ1wCvDe');
+INSERT INTO "public"."users" ("id", "name", "email", "phone", "birthdate", "question", "answer", "isAdmin", "password") VALUES
+(7, 'u', 'u', '0613604212', '2022-12-20 22:45:39.647885', 'u?', 'addx', 't', '$2y$10$j1ax6LL0EZwxfP5S9xDfreDCGKo16JG4zLVQzOjsvxNFJMQ1wCvDe');
 
 ALTER TABLE "public"."advert" ADD FOREIGN KEY ("partner_id") REFERENCES "public"."partner"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."advert" ADD FOREIGN KEY ("ingredient_id") REFERENCES "public"."ingredient"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "public"."comment_user" ADD FOREIGN KEY ("comment_id") REFERENCES "public"."comment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."comment_user" ADD FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."comment_user" ADD FOREIGN KEY ("comment_id") REFERENCES "public"."comment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."ingredient_category_ingredient" ADD FOREIGN KEY ("ingredient_category_id") REFERENCES "public"."ingredient_category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."ingredient_category_ingredient" ADD FOREIGN KEY ("ingredient_id") REFERENCES "public"."ingredient"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "public"."recipe_category_recipe" ADD FOREIGN KEY ("recipe_category_id") REFERENCES "public"."recipe_category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."recipe_category_recipe" ADD FOREIGN KEY ("recipe_id") REFERENCES "public"."recipe"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."recipe_category_recipe" ADD FOREIGN KEY ("recipe_category_id") REFERENCES "public"."recipe_category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."recipe_comment" ADD FOREIGN KEY ("comment_id") REFERENCES "public"."comment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."recipe_comment" ADD FOREIGN KEY ("recipe_id") REFERENCES "public"."recipe"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "public"."recipe_ingredient" ADD FOREIGN KEY ("unit") REFERENCES "public"."unit"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."recipe_ingredient" ADD FOREIGN KEY ("recipe_id") REFERENCES "public"."recipe"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."recipe_ingredient" ADD FOREIGN KEY ("unit") REFERENCES "public"."unit"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."recipe_ingredient" ADD FOREIGN KEY ("ingredient_id") REFERENCES "public"."ingredient"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."recipe_list_recipe" ADD FOREIGN KEY ("recipe_list_id") REFERENCES "public"."recipe_list"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "public"."recipe_list_user" ADD FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."recipe_list_user" ADD FOREIGN KEY ("recipe_list_id") REFERENCES "public"."recipe_list"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."recipe_list_user" ADD FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."suggestion" ADD FOREIGN KEY ("category") REFERENCES "public"."suggestion_category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."suggestion" ADD FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
