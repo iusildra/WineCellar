@@ -1,0 +1,77 @@
+@startuml RecipeListClassDiagram
+hide empty members
+
+class Main {
+  + display()
+  + onClickButtonCreateRecipeList()
+  + onClickButtonUpdateRecipeList()
+  + onClickButtonAddToRecipeList()
+  + onClickButtonDeleteRecipeList()
+}
+
+class RecipeListController {
+  + createRecipeList()
+  + deleteRecipeList()
+  + updateRecipeList()
+  + addRecipeToRecipeList()
+  + createSucessful(boolean)
+  + updateSucessful(boolean)
+  + addSuccessful(boolean)
+  + deleteSucessful(boolean)
+}
+
+
+class RecipeListFacade {
+  + createRecipeList()
+  + updateRecipeList()
+  + addRecipeToRecipeList()
+  + deleteRecipeList()
+}
+
+
+interface RecipeListAbstractFactory {
+  + {abstract} getRecipeListDAO() : RecipeListDAO
+
+}
+
+
+class PostgresRecipeListFactory {
+  + {static} getPostgresRecipeListFactory(): PostgresRecipeListFactory
+  + getRecipeListDAO() : RecipeListDAO
+}
+
+
+Interface RecipeListDAO {
+  + {abstract} createRecipeList()
+  + {abstract} updateRecipeList()
+  + {abstract} addRecipeToRecipeList()
+  + {abstract} deleteRecipeList()
+}
+
+
+class PostgresRecipeListDAO{
+  + {static} getPostgresRecipeListDAO() : RecipeListDAO
+  + createRecipeList()
+  + updateRecipeList()
+  + addRecipeToRecipeList()
+  + deleteRecipeList()
+}
+
+
+class ConnectionManager {
+  - {static} PGConnectionPoolDataSource: DataSource
+  + {static} openConnectionPool(): void
+  + {static} getConnection(): Connection
+  + {static} closeConnectionPool(): void
+}
+
+PostgresRecipeListFactory -u-|> RecipeListAbstractFactory
+PostgresRecipeListDAO     -l-|> RecipeListDAO
+
+Main            "1" -r-> "1" RecipeListController: <  controls
+RecipeListController      "1" -r-> "1" RecipeListFacade: > interact with
+RecipeListFacade          "1" --> "1" RecipeListAbstractFactory: > uses
+PostgresRecipeListFactory "1" --> "1" PostgresRecipeListDAO: > create
+PostgresRecipeListDAO     "1" --> "1" ConnectionManager:> get connection from
+
+@enduml

@@ -1,0 +1,136 @@
+@startuml <Create recipe list>
+skinparam responseMessageBelowArrow true
+
+actor User
+participant View.Main
+participant RecipeListController
+participant RecipeListFacade
+participant AbstractFactory
+participant RecipeListDAO
+participant DataBase
+
+activate User
+
+User -> View.Main++: enterInformations
+User -> View.Main: onClickButtonCreateRecipeList()
+View.Main -> RecipeListController++: createRecipeList()
+RecipeListController -> RecipeListFacade++: createRecipeList()
+RecipeListFacade -> AbstractFactory++: getRecipeListDAO()
+return RecipeListDAO
+RecipeListFacade -> RecipeListDAO++: createRecipeList()
+return
+return
+
+alt Recipe List doesn't exist
+    RecipeListController --> View.Main: createSucessful()
+    View.Main --> User: display(RecipeListListWindow)
+else Recipe List already exist
+    RecipeListController -> View.Main--: createFailed()
+    View.Main --> User--: display(invalid)
+end
+
+@enduml
+
+== small ==
+
+@startuml <Update Recipe List>
+skinparam responseMessageBelowArrow true
+
+actor User
+participant View.Main
+participant RecipeListController
+participant RecipeListFacade
+participant AbstractFactory
+participant RecipeListDAO
+participant DataBase
+
+activate User
+
+User -> View.Main++: enterInformations
+User -> View.Main: onClickButtonUpdateRecipeList()
+View.Main -> RecipeListController++: updateRecipeList()
+RecipeListController -> RecipeListFacade++: updateRecipeList()
+RecipeListFacade -> AbstractFactory++: getRecipeListDAO()
+return RecipeListDAO
+RecipeListFacade -> RecipeListDAO++: updateRecipeList()
+return
+return
+
+alt Recipe List already exist
+    RecipeListController --> View.Main: updateSucessful()
+    View.Main --> User: display(RecipeListListWindow)
+else Recipe List doesn't exist
+    RecipeListController -> View.Main--: updateFailed()
+    View.Main --> User--: display(invalid)
+end
+
+@enduml
+
+== small ==
+
+@startuml <Add To Recipe List>
+skinparam responseMessageBelowArrow true
+
+actor User
+participant View.Main
+participant RecipeListController
+participant RecipeListFacade
+participant AbstractFactory
+participant RecipeListDAO
+participant DataBase
+
+activate User
+
+User -> View.Main++: selectRecipeList
+User -> View.Main: onClickButtonAddToRecipeList()
+View.Main -> RecipeListController++: updateRecipeList()
+RecipeListController -> RecipeListFacade++: updateRecipeList()
+RecipeListFacade -> AbstractFactory++: getRecipeListDAO()
+return RecipeListDAO
+RecipeListFacade -> RecipeListDAO++: updateRecipeList()
+return
+return
+
+alt Recipe List already exist
+    RecipeListController --> View.Main: updateSucessful()
+    View.Main --> User: display(RecipeListListWindow)
+else Recipe List doesn't exist
+    RecipeListController -> View.Main--: updateFailed()
+    View.Main --> User--: display(invalid)
+end
+
+@enduml
+
+== small ==
+
+@startuml <Delete Recipe List>
+skinparam responseMessageBelowArrow true
+
+actor User
+participant View.Main
+participant RecipeListController
+participant RecipeListFacade
+participant AbstractFactory
+participant RecipeListDAO
+participant DataBase
+
+activate User
+
+User -> View.Main++: onClickButtonDeleteRecipeList()
+View.Main -> RecipeListController++: deleteRecipeList()
+RecipeListController -> RecipeListFacade++: deleteRecipeList()
+RecipeListFacade -> AbstractFactory++: getRecipeListDAO()
+return RecipeListDAO
+RecipeListFacade -> RecipeListDAO++: deleteRecipeList()
+return
+return
+
+alt Recipe List already exist
+    RecipeListController --> View.Main: deleteSucessful()
+    View.Main --> User: display(RecipeListListWindow)
+else Recipe List doesn't exist
+    RecipeListController -> View.Main--: deleteFailed()
+    View.Main --> User--: display(invalid)
+end
+
+@enduml
