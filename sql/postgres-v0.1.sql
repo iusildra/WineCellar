@@ -287,7 +287,8 @@ CREATE TABLE "public"."suggestion_category" (
     PRIMARY KEY ("id")
 );
 
-INSERT INTO suggestion_category(name) VALUES ('test0'), ('test0');
+INSERT INTO suggestion_category VALUES (0, 'test0');
+INSERT INTO suggestion_category(name) VALUES ('test1'), ('test2');
 
 DROP TABLE IF EXISTS "public"."unit";
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
