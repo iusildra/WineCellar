@@ -2,19 +2,16 @@
 
 hide empty members
 
-class "AdvPage" as UI {
+class "Main" as UI {
+    +redirect()
+}
+
+class "AdvController" as Controller {
     -Adv[] ads
     +advPage()
     +onClickButtonAddAdv()
     +onClickButtonDeleteAdv()
     +onClickButtonEditAdv()
-}
-
-class "AdvController" as Controller {
-    +advPageController()
-    +addAdv()
-    +deleteAdv()
-    +editAdv()
 }
 
 class "AdvFacade" as Facade {
