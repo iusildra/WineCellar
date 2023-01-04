@@ -1,6 +1,7 @@
 package com.cookingchef.factory;
 
 import com.cookingchef.dao.*;
+import com.cookingchef.dao.Postgres.*;
 
 public class PostgresFactory implements AbstractFactory {
 
