@@ -35,6 +35,11 @@ class AbstractFactory {
     +getInstance()
 }
 
+class PostgresDAOFactory implements AbstractFactory {
+    +getAdvDAO()
+    +getInstance()
+}
+
 UI       "1" -->  "1" Controller: > controlled by
 Controller "1" -->  "1" Facade: > uses
 Facade     "1" -u-> "1" AbstractFactory: > uses
