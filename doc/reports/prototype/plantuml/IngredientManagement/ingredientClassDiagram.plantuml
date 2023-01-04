@@ -1,7 +1,7 @@
 @startuml IngredientClassDiagram
 
 class IngredientPage {
-  + display()
+    + redirect()
 }
 
 class IngredientController {
@@ -25,8 +25,8 @@ interface IngredientAbstractFactory {
 }
 
 
-class PostgresIngredientFactory {
-  + getPostgresIngredientFactory(): PostgresIngredientFactory
+class PostgresFactory {
+  + getPostgresFactory(): PostgresFactory
   + get IngredientDAO() : IngredientDAO
 }
 
@@ -58,14 +58,15 @@ database "Postgres\nDatabase" as Postgres {
 
 }
 
-class PostgresIngredientFactory extends IngredientAbstractFactory
+class PostgresFactory extends IngredientAbstractFactory
 class PostgresIngredientDAO extends IngredientDAO
 
-IngredientPage --> IngredientController
-IngredientController --> IngredientFacade
+IngredientPage --> IngredientController : <<create>>
+IngredientController --> IngredientFacade : <<obtains>>
 IngredientFacade -- IngredientAbstractFactory
-IngredientAbstractFactory -- IngredientDAO
-IngredientDAO -- ConnectionManager
+IngredientFacade --> IngredientDAO : <<use>>
+IngredientAbstractFactory --> IngredientDAO : <<create>>
+IngredientDAO -- ConnectionManager : <<use>>
 ConnectionManager --> Postgres
 
 
