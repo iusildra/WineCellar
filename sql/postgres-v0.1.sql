@@ -287,6 +287,9 @@ CREATE TABLE "public"."suggestion_category" (
     PRIMARY KEY ("id")
 );
 
+INSERT INTO suggestion_category VALUES (0, 'test0');
+INSERT INTO suggestion_category(name) VALUES ('test1'), ('test2');
+
 DROP TABLE IF EXISTS "public"."unit";
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
@@ -315,7 +318,7 @@ CREATE TABLE "public"."users" (
     "birthdate" timestamp NOT NULL,
     "question" varchar(255) NOT NULL,
     "answer" varchar(255) NOT NULL,
-    "isAdmin" bool NOT NULL DEFAULT false,
+    "is_admin" bool NOT NULL DEFAULT false,
     "password" varchar(60) NOT NULL,
     PRIMARY KEY ("id")
 );
@@ -328,8 +331,8 @@ INSERT INTO "public"."unit" ("id", "name") VALUES
 (5, 'cl'),
 (6, 'L');
 
-INSERT INTO "public"."users" ("id", "name", "email", "phone", "birthdate", "question", "answer", "isAdmin", "password") VALUES
-(7, 'u', 'u', '0613604212', '2022-12-20 22:45:39.647885', 'u?', 'addx', 't', '$2y$10$j1ax6LL0EZwxfP5S9xDfreDCGKo16JG4zLVQzOjsvxNFJMQ1wCvDe');
+INSERT INTO "public"."users" ("id", "name", "email", "phone", "birthdate", "question", "answer", "is_admin", "password") VALUES
+(0, 'u', 'u', '0613604212', '2022-12-20 22:45:39.647885', 'u?', 'addx', 't', '$2y$10$j1ax6LL0EZwxfP5S9xDfreDCGKo16JG4zLVQzOjsvxNFJMQ1wCvDe');
 
 ALTER TABLE "public"."advert" ADD FOREIGN KEY ("partner_id") REFERENCES "public"."partner"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."advert" ADD FOREIGN KEY ("ingredient_id") REFERENCES "public"."ingredient"("id") ON DELETE CASCADE ON UPDATE CASCADE;

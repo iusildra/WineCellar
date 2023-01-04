@@ -45,9 +45,6 @@ public class DAOTests {
 
     var newUser = userDAO.getUserById(user.getId().get());
 
-    System.out.println(user);
-    System.out.println(newUser.get());
-
     assert newUser.get().equals(user);
 
     userDAO.removeUserFromDb(user);
