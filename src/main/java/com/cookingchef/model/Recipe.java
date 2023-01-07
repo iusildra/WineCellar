@@ -38,8 +38,9 @@ public class Recipe {
         return id;
     }
 
-    public void setId(Optional<Integer> id) {
-        this.id = id;
+    public void setId(int id) {
+        if (this.id.isEmpty())
+            this.id = Optional.of(id);
     }
 
     public String getName() {

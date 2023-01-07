@@ -58,9 +58,9 @@ public class PostgresRecipeDAO implements RecipeDAO {
                 stmt.setInt(1, newId);
                 stmt.setInt(2, category.getId());
 
-                stmt.executeQuery();
+                stmt2.executeQuery();
                 var rs2 = stmt.getResultSet();
-                rs.next();
+                rs2.next();
             }
 
             for (IngredientRecipe ingredientRecipe : recipe.getListOfIngredients()) {
@@ -72,9 +72,9 @@ public class PostgresRecipeDAO implements RecipeDAO {
                 stmt.setInt(3, ingredientRecipe.getQuantity());
                 stmt.setInt(4, ingredientRecipe.getUnit());
 
-                stmt.executeQuery();
-                var rs2 = stmt.getResultSet();
-                rs.next();
+                stmt3.executeQuery();
+                var rs3 = stmt.getResultSet();
+                rs3.next();
             }
         }
     }
