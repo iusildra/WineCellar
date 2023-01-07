@@ -118,4 +118,26 @@ public class Ad {
     public void setIngredientId(int ingredientId) {
         this.ingredientId = ingredientId;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id.isEmpty()) ? 0 : id.hashCode());
+        result = prime * result + ((descriptionPromotion == null) ? 0 : descriptionPromotion.hashCode());
+        result = prime * result + price;
+        result = prime * result + partnerId;
+        result = prime * result + ingredientId;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Ad) {
+            Ad other = (Ad) obj;
+            return this.hashCode() == other.hashCode();
+        }
+        return false;
+    }
+
 }

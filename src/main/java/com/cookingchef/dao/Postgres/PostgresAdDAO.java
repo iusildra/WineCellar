@@ -34,7 +34,7 @@ public class PostgresAdDAO implements AdDAO {
         var conn = ConnectionManager.getConnection();
 
         try (var stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, ad.getDescription_promotion());
+            stmt.setString(1, ad.getDescriptionPromotion());
             stmt.setInt(2, ad.getPrice());
             stmt.setInt(3, ad.getPartnerId());
             stmt.setInt(4, ad.getIngredientId());
@@ -54,7 +54,7 @@ public class PostgresAdDAO implements AdDAO {
         var conn = ConnectionManager.getConnection();
 
         try (var stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, ad.getDescription_promotion());
+            stmt.setString(1, ad.getDescriptionPromotion());
             stmt.setInt(2, ad.getPrice());
             stmt.setInt(3, ad.getPartnerId());
             stmt.setInt(4, ad.getIngredientId());
