@@ -2,12 +2,23 @@ package com.cookingchef.model;
 
 import java.util.Optional;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Partner {
   private Optional<Integer> id = Optional.empty();
   private String name;
-  private String img = "";
+  private Optional<String> img = Optional.empty();
   private String description;
   private String website;
+
+  public Partner() {
+    this.name = "";
+    this.description = "";
+    this.website = "";
+  }
 
   /**
    * @param name
@@ -31,6 +42,26 @@ public class Partner {
     this.name = name;
     this.description = description;
     this.website = website;
+  }
+
+  public IntegerProperty idProperty() {
+    return new SimpleIntegerProperty(this.id.orElse(-1));
+  }
+
+  public StringProperty nameProperty() {
+    return new SimpleStringProperty(this.name);
+  }
+
+  public StringProperty imgProperty() {
+    return new SimpleStringProperty(this.img.orElse("No image"));
+  }
+
+  public StringProperty descriptionProperty() {
+    return new SimpleStringProperty(this.description);
+  }
+
+  public StringProperty websiteProperty() {
+    return new SimpleStringProperty(this.website);
   }
 
   /**
@@ -67,7 +98,7 @@ public class Partner {
   /**
    * @return the img
    */
-  public String getImg() {
+  public Optional<String> getImg() {
     return img;
   }
 
@@ -75,7 +106,7 @@ public class Partner {
    * @param img the img to set
    */
   public void setImg(String img) {
-    this.img = img;
+    this.img = Optional.of(img);
   }
 
   /**
@@ -106,17 +137,42 @@ public class Partner {
     this.website = website;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#hashCode()
+   */
+
   @Override
-  public int hashCode() {
-    return this.id.hashCode() + this.name.hashCode() + this.description.hashCode() + this.website.hashCode();
+  public boolean equals(Object o) {
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
+
+    Partner partner = (Partner) o;
+
+    if (this.id.isPresent() && partner.id.isPresent() && !this.id.get().equals(partner.id.get()))
+      return false;
+    if (this.img.isPresent() && partner.img.isPresent() && !this.img.get().equals(partner.img.get()))
+      return false;
+
+
+    if (!name.equals(partner.name))
+      return false;
+    if (!description.equals(partner.description))
+      return false;
+
+    return website.equals(partner.website);
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (obj instanceof Partner) {
-      var other = (Partner) obj;
-      return this.hashCode() == other.hashCode();
-    }
-    return false;
+  public int hashCode() {
+    int result = id.hashCode();
+    result = 31 * result + name.hashCode();
+    result = 31 * result + img.hashCode();
+    result = 31 * result + description.hashCode();
+    result = 31 * result + website.hashCode();
+    return result;
   }
 }

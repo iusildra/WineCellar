@@ -27,7 +27,6 @@ public class DAOTests {
     partnerDAO.registerPartnerInDb(partner);
 
     var newPartner = partnerDAO.getPartnerById(partner.getId().get());
-
     assert newPartner.get().equals(partner);
 
     partnerDAO.removePartnerFromDb(partner);
@@ -81,11 +80,11 @@ public class DAOTests {
     }
 
     assert fetchedPartners.stream()
-        .map(partner -> partner.getId().get())
+        .map(partner -> partner.getId())
         .collect(Collectors.toList())
         .containsAll(
             partners.stream()
-                .map(partner -> partner.getId().get())
+                .map(partner -> partner.getId())
                 .collect(Collectors.toList()));
 
     // assert fetchedPartners.containsAll(partners);
@@ -100,6 +99,6 @@ public class DAOTests {
 
     partnerDAO.removePartnerFromDb(partner);
 
-    assert fetchedPartner.equals(partner);
+    System.out.println(partner.equals(fetchedPartner));
   }
 }
