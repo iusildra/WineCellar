@@ -5,6 +5,7 @@ import java.util.Optional;
 public class Partner {
   private Optional<Integer> id = Optional.empty();
   private String name;
+  private String img = "";
   private String description;
   private String website;
 
@@ -61,6 +62,20 @@ public class Partner {
    */
   public void setName(String name) {
     this.name = name;
+  }
+
+  /**
+   * @return the img
+   */
+  public String getImg() {
+    return img;
+  }
+
+  /**
+   * @param img the img to set
+   */
+  public void setImg(String img) {
+    this.img = img;
   }
 
   /**
