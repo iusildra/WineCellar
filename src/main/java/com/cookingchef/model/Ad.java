@@ -4,38 +4,38 @@ import java.util.Optional;
 
 public class Ad {
     private Optional<Integer> id = Optional.empty();
-    private String description_promotion;
+    private String descriptionPromotion;
     private int price;
 
-    private int partner_id;
-    private int ingredient_id;
+    private int partnerId;
+    private int ingredientId;
 
     /**
      * @param id
-     * @param description_promotion
+     * @param descriptionPromotion
      * @param price
-     * @param partner_id
-     * @param ingredient_id
+     * @param partnerId
+     * @param ingredientId
      */
-    public Ad(int id, String description_promotion, int price, int partner_id, int ingredient_id) {
+    public Ad(int id, String descriptionPromotion, int price, int partnerId, int ingredientId) {
         this.id = Optional.of(id);
-        this.description_promotion = description_promotion;
+        this.descriptionPromotion = descriptionPromotion;
         this.price = price;
-        this.partner_id = partner_id;
-        this.ingredient_id = ingredient_id;
+        this.partnerId = partnerId;
+        this.ingredientId = ingredientId;
     }
 
     /**
-     * @param description_promotion
+     * @param descriptionPromotion
      * @param price
-     * @param partner_id
-     * @param ingredient_id
+     * @param partnerId
+     * @param ingredientId
      */
-    public Ad(String description_promotion, int price, int partner_id, int ingredient_id) {
-        this.description_promotion = description_promotion;
+    public Ad(String descriptionPromotion, int price, int partnerId, int ingredientId) {
+        this.descriptionPromotion = descriptionPromotion;
         this.price = price;
-        this.partner_id = partner_id;
-        this.ingredient_id = ingredient_id;
+        this.partnerId = partnerId;
+        this.ingredientId = ingredientId;
     }
 
     /**
@@ -59,16 +59,16 @@ public class Ad {
      *
      * @return the description of the ad
      */
-    public String getDescription_promotion() {
-        return description_promotion;
+    public String getDescriptionPromotion() {
+        return descriptionPromotion;
     }
 
     /**
      *
-     * @param description_promotion
+     * @param descriptionPromotion
      */
-    public void setDescription_promotion(String description_promotion) {
-        this.description_promotion = description_promotion;
+    public void setDescriptionPromotion(String descriptionPromotion) {
+        this.descriptionPromotion = descriptionPromotion;
     }
 
     /**
@@ -92,15 +92,15 @@ public class Ad {
      * @return the partner id who propose this ad
      */
     public int getPartnerId() {
-        return partner_id;
+        return partnerId;
     }
 
     /**
      *
-     * @param partner_id
+     * @param partnerId
      */
-    public void setPartnerId(int partner_id) {
-        this.partner_id = partner_id;
+    public void setPartnerId(int partnerId) {
+        this.partnerId = partnerId;
     }
 
     /**
@@ -108,14 +108,14 @@ public class Ad {
      * @return the ingredient id the ad is about
      */
     public int getIngredientId() {
-        return ingredient_id;
+        return ingredientId;
     }
 
     /**
      *
-     * @param ingredient_id
+     * @param ingredientId
      */
-    public void setIngredientId(int ingredient_id) {
-        this.ingredient_id = ingredient_id;
+    public void setIngredientId(int ingredientId) {
+        this.ingredientId = ingredientId;
     }
 }
