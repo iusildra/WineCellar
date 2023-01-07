@@ -105,14 +105,31 @@ public class IngredientController {
     }
 
     public void onClickUpdateIngredient() {
-        try {
-            // TODO : récupérer l'id de l'ingrédient à modifier
-            this.ingredientFacade.updateIngredient(idIngredient, this.getNameIngredient(), this.imageIngredient, this.getAllergen());
-            showText.setText("Ingredient updated");
-        } catch (SQLException e) {
-            // TODO : gérer exception
-            showText.setText("Erreur lors de la modification de l'ingrédient");
+        // TODO : récupérer l'id de l'ingrédient à modifier
+        if (this.imageIngredient == null) {
+            // TODO : afficher toast erreur ou mettre le form en rouge
+            showText.setText("Please select an image");
+        }
+        if (this.nameIngredient.getText().isEmpty()) {
+            // TODO : afficher toast erreur ou mettre le form en rouge
+            showText.setText("Please enter a name");
+        } else {
+            try {
+
+                this.ingredientFacade.updateIngredient(idIngredient, this.getNameIngredient(), this.imageIngredient, this.getAllergen());
+                showText.setText("Ingredient updated");
+            } catch (SQLException e) {
+                // TODO : gérer exception
+                showText.setText("Erreur lors de la modification de l'ingrédient");
+            }
         }
     }
 
+    public void showFormCreate() {
+        // TODO : afficher le formulaire de création d'ingrédient
+    }
+
+    public void showFormUpdate() {
+        // TODO : afficher le formulaire de modification d'ingrédient
+    }
 }
