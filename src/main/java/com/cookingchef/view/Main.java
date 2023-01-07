@@ -17,6 +17,8 @@ public class Main extends Application {
 
 	private static User user;
 
+	public static Stage stage;
+
 	private static VBox root = new VBox();
 	private static Map<String, URL> scenes = new HashMap<>();
 
@@ -55,6 +57,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) throws IOException {
+		this.stage = stage;
 		var defaultVal = "postgres";
 		ConnectionManager.openConnectionPool(defaultVal, defaultVal, defaultVal, 5432);
 		addScene("login", Main.class.getResource("login-view.fxml"));

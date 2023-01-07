@@ -22,4 +22,5 @@ module com.cookingchef {
 	exports com.cookingchef.facade;
 	exports com.cookingchef.model;
 	exports com.cookingchef.view;
+    exports com.cookingchef.dao.Postgres;
 }
