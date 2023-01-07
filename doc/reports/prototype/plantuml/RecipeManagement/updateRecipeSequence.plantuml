@@ -10,19 +10,21 @@ participant RecipeDAO
 participant DataBase
 
 activate User
-activate DataBase
 
 User -> RecipePage++ : changeInformations
 User -> RecipePage : clickOnUpdate
 
 RecipePage -> RecipeController++ : updateRecipe()
 
-RecipeController -> RecipeFacade++ : updateRecipe(): True|Error
+RecipeController -> RecipeFacade++ : updateRecipe()
 
 RecipeFacade -> RecipeAbstractFactory++ : getRecipeDAO(): RecipeDAO
-RecipeFacade -> RecipeDAO++ : updateRecipe(): True|Error
+return recipeDAO
+RecipeFacade -> RecipeDAO++ : updateRecipe()
+return
+return
 
-alt return True
+alt return no errors
   RecipeController -> RecipePage : updateSuccessful()
 
   RecipePage -> User : display("La recette a été mise à jour")
