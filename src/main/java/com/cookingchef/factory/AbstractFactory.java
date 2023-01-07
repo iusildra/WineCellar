@@ -11,4 +11,6 @@ public interface AbstractFactory {
   public UserSuggestionDAO getUserSuggestionDAO();
 
   public PartnerDAO getPartnerDAO();
+
+  public CartDAO getCartDAO();
 }
