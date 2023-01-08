@@ -4,44 +4,34 @@ import java.util.Optional;
 
 public class Cart {
     private Optional<Integer> id = Optional.empty();
-    private int ingredient_id;
-    private int user_id;
-    private int quantity;
-    private int unit;
+    private CartEntry[] cartEntries;
+    private User user;
 
     /**
      *
      * @param id
-     * @param ingredient_id
-     * @param user_id
-     * @param quantity
-     * @param unit
+     * @param cartEntries
+     * @param user
      */
-    public Cart(int id, int ingredient_id, int user_id, int quantity, int unit) {
+    public Cart(int id, CartEntry[] cartEntries, User user) {
         this.id = Optional.of(id);
-        this.ingredient_id = ingredient_id;
-        this.user_id = user_id;
-        this.quantity = quantity;
-        this.unit = unit;
+        this.cartEntries = cartEntries;
+        this.user = user;
     }
 
     /**
      *
-     * @param ingredient_id
-     * @param user_id
-     * @param quantity
-     * @param unit
+     * @param cartEntries
+     * @param user
      */
-    public Cart(int ingredient_id, int user_id, int quantity, int unit) {
-        this.ingredient_id = ingredient_id;
-        this.user_id = user_id;
-        this.quantity = quantity;
-        this.unit = unit;
+    public Cart(CartEntry[] cartEntries, User user) {
+        this.cartEntries = cartEntries;
+        this.user = user;
     }
 
     /**
      *
-     * @return id of the cart
+     * @return the id of the cart
      */
     public Optional<Integer> getId() {
         return id;
@@ -59,65 +49,33 @@ public class Cart {
 
     /**
      *
-     * @return the ingredient id
+     * @return the list of the entries of the cart
      */
-    public int getIngredient_id() {
-        return ingredient_id;
+    public CartEntry[] getCartEntries() {
+        return cartEntries;
     }
 
     /**
      *
-     * @param ingredient_id
+     * @param cartEntries
      */
-    public void setIngredient_id(int ingredient_id) {
-        this.ingredient_id = ingredient_id;
+    public void setCartEntries(CartEntry[] cartEntries) {
+        this.cartEntries = cartEntries;
     }
 
     /**
      *
-     * @return the user who possess the cart
+     * @return the cart user
      */
-    public int getUser_id() {
-        return user_id;
+    public User getUser() {
+        return user;
     }
 
     /**
      *
-     * @param user_id
+     * @param user
      */
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
-
-    /**
-     *
-     * @return quantity for ingredient
-     */
-    public int getQuantity() {
-        return quantity;
-    }
-
-    /**
-     *
-     * @param quantity
-     */
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    /**
-     *
-     * @return unit of quantity
-     */
-    public int getUnit() {
-        return unit;
-    }
-
-    /**
-     *
-     * @param unit
-     */
-    public void setUnit(int unit) {
-        this.unit = unit;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

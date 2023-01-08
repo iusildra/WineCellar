@@ -1,6 +1,6 @@
 package com.cookingchef.dao;
 
-import com.cookingchef.model.Cart;
+import com.cookingchef.model.CartEntry;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -10,24 +10,24 @@ public interface CartDAO {
     /**
      * Add element to a cart in the database
      *
-     * @param cart The cart object that you want to register.
+     * @param cartEntry The cart object that you want to register.
      * @return The id of the newly created cart
      */
-    public Optional<Integer> addElementIntoCartInDb(Cart cart) throws SQLException;
+    public Optional<Integer> addElementIntoCartInDb(CartEntry cartEntry) throws SQLException;
 
     /**
      * Update the quantity of element of the cart in the database.
      *
-     * @param cart The cart object that you want to update in the database.
+     * @param cartEntry The cart object that you want to update in the database.
      */
-    public void updateCartInDb(Cart cart) throws SQLException;
+    public void updateCartInDb(CartEntry cartEntry) throws SQLException;
 
     /**
      * Removes an element of the cart from the database.
      *
-     * @param cart The cart object to be removed from the database.
+     * @param cartEntry The cart object to be removed from the database.
      */
-    public void removeCartFromDb(Cart cart) throws SQLException;
+    public void removeCartFromDb(CartEntry cartEntry) throws SQLException;
 
     /**
      * Get a cart by id
@@ -35,13 +35,13 @@ public interface CartDAO {
      * @param id The id of the cart you want to get.
      * @return The cart if it exists, otherwise, returns an empty option
      */
-    public Optional<Cart> getCartById(int id) throws SQLException;
+    public Optional<CartEntry> getCartById(int id) throws SQLException;
 
     /**
-     * Returns a list of carts whose user matches the given user.
+     * Returns the cart whose user matches the given user.
      *
      * @param userId The user id of the user you want to search for.
-     * @return A list of carts with the user specified.
+     * @return The cart with the user specified.
      */
-    public List<Cart> getCartsByUser(int userId) throws SQLException;
+    public List<CartEntry> getCartByUser(int userId) throws SQLException;
 }

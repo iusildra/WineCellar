@@ -2,7 +2,7 @@ package com.cookingchef.facade;
 
 import com.cookingchef.dao.CartDAO;
 import com.cookingchef.factory.PostgresFactory;
-import com.cookingchef.model.Cart;
+import com.cookingchef.model.CartEntry;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -23,8 +23,8 @@ public class CartFacade {
         return instance.get();
     }
 
-    public Optional<Cart> addElementIntoCart(Cart cart) throws SQLException {
-        var newId = cartDAO.addElementIntoCartInDb(cart);
+    public Optional<CartEntry> addElementIntoCart(CartEntry cartEntry) throws SQLException {
+        var newId = cartDAO.addElementIntoCartInDb(cartEntry);
 
         if (newId.isPresent())
             return cartDAO.getCartById(newId.get());
@@ -32,19 +32,19 @@ public class CartFacade {
         return Optional.empty();
     }
 
-    public void deleteCart(Cart cart) throws SQLException {
-        cartDAO.removeCartFromDb(cart);
+    public void deleteCart(CartEntry cartEntry) throws SQLException {
+        cartDAO.removeCartFromDb(cartEntry);
     }
 
-    public void updateCart(Cart cart) throws SQLException {
-        cartDAO.updateCartInDb(cart);
+    public void updateCart(CartEntry cartEntry) throws SQLException {
+        cartDAO.updateCartInDb(cartEntry);
     }
 
-    public Optional<Cart> getCartById(int id) throws SQLException {
+    public Optional<CartEntry> getCartById(int id) throws SQLException {
         return cartDAO.getCartById(id);
     }
 
-    public List<Cart> getCartsByUser(int userId) throws SQLException {
-        return cartDAO.getCartsByUser(userId);
+    public List<CartEntry> getCartByUser(int userId) throws SQLException {
+        return cartDAO.getCartByUser(userId);
     }
 }

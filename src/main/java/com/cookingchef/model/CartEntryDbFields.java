@@ -1,15 +1,15 @@
 package com.cookingchef.model;
 
-public enum CartDbFields {
+public enum CartEntryDbFields {
     ID("id"),
-    INGREDIENT_ID("ingredient_id"),
-    USER_ID("user_id"),
+    INGREDIENT_ID("ingredientId"),
+    USER_ID("userId"),
     QUANTITY("quantity"),
     UNIT("unit");
 
     public final String value;
 
-    private CartDbFields(String key) {
+    private CartEntryDbFields(String key) {
         this.value = key;
     }
 }

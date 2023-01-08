@@ -49,9 +49,9 @@ CREATE TABLE "public"."advert" (
 CREATE TABLE "public"."cart_user" (
     "ingredient_id" int4 NOT NULL,
     "user_id" int4 NOT NULL,
-    "quantity" int4 NOT NULL,
+    "quantity" float8 NOT NULL,
     "unit" int4 NOT NULL,
-    PRIMARY KEY ("ingredient_id","user_id")
+    PRIMARY KEY ("ingredient_id", "user_id")
 );
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
