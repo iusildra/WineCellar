@@ -1,10 +1,11 @@
 package com.cookingchef.model;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class Cart {
     private Optional<Integer> id = Optional.empty();
-    private CartEntry[] cartEntries;
+    private ArrayList<CartEntry> cartEntries;
     private User user;
 
     /**
@@ -13,7 +14,7 @@ public class Cart {
      * @param cartEntries
      * @param user
      */
-    public Cart(int id, CartEntry[] cartEntries, User user) {
+    public Cart(int id, ArrayList<CartEntry> cartEntries, User user) {
         this.id = Optional.of(id);
         this.cartEntries = cartEntries;
         this.user = user;
@@ -24,7 +25,7 @@ public class Cart {
      * @param cartEntries
      * @param user
      */
-    public Cart(CartEntry[] cartEntries, User user) {
+    public Cart(ArrayList<CartEntry> cartEntries, User user) {
         this.cartEntries = cartEntries;
         this.user = user;
     }
@@ -51,7 +52,7 @@ public class Cart {
      *
      * @return the list of the entries of the cart
      */
-    public CartEntry[] getCartEntries() {
+    public ArrayList<CartEntry> getCartEntries() {
         return cartEntries;
     }
 
@@ -59,8 +60,26 @@ public class Cart {
      *
      * @param cartEntries
      */
-    public void setCartEntries(CartEntry[] cartEntries) {
+    public void setCartEntries(ArrayList<CartEntry> cartEntries) {
         this.cartEntries = cartEntries;
+    }
+
+    /**
+     * Add a cart entry to the cart
+     *
+     * @param cartEntry
+     */
+    public void addCartEntry(CartEntry cartEntry){
+        this.cartEntries.add(cartEntry);
+    }
+
+    /**
+     * Remove the cart entry
+     *
+     * @param cartEntry
+     */
+    public void deleteCartEntry(CartEntry cartEntry){
+        this.cartEntries.remove(cartEntry);
     }
 
     /**
