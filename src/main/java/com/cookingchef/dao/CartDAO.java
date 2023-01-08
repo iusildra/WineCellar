@@ -1,6 +1,7 @@
 package com.cookingchef.dao;
 
 import com.cookingchef.model.CartEntry;
+import javafx.util.Pair;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,7 +14,7 @@ public interface CartDAO {
      * @param cartEntry The cart object that you want to register.
      * @return The id of the newly created cart
      */
-    public Optional<Integer> addElementIntoCartInDb(CartEntry cartEntry) throws SQLException;
+    public Pair<Integer, Integer> addElementIntoCartInDb(CartEntry cartEntry) throws SQLException;
 
     /**
      * Update the quantity of element of the cart in the database.
@@ -32,10 +33,12 @@ public interface CartDAO {
     /**
      * Get a cart by id
      *
-     * @param id The id of the cart you want to get.
+     * @param ingredientId
+     * @param userId
      * @return The cart if it exists, otherwise, returns an empty option
+     * @throws SQLException
      */
-    public Optional<CartEntry> getCartById(int id) throws SQLException;
+    public Optional<CartEntry> getCartById(int ingredientId, int userId) throws SQLException;
 
     /**
      * Returns the cart whose user matches the given user.

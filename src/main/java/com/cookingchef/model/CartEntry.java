@@ -3,27 +3,11 @@ package com.cookingchef.model;
 import java.util.Optional;
 
 public class CartEntry {
-    private Optional<Integer> id = Optional.empty();
     private int ingredientId;
     private int userId;
     private double quantity;
     private int unit;
 
-    /**
-     *
-     * @param id
-     * @param ingredientId
-     * @param userId
-     * @param quantity
-     * @param unit
-     */
-    public CartEntry(int id, int ingredientId, int userId, double quantity, int unit) {
-        this.id = Optional.of(id);
-        this.ingredientId = ingredientId;
-        this.userId = userId;
-        this.quantity = quantity;
-        this.unit = unit;
-    }
 
     /**
      *
@@ -41,20 +25,12 @@ public class CartEntry {
 
     /**
      *
-     * @return id of the cart
+     * @param quantity
+     * @param unit
      */
-    public Optional<Integer> getId() {
-        return id;
-    }
-
-    /**
-     * Set the ID only once, if it is not already set.
-     *
-     * @param id The id of the object.
-     */
-    public void setId(int id) {
-        if (this.id.isEmpty())
-            this.id = Optional.of(id);
+    public CartEntry(double quantity, int unit) {
+        this.quantity = quantity;
+        this.unit = unit;
     }
 
     /**

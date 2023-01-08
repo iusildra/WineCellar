@@ -1,7 +1,6 @@
 package com.cookingchef.model;
 
 public enum CartEntryDbFields {
-    ID("id"),
     INGREDIENT_ID("ingredientId"),
     USER_ID("userId"),
     QUANTITY("quantity"),

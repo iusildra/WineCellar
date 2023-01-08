@@ -26,8 +26,8 @@ public class CartFacade {
     public Optional<CartEntry> addElementIntoCart(CartEntry cartEntry) throws SQLException {
         var newId = cartDAO.addElementIntoCartInDb(cartEntry);
 
-        if (newId.isPresent())
-            return cartDAO.getCartById(newId.get());
+        if (newId != null)
+            return cartDAO.getCartById(newId.getKey(), newId.getValue());
 
         return Optional.empty();
     }
@@ -40,8 +40,8 @@ public class CartFacade {
         cartDAO.updateCartInDb(cartEntry);
     }
 
-    public Optional<CartEntry> getCartById(int id) throws SQLException {
-        return cartDAO.getCartById(id);
+    public Optional<CartEntry> getCartById(int ingredientId, int userId) throws SQLException {
+        return cartDAO.getCartById(ingredientId, userId);
     }
 
     public List<CartEntry> getCartByUser(int userId) throws SQLException {
