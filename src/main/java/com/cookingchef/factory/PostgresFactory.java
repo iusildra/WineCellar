@@ -29,4 +29,9 @@ public class PostgresFactory implements AbstractFactory {
   public IngredientDAO getIngredientDAO() {
     return PostgresIngredientDAO.getPostgresIngredientDAO();
   }
+
+  @Override
+  public CategoryDAO getCategoryDAO() {
+    return PostgresCategoryDAO.getPostgresCategoryDAO();
+  }
 }
