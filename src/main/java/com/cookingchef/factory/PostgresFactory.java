@@ -24,4 +24,6 @@ public class PostgresFactory implements AbstractFactory {
   public PartnerDAO getPartnerDAO() {
     return PostgresPartnerDAO.getPostgresPartnerDAO();
   }
+
+  public CartDAO getCartDAO(){return PostgresCartDAO.getPostgresCartDAO();}
 }
