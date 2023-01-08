@@ -1,11 +1,11 @@
 package com.cookingchef.model;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class Cart {
     private Optional<Integer> id = Optional.empty();
-    private ArrayList<CartEntry> cartEntries;
+    private List<CartEntry> cartEntries;
     private User user;
 
     /**
@@ -14,7 +14,7 @@ public class Cart {
      * @param cartEntries
      * @param user
      */
-    public Cart(int id, ArrayList<CartEntry> cartEntries, User user) {
+    public Cart(int id, List<CartEntry> cartEntries, User user) {
         this.id = Optional.of(id);
         this.cartEntries = cartEntries;
         this.user = user;
@@ -25,7 +25,7 @@ public class Cart {
      * @param cartEntries
      * @param user
      */
-    public Cart(ArrayList<CartEntry> cartEntries, User user) {
+    public Cart(List<CartEntry> cartEntries, User user) {
         this.cartEntries = cartEntries;
         this.user = user;
     }
@@ -52,7 +52,7 @@ public class Cart {
      *
      * @return the list of the entries of the cart
      */
-    public ArrayList<CartEntry> getCartEntries() {
+    public List<CartEntry> getCartEntries() {
         return cartEntries;
     }
 
@@ -60,7 +60,7 @@ public class Cart {
      *
      * @param cartEntries
      */
-    public void setCartEntries(ArrayList<CartEntry> cartEntries) {
+    public void setCartEntries(List<CartEntry> cartEntries) {
         this.cartEntries = cartEntries;
     }
 

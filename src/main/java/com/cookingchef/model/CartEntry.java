@@ -1,7 +1,5 @@
 package com.cookingchef.model;
 
-import java.util.Optional;
-
 public class CartEntry {
     private int ingredientId;
     private int userId;
@@ -96,4 +94,40 @@ public class CartEntry {
     public void setUnit(int unit) {
         this.unit = unit;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ingredientId;
+        result = prime * result + userId;
+        long temp;
+        temp = Double.doubleToLongBits(quantity);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + unit;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+
+        CartEntry other = (CartEntry) obj;
+
+        if (ingredientId != other.ingredientId)
+            return false;
+        if (userId != other.userId)
+            return false;
+        if (Double.doubleToLongBits(quantity) != Double.doubleToLongBits(other.quantity))
+            return false;
+            
+        return unit == other.unit;
+    }
+
+    
 }

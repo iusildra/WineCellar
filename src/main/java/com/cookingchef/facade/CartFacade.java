@@ -24,12 +24,8 @@ public class CartFacade {
     }
 
     public Optional<CartEntry> addElementIntoCart(CartEntry cartEntry) throws SQLException {
-        var newId = cartDAO.addElementIntoCartInDb(cartEntry);
-
-        if (newId != null)
-            return cartDAO.getCartById(newId.getKey(), newId.getValue());
-
-        return Optional.empty();
+        cartDAO.addElementIntoCartInDb(cartEntry);
+        return Optional.of(cartEntry);
     }
 
     public void deleteCart(CartEntry cartEntry) throws SQLException {

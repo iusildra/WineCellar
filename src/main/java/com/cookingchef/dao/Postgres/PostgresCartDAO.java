@@ -4,7 +4,6 @@ import com.cookingchef.dao.CartDAO;
 import com.cookingchef.dbutils.ConnectionManager;
 import com.cookingchef.model.CartEntry;
 import com.cookingchef.model.CartEntryDbFields;
-import javafx.util.Pair;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,8 +29,8 @@ public class PostgresCartDAO implements CartDAO {
     }
 
     @Override
-    public Pair<Integer, Integer> addElementIntoCartInDb(CartEntry cartEntry) throws SQLException {
-        var query = "INSERT INTO cart_user(ingredient_id, user_id, quantity,unit) VALUES(?, ?, ?, ?) RETURNING id";
+    public void addElementIntoCartInDb(CartEntry cartEntry) throws SQLException {
+        var query = "INSERT INTO cart_user(ingredient_id, user_id, quantity,unit) VALUES(?, ?, ?, ?)";
         var conn = ConnectionManager.getConnection();
 
         try (var stmt = conn.prepareStatement(query)) {
@@ -40,14 +39,7 @@ public class PostgresCartDAO implements CartDAO {
             stmt.setDouble(3, cartEntry.getQuantity());
             stmt.setInt(4, cartEntry.getUnit());
 
-            stmt.executeQuery();
-            var rs = stmt.getResultSet();
-            rs.next();
-            var newId1 = rs.getInt(CartEntryDbFields.INGREDIENT_ID.value);
-            var newId2 = rs.getInt(CartEntryDbFields.USER_ID.value);
-            cartEntry.setIngredientId(newId1);
-            cartEntry.setUserId(newId2);
-            return new Pair<>(newId1, newId2);
+            stmt.executeUpdate();
         }
     }
 

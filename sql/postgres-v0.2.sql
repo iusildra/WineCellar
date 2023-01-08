@@ -91,6 +91,8 @@ CREATE TABLE "public"."ingredient" (
     PRIMARY KEY ("id")
 );
 
+INSERT INTO "public"."ingredient" VALUES (0, 'dumb', false, NULL);
+INSERT INTO "public"."ingredient" ("name", "allergen", "src") VALUES (1, 'dummy', false, NULL), (2);
 
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
@@ -270,6 +272,8 @@ CREATE TABLE "public"."suggestion_category" (
     PRIMARY KEY ("id")
 );
 
+INSERT INTO suggestion_category VALUES (0, 'test0');
+INSERT INTO suggestion_category(name) VALUES ('test1'), ('test2');
 
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
@@ -282,6 +286,8 @@ CREATE TABLE "public"."unit" (
     "name" varchar(20),
     PRIMARY KEY ("id")
 );
+
+INSERT INTO "public"."unit" ("id", "name") VALUES (0, 'dumb');
 
 
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
@@ -302,6 +308,9 @@ CREATE TABLE "public"."users" (
     "password" varchar(60) NOT NULL,
     PRIMARY KEY ("id")
 );
+
+INSERT INTO "public"."users"("id", "name", "email", "phone", "birthdate", "question", "answer", "is_admin", "password") VALUES (
+    0, 'u', 'u', 'u', '2018-01-01 00:00:00', 'u', 'u', false, '$2y$10$NdKkEpb9xK5nwmgyJtj80.99jpZo4y39iW0swZfXhXLNn0oP.RRI2');
 
 ALTER TABLE "public"."advert" ADD FOREIGN KEY ("ingredient_id") REFERENCES "public"."ingredient"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."advert" ADD FOREIGN KEY ("partner_id") REFERENCES "public"."partner"("id") ON DELETE CASCADE ON UPDATE CASCADE;

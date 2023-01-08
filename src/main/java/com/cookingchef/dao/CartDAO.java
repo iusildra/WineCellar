@@ -1,7 +1,6 @@
 package com.cookingchef.dao;
 
 import com.cookingchef.model.CartEntry;
-import javafx.util.Pair;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -14,7 +13,7 @@ public interface CartDAO {
      * @param cartEntry The cart object that you want to register.
      * @return The id of the newly created cart
      */
-    public Pair<Integer, Integer> addElementIntoCartInDb(CartEntry cartEntry) throws SQLException;
+    public void addElementIntoCartInDb(CartEntry cartEntry) throws SQLException;
 
     /**
      * Update the quantity of element of the cart in the database.
