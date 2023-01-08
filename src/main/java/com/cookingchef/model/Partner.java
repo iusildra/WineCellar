@@ -22,11 +22,13 @@ public class Partner {
 
   /**
    * @param name
+   * @param img
    * @param description
    * @param website
    */
-  public Partner(String name, String description, String website) {
+  public Partner(String name, String img, String description, String website) {
     this.name = name;
+    this.img = Optional.of(img);
     this.description = description;
     this.website = website;
   }
