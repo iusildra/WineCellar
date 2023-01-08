@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -19,9 +18,6 @@ public class PartnerFormController {
 
 	@FXML
 	private TextField formName;
-
-	@FXML
-	private TextField formImg;
 
 	@FXML
 	private TextField formWebiste;
@@ -37,16 +33,26 @@ public class PartnerFormController {
 	private Runnable callback;
 
 	@FXML
-	protected void onClickValidateButton() throws SQLException, IOException {
+	protected void onClickValidateButton() {
 		PartnerFacade partnerFacade = PartnerFacade.getPartnerFacade();
-		var partner = new Partner(this.formName.getText(), this.formImg.getText(), this.formWebiste.getText(),
-				this.formDescription.getText());
+		var partner = new Partner(this.partnerId, this.formName.getText(), this.formDescription.getText(),
+				this.formWebiste.getText());
 
-		if (this.partnerId.isEmpty())
-			partnerFacade.createPartner(partner);
-		else
-			partnerFacade.updatePartner(partner);
-
+		if (partner.getId().isEmpty()) {
+			try {
+				partnerFacade.createPartner(partner);
+			} catch (SQLException e) {
+				Popups.errorPopup("Creation failed");
+				return;
+			}
+		} else {
+			try {
+				partnerFacade.updatePartner(partner);
+			} catch (SQLException e) {
+				Popups.errorPopup("Update failed");
+				return;
+			}
+		}
 		callback.run();
 		this.onClose();
 	}
@@ -56,16 +62,16 @@ public class PartnerFormController {
 	}
 
 	public void fillInputs(Partner partner) {
-		this.formName = new TextField(partner.getName());
-		this.formImg = new TextField(partner.getImg().orElse("No image"));
-		this.formWebiste = new TextField(partner.getWebsite());
-		this.formDescription = new TextField(partner.getDescription());
+		this.partnerId = partner.getId();
+		this.formName.setText(partner.getName());
+		this.formWebiste.setText(partner.getWebsite());
+		this.formDescription.setText(partner.getDescription());
 	}
-	
+
 	public void setCallback(Runnable callback) {
 		this.callback = callback;
 	}
-	
+
 	@FXML
 	protected void onClose() {
 		var stage = (Stage) closeButton.getScene().getWindow();

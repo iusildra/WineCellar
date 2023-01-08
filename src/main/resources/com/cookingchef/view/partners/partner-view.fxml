@@ -48,11 +48,10 @@
                   <columns>
                      <TableColumn fx:id="id" editable="false" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" sortable="false" text="ID" />
                      <TableColumn fx:id="name" editable="false" maxWidth="250.0" minWidth="100.0" prefWidth="250.0" sortable="false" text="Name" />
-                     <TableColumn fx:id="img" editable="false" maxWidth="250.0" minWidth="100.0" prefWidth="250.0" sortable="false" text="Image" />
                      <TableColumn fx:id="website" editable="false" maxWidth="300.0" minWidth="100.0" prefWidth="300.0" sortable="false" text="Website" />
                      <TableColumn fx:id="description" editable="false" maxWidth="550.0" minWidth="400.0" prefWidth="550.0" sortable="false" text="Description" />
-                     <TableColumn fx:id="editPartner" editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" sortable="false" text="Edit" />
-                     <TableColumn fx:id="deletePartner" editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" sortable="false" text="Delete" />
+                     <TableColumn fx:id="editPartner" editable="false" maxWidth="100.0" minWidth="50.0" prefWidth="100.0" sortable="false" text="Edit" />
+                     <TableColumn fx:id="deletePartner" editable="false" maxWidth="100.0" minWidth="50.0" prefWidth="100.0" sortable="false" text="Delete" />
                   </columns>
                   <columnResizePolicy>
                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

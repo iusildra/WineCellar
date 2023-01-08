@@ -10,7 +10,6 @@ import javafx.beans.property.StringProperty;
 public class Partner {
   private Optional<Integer> id = Optional.empty();
   private String name;
-  private Optional<String> img = Optional.empty();
   private String description;
   private String website;
 
@@ -22,13 +21,11 @@ public class Partner {
 
   /**
    * @param name
-   * @param img
    * @param description
    * @param website
    */
-  public Partner(String name, String img, String description, String website) {
+  public Partner(String name, String description, String website) {
     this.name = name;
-    this.img = Optional.of(img);
     this.description = description;
     this.website = website;
   }
@@ -39,8 +36,8 @@ public class Partner {
    * @param description
    * @param website
    */
-  public Partner(int id, String name, String description, String website) {
-    this.id = Optional.of(id);
+  public Partner(Optional<Integer> id, String name, String description, String website) {
+    this.id = id;
     this.name = name;
     this.description = description;
     this.website = website;
@@ -52,10 +49,6 @@ public class Partner {
 
   public StringProperty nameProperty() {
     return new SimpleStringProperty(this.name);
-  }
-
-  public StringProperty imgProperty() {
-    return new SimpleStringProperty(this.img.orElse("No image"));
   }
 
   public StringProperty descriptionProperty() {
@@ -95,20 +88,6 @@ public class Partner {
    */
   public void setName(String name) {
     this.name = name;
-  }
-
-  /**
-   * @return the img
-   */
-  public Optional<String> getImg() {
-    return img;
-  }
-
-  /**
-   * @param img the img to set
-   */
-  public void setImg(String img) {
-    this.img = Optional.of(img);
   }
 
   /**
@@ -156,8 +135,6 @@ public class Partner {
 
     if (this.id.isPresent() && partner.id.isPresent() && !this.id.get().equals(partner.id.get()))
       return false;
-    if (this.img.isPresent() && partner.img.isPresent() && !this.img.get().equals(partner.img.get()))
-      return false;
 
 
     if (!name.equals(partner.name))
@@ -172,7 +149,6 @@ public class Partner {
   public int hashCode() {
     int result = id.hashCode();
     result = 31 * result + name.hashCode();
-    result = 31 * result + img.hashCode();
     result = 31 * result + description.hashCode();
     result = 31 * result + website.hashCode();
     return result;

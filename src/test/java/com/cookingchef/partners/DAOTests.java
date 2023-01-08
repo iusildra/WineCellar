@@ -23,7 +23,7 @@ public class DAOTests {
 
   @Test
   void createPartner() throws SQLException {
-    var partner = new Partner("abc", "abc", "abc", "abc");
+    var partner = new Partner("abc", "abc", "abc");
     partnerDAO.registerPartnerInDb(partner);
 
     var newPartner = partnerDAO.getPartnerById(partner.getId().get());
@@ -34,7 +34,7 @@ public class DAOTests {
 
   @Test
   void updatePartner() throws SQLException {
-    var partner = new Partner("abc", "abc", "abc", "abc");
+    var partner = new Partner("abc", "abc", "abc");
     partnerDAO.registerPartnerInDb(partner);
 
     partner.setName("def");
@@ -52,7 +52,7 @@ public class DAOTests {
 
   @Test
   void deletePartner() throws SQLException {
-    var partner = new Partner("abc", "abc", "abc", "abc");
+    var partner = new Partner("abc", "abc", "abc");
     partnerDAO.registerPartnerInDb(partner);
 
     partnerDAO.removePartnerFromDb(partner);
@@ -65,9 +65,9 @@ public class DAOTests {
   @Test
   void getAllPartners() throws SQLException {
     var partners = new ArrayList<Partner>();
-    partners.add(new Partner("abc", "abc", "abc", "abc"));
-    partners.add(new Partner("def", "def", "def", "def"));
-    partners.add(new Partner("ghi", "ghi", "ghi", "ghi"));
+    partners.add(new Partner("abc", "abc", "abc"));
+    partners.add(new Partner("def", "def", "def"));
+    partners.add(new Partner("ghi", "ghi", "ghi"));
 
     for (var partner : partners) {
       partnerDAO.registerPartnerInDb(partner);
@@ -92,7 +92,7 @@ public class DAOTests {
 
   @Test
   void getPartnerById() throws SQLException {
-    var partner = new Partner("abc", "abc", "abc", "abc");
+    var partner = new Partner("abc", "abc", "abc");
     partnerDAO.registerPartnerInDb(partner);
 
     var fetchedPartner = partnerDAO.getPartnerById(partner.getId().get()).get();
