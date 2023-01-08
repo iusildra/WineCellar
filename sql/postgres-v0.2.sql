@@ -7,8 +7,28 @@
 -- Generation Time: 2023-01-08 13:43:33.7640
 -- -------------------------------------------------------------
 
+DROP TABLE IF EXISTS "public"."comment_user";
+DROP TABLE IF EXISTS "public"."ingredient_category_ingredient";
+DROP TABLE IF EXISTS "public"."recipe_comment";
+DROP TABLE IF EXISTS "public"."recipe_category_recipe";
+DROP TABLE IF EXISTS "public"."recipe_ingredient";
+DROP TABLE IF EXISTS "public"."recipe_list_recipe";
+DROP TABLE IF EXISTS "public"."recipe_list_user";
+DROP TABLE IF EXISTS "public"."cart_user";
 
 DROP TABLE IF EXISTS "public"."advert";
+DROP TABLE IF EXISTS "public"."comment";
+DROP TABLE IF EXISTS "public"."ingredient";
+DROP TABLE IF EXISTS "public"."ingredient_category";
+DROP TABLE IF EXISTS "public"."news";
+DROP TABLE IF EXISTS "public"."partner";
+DROP TABLE IF EXISTS "public"."recipe";
+DROP TABLE IF EXISTS "public"."recipe_category";
+DROP TABLE IF EXISTS "public"."recipe_list";
+DROP TABLE IF EXISTS "public"."suggestion";
+DROP TABLE IF EXISTS "public"."unit";
+DROP TABLE IF EXISTS "public"."suggestion_category";
+DROP TABLE IF EXISTS "public"."users";
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Sequence and defined type
@@ -23,8 +43,6 @@ CREATE TABLE "public"."advert" (
     "ingredient_id" int4 NOT NULL,
     PRIMARY KEY ("id")
 );
-
-DROP TABLE IF EXISTS "public"."cart_user";
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Table Definition
@@ -35,8 +53,6 @@ CREATE TABLE "public"."cart_user" (
     "unit" int4 NOT NULL,
     PRIMARY KEY ("ingredient_id","user_id")
 );
-
-DROP TABLE IF EXISTS "public"."comment";
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Sequence and defined type
@@ -51,7 +67,6 @@ CREATE TABLE "public"."comment" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."comment_user";
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Table Definition
@@ -61,7 +76,7 @@ CREATE TABLE "public"."comment_user" (
     PRIMARY KEY ("comment_id","user_id")
 );
 
-DROP TABLE IF EXISTS "public"."ingredient";
+
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Sequence and defined type
@@ -76,7 +91,7 @@ CREATE TABLE "public"."ingredient" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."ingredient_category";
+
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Sequence and defined type
@@ -89,7 +104,7 @@ CREATE TABLE "public"."ingredient_category" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."ingredient_category_ingredient";
+
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Table Definition
@@ -99,7 +114,7 @@ CREATE TABLE "public"."ingredient_category_ingredient" (
     PRIMARY KEY ("ingredient_id","ingredient_category_id")
 );
 
-DROP TABLE IF EXISTS "public"."news";
+
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Sequence and defined type
@@ -115,7 +130,7 @@ CREATE TABLE "public"."news" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."partner";
+
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Sequence and defined type
@@ -130,7 +145,7 @@ CREATE TABLE "public"."partner" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."recipe";
+
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Sequence and defined type
@@ -148,7 +163,7 @@ CREATE TABLE "public"."recipe" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."recipe_category";
+
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Sequence and defined type
@@ -161,7 +176,7 @@ CREATE TABLE "public"."recipe_category" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."recipe_category_recipe";
+
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Table Definition
@@ -171,7 +186,7 @@ CREATE TABLE "public"."recipe_category_recipe" (
     PRIMARY KEY ("recipe_id","recipe_category_id")
 );
 
-DROP TABLE IF EXISTS "public"."recipe_comment";
+
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Table Definition
@@ -181,7 +196,7 @@ CREATE TABLE "public"."recipe_comment" (
     PRIMARY KEY ("recipe_id","comment_id")
 );
 
-DROP TABLE IF EXISTS "public"."recipe_ingredient";
+
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Table Definition
@@ -193,7 +208,7 @@ CREATE TABLE "public"."recipe_ingredient" (
     PRIMARY KEY ("recipe_id","ingredient_id")
 );
 
-DROP TABLE IF EXISTS "public"."recipe_list";
+
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Sequence and defined type
@@ -206,7 +221,7 @@ CREATE TABLE "public"."recipe_list" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."recipe_list_recipe";
+
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Table Definition
@@ -216,7 +231,7 @@ CREATE TABLE "public"."recipe_list_recipe" (
     PRIMARY KEY ("recipe_id","recipe_list_id")
 );
 
-DROP TABLE IF EXISTS "public"."recipe_list_user";
+
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Table Definition
@@ -226,7 +241,7 @@ CREATE TABLE "public"."recipe_list_user" (
     PRIMARY KEY ("user_id","recipe_list_id")
 );
 
-DROP TABLE IF EXISTS "public"."suggestion";
+
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Sequence and defined type
@@ -242,7 +257,7 @@ CREATE TABLE "public"."suggestion" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."suggestion_category";
+
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Sequence and defined type
@@ -255,7 +270,7 @@ CREATE TABLE "public"."suggestion_category" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."unit";
+
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Sequence and defined type
@@ -268,7 +283,7 @@ CREATE TABLE "public"."unit" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."users";
+
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Sequence and defined type
@@ -287,18 +302,6 @@ CREATE TABLE "public"."users" (
     "password" varchar(60) NOT NULL,
     PRIMARY KEY ("id")
 );
-
-INSERT INTO "public"."unit" ("id", "name") VALUES
-(1, 'mg'),
-(2, 'g'),
-(3, 'kg'),
-(4, 'mL'),
-(5, 'cl'),
-(6, 'L');
-
-INSERT INTO "public"."users" ("id", "name", "email", "phone", "birthdate", "question", "answer", "is_admin", "password") VALUES
-(1, 'u', 'u', '0613604212', '2022-12-20 22:45:39.647885', 'u?', 'addx', 't', '$2y$10$j1ax6LL0EZwxfP5S9xDfreDCGKo16JG4zLVQzOjsvxNFJMQ1wCvDe'),
-(8, 'r', 'r', '0909', '2023-01-11 00:00:00', 'r', 'r', 'f', '$2a$10$uMSwj6SFefFGx1eSWv/nweszPIRWwPXt9iyCsom/uWWdVExaX1ym.');
 
 ALTER TABLE "public"."advert" ADD FOREIGN KEY ("ingredient_id") REFERENCES "public"."ingredient"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."advert" ADD FOREIGN KEY ("partner_id") REFERENCES "public"."partner"("id") ON DELETE CASCADE ON UPDATE CASCADE;
