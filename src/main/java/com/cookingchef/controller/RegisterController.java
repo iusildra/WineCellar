@@ -90,27 +90,31 @@ public class RegisterController {
 		if (fieldAreNotEmpty()) {
 			if(emailIsValid(getEmail())) {
 				if(phoneIsValid(getPhone())){
-				if (getPassword().equals(getConfirmPassword())) {
-					User user = new User(getName(), getEmail(), getPassword(), getPhone(), getBirthdate(), getQuestion(), getAnswer());
-					Optional<User> result = userFacade.register(user);
-					if (result.isPresent()) {
-						Notifications.create().title("Registration").text("Registration successful").showInformation();
-						try {
-							Main.redirect("login");
-						} catch (IOException e) {
-							e.printStackTrace();
+					if(dateIsValid(getBirthdate())) {
+						if (getPassword().equals(getConfirmPassword())) {
+							User user = new User(getName(), getEmail(), getPassword(), getPhone(), getBirthdate(), getQuestion(), getAnswer());
+							Optional<User> result = userFacade.register(user);
+							if (result.isPresent()) {
+								Notifications.create().title("Registration").text("Registration successful").showInformation();
+								try {
+									Main.redirect("login");
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+							} else {
+								Notifications.create().title("Registration").text("Registration failed").showError();
+							}
+							try {
+								Main.redirect("login");
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						} else {
+							Notifications.create().title("Error").text("Passwords do not match!").showError();
 						}
 					} else {
-						Notifications.create().title("Registration").text("Registration failed").showError();
+						Notifications.create().title("Error").text("Birthdate is not valid!").showError();
 					}
-					try {
-						Main.redirect("login");
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				} else {
-					Notifications.create().title("Error").text("Passwords do not match!").showError();
-				}
 				}else{
 					Notifications.create().title("Error").text("Phone number is not valid!").showError();
 				}
