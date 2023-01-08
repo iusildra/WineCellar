@@ -25,4 +25,12 @@ public class UserFacade {
 	public Optional<User> login(String email,String password) throws SQLException {
 		return this.userDAO.getUserByEmailPwd(email,password);
 	}
+
+	public Optional<User> register(User user) throws SQLException {
+		if(this.userDAO.getUserByEmailPwd(user.getEmail(), user.getPassword()).isEmpty()) {
+			return this.userDAO.registerUserInDb(user);
+		}else{
+			return Optional.empty();
+		}
+	}
 }

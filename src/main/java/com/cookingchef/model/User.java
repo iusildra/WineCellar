@@ -15,7 +15,7 @@ public class User {
 	private Boolean isAdmin;
 
 	public User(String name, String email, String password, String phone, Date birthdate, String question,
-			String answer, Boolean isAdmin) {
+			String answer) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
@@ -23,7 +23,7 @@ public class User {
 		this.birthdate = birthdate;
 		this.question = question;
 		this.answer = answer;
-		this.isAdmin = isAdmin;
+		this.isAdmin = false;
 	}
 
 	public User(int id, String name, String email, String password, String phone, Date birthdate, String question,

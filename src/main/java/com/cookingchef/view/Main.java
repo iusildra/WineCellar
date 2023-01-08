@@ -65,6 +65,7 @@ public class Main extends Application {
 		addScene("category", Main.class.getResource("category/category-view.fxml"));
 		addScene("suggestionView", Main.class.getResource("suggestions/suggestion-view.fxml"));
 		addScene("partnerView", Main.class.getResource("partners/partner-view.fxml"));
+		addScene("register", Main.class.getResource("register-view.fxml"));
 		redirect("login");
 		Scene scene = new Scene(root, 1920, 1080);
 		stage.setTitle("MyChefCook");

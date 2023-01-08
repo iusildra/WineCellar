@@ -12,11 +12,11 @@ public interface UserDAO {
 	/**
 	 * Registers a user in the database and returns the user's id if the registration was
 	 * successful, otherwise it returns an empty Optional.
-	 * 
+	 *
 	 * @param user The user object that you want to register in the database.
 	 * @return An optional integer.
 	 */
-	public Optional<Integer> registerUserInDb(User user) throws SQLException;
+	public Optional<User> registerUserInDb(User user) throws SQLException;
 
 	/**
 	 * Updates a user in the database.

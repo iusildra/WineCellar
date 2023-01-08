@@ -81,7 +81,7 @@ public class PostgresUserDAO implements UserDAO {
 	}
 
 	@Override
-	public Optional<Integer> registerUserInDb(User user) throws SQLException {
+	public Optional<User> registerUserInDb(User user) throws SQLException {
 		var query = "INSERT INTO users (name, email, phone, birthdate, question, answer, is_admin, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING id";
 		var conn = ConnectionManager.getConnection();
 
@@ -93,13 +93,13 @@ public class PostgresUserDAO implements UserDAO {
 			stmt.setString(5, user.getQuestion());
 			stmt.setString(6, user.getAnswer());
 			stmt.setBoolean(7, user.getIsAdmin());
-			stmt.setString(8, user.getPassword());
+			stmt.setString(8, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 
 			var rs = stmt.executeQuery();
 			rs.next();
 			var newId = rs.getInt(UserDbFields.ID.value);
 			user.setId(newId);
-			return Optional.of(newId);
+			return Optional.of(user);
 		}
 	}
 
