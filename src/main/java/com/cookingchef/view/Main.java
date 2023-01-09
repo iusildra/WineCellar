@@ -51,9 +51,7 @@ public class Main extends Application {
 		root.getChildren().add(FXMLLoader.load(scenes.get(scene)));
 	}
 
-	public static void main(String[] args) {
-		launch();
-	}
+	public static void main(String[] args) {launch();}
 
 	@Override
 	public void start(Stage stage) throws IOException {
@@ -62,6 +60,7 @@ public class Main extends Application {
 		ConnectionManager.openConnectionPool(defaultVal, defaultVal, defaultVal, 5432);
 		addScene("login", Main.class.getResource("login-view.fxml"));
 		addScene("home", Main.class.getResource("home-view.fxml"));
+		addScene("ingredient", Main.class.getResource("ingredient/ingredient-view.fxml"));
 		redirect("login");
 		Scene scene = new Scene(root, 1920, 1080);
 		stage.setTitle("MyChefCook");

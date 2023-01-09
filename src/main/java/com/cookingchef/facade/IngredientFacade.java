@@ -6,11 +6,10 @@ import com.cookingchef.model.Ingredient;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class IngredientFacade {
     private static IngredientFacade instance;
-    private IngredientDAO ingredientDAO;
+    private final IngredientDAO ingredientDAO;
 
     private IngredientFacade() {
         var factory = new PostgresFactory();
@@ -28,15 +27,29 @@ public class IngredientFacade {
         return this.ingredientDAO.getAllIngredients();
     }
 
-    public void createIngredient(String name, byte[] img, Boolean allergen) throws SQLException {
-        this.ingredientDAO.createIngredient(name, img, allergen);
+    public Boolean createIngredient(String name, byte[] img, Boolean allergen) {
+        try {
+            return this.ingredientDAO.createIngredient(name, img, allergen);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void deleteIngredient(int idIngredient) throws SQLException {
         this.ingredientDAO.deleteIngredient(idIngredient);
     }
 
-    public void updateIngredient(int idIngredient, String nameIngredient, byte[] imageIngredient, Boolean allergenIngredient) throws SQLException {
-        this.ingredientDAO.updateIngredient(idIngredient, nameIngredient, imageIngredient, allergenIngredient);
+    public Boolean updateIngredient(int idIngredient, String nameIngredient, byte[] imageIngredient, Boolean allergenIngredient) {
+        try {
+            return this.ingredientDAO.updateIngredient(idIngredient, nameIngredient, imageIngredient, allergenIngredient);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Ingredient getIngredientById(int idIngredient) throws SQLException {
+        return this.ingredientDAO.getIngredientById(idIngredient);
     }
 }

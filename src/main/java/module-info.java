@@ -11,8 +11,9 @@ module com.cookingchef {
 	requires transitive java.sql;
 	requires transitive org.postgresql.jdbc;
 	requires spring.security.crypto;
+    requires java.desktop;
 
-	opens com.cookingchef.view to javafx.fxml;
+    opens com.cookingchef.view to javafx.fxml;
 	opens com.cookingchef.controller to javafx.fxml;
 
 	exports com.cookingchef.controller;

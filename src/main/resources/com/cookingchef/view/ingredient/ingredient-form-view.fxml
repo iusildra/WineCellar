@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.IngredientController">
+   <children>
+      <BorderPane prefHeight="400.0" prefWidth="600.0">
+         <center>
+            <VBox fx:id="root" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="TOP" text="Entrer le nom de l'ingrédient : " />
+                        <TextField fx:id="nameIngredient"/>
+                     </children>
+                      <HBox.margin>
+                          <Insets top="10.0" />
+                      </HBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="188.0" pickOnBounds="true" preserveRatio="true" />
+                        <Button fx:id="addImage" alignment="BOTTOM_CENTER" mnemonicParsing="false" text="Importer" />
+                     </children></HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="labelCheckBox" text="Allergène : " />
+                        <CheckBox fx:id="checkBox" mnemonicParsing="false" />
+                     </children></HBox>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="cancelButton" mnemonicParsing="false" text="Cancel" />
+                        <Button fx:id="validateButton" mnemonicParsing="false" text="Validate" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>
