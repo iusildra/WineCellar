@@ -5,6 +5,7 @@ import com.cookingchef.factory.PostgresFactory;
 import com.cookingchef.model.Ad;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
@@ -44,7 +45,7 @@ public class AdFacade {
         return adDAO.getAdById(id);
     }
 
-    public List<Ad> getAllAds() throws SQLException {
+    public ArrayList<Ad> getAllAds() throws SQLException {
         return adDAO.getAds();
     }
 }

@@ -3,6 +3,7 @@ package com.cookingchef.dao;
 import com.cookingchef.model.Ad;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +44,7 @@ public interface AdDAO {
      * @param name The name of the ad you want to search for.
      * @return A list of ads with the name specified.
      */
-    public List<Ad> getAdsByName(String name) throws SQLException;
+    public ArrayList<Ad> getAdsByName(String name) throws SQLException;
 
 
     /**
@@ -51,7 +52,7 @@ public interface AdDAO {
      *
      * @return Every ad in the database.
      */
-    public default List<Ad> getAds() throws SQLException {
+    public default ArrayList<Ad> getAds() throws SQLException {
         return getAdsByName("");
     }
 }
