@@ -46,6 +46,18 @@ public class RecipeList {
      * Constructor for a new RecipeList.
      * @param name The name of the RecipeList
      * @param recipeList An existant list of recipes.
+     * @param isFav Whether the RecipeList is favorite or not.
+     */
+    public RecipeList(String name, ArrayList<Recipe> recipeList, boolean isFav) {
+        this.name = name;
+        this.recipeList = recipeList;
+        this.isFav = isFav;
+    }
+
+    /**
+     * Constructor for a new RecipeList.
+     * @param name The name of the RecipeList
+     * @param recipeList An existant list of recipes.
      */
     public RecipeList(String name, ArrayList<Recipe> recipeList) {
         this.name = name;
