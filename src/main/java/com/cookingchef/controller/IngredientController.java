@@ -126,14 +126,7 @@ public class IngredientController implements Initializable {
     }
 
     public Boolean createIngredient(String nameIngredient, byte[] imageIngredient, Boolean isAllergen) {
-        Boolean rep = this.ingredientFacade.createIngredient(nameIngredient, imageIngredient, isAllergen);
-        if (rep == null) {
-            Notifications.create()
-                    .title("Erreur")
-                    .text("Erreur lors de la création")
-                    .showError();
-        }
-        return rep;
+        return this.ingredientFacade.createIngredient(nameIngredient, imageIngredient, isAllergen);
     }
 
     public void deleteIngredient(int idIngredient) {
@@ -153,14 +146,7 @@ public class IngredientController implements Initializable {
     }
 
     public Boolean updateIngredient(int idIngredient, String nameIngredient, byte[] imageIngredient, Boolean isAllergen) {
-        Boolean rep = this.ingredientFacade.updateIngredient(idIngredient, nameIngredient, imageIngredient, isAllergen);
-        if (rep == null) {
-            Notifications.create()
-                    .title("Erreur")
-                    .text("Erreur lors de la modification")
-                    .showError();
-        }
-        return rep;
+        return this.ingredientFacade.updateIngredient(idIngredient, nameIngredient, imageIngredient, isAllergen);
     }
 
 
@@ -254,7 +240,14 @@ public class IngredientController implements Initializable {
                 imageData = this.recupImage();
             }
 
-            if (this.createIngredient(this.nameIngredient.getText(), imageData, this.checkBox.isSelected())) {
+            Boolean rep = this.createIngredient(this.nameIngredient.getText(), imageData, this.checkBox.isSelected());
+            if (rep == null) {
+                Notifications.create()
+                        .title("Erreur")
+                        .text("Erreur lors de la création")
+                        .showError();
+            }
+            else if (rep) {
                 this.secondaryStage.close();
                 Notifications.create()
                         .title("Succès")
@@ -299,7 +292,14 @@ public class IngredientController implements Initializable {
                 imageData = this.recupImage();
             }
 
-            if (this.updateIngredient(ingredientToUpdate.getId(), this.nameIngredient.getText(), imageData, this.checkBox.isSelected())) {
+            Boolean rep = this.updateIngredient(ingredientToUpdate.getId(), this.nameIngredient.getText(), imageData, this.checkBox.isSelected());
+            if (rep == null) {
+                Notifications.create()
+                        .title("Erreur")
+                        .text("Erreur lors de la modification")
+                        .showError();
+            }
+            else if (rep) {
                 this.secondaryStage.close();
                 Notifications.create()
                         .title("Sucess")
