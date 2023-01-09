@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -73,7 +74,12 @@ public class IngredientController implements Initializable {
 
         ArrayList<Ingredient> ingredients;
 
-        ingredients =  this.ingredientFacade.getAllIngredients();
+        try {
+            ingredients =  this.ingredientFacade.getAllIngredients();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
         if (ingredients == null) {
             Notifications.create()
                     .title("Erreur")
@@ -126,27 +132,48 @@ public class IngredientController implements Initializable {
     }
 
     public Boolean createIngredient(String nameIngredient, byte[] imageIngredient, Boolean isAllergen) {
-        return this.ingredientFacade.createIngredient(nameIngredient, imageIngredient, isAllergen);
+        try {
+            return this.ingredientFacade.createIngredient(nameIngredient, imageIngredient, isAllergen);
+        } catch (SQLException e) {
+            Notifications.create()
+                    .title("Erreur")
+                    .text("Erreur lors de la création")
+                    .showError();
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     public void deleteIngredient(int idIngredient) {
-        if (this.ingredientFacade.deleteIngredient(idIngredient)) {
+        try {
+            this.ingredientFacade.deleteIngredient(idIngredient) ;
 
             this.ingredientList.getItems().remove(idIngredient);
             Notifications.create()
                     .title("Succès")
                     .text("L'ingrédient a été supprimé avec succès")
                     .showConfirm();
-        } else {
+        } catch (SQLException e) {
             Notifications.create()
                     .title("Erreur")
                     .text("Erreur lors de la suppression")
                     .showError();
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
-    public Boolean updateIngredient(int idIngredient, String nameIngredient, byte[] imageIngredient, Boolean isAllergen) {
-        return this.ingredientFacade.updateIngredient(idIngredient, nameIngredient, imageIngredient, isAllergen);
+    public boolean updateIngredient(int idIngredient, String nameIngredient, byte[] imageIngredient, Boolean isAllergen) {
+        try {
+            return this.ingredientFacade.updateIngredient(idIngredient, nameIngredient, imageIngredient, isAllergen);
+        } catch (SQLException e) {
+            Notifications.create()
+                    .title("Erreur")
+                    .text("Erreur lors de la modification")
+                    .showError();
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -240,14 +267,7 @@ public class IngredientController implements Initializable {
                 imageData = this.recupImage();
             }
 
-            Boolean rep = this.createIngredient(this.nameIngredient.getText(), imageData, this.checkBox.isSelected());
-            if (rep == null) {
-                Notifications.create()
-                        .title("Erreur")
-                        .text("Erreur lors de la création")
-                        .showError();
-            }
-            else if (rep) {
+            if (this.createIngredient(this.nameIngredient.getText(), imageData, this.checkBox.isSelected())) {
                 this.secondaryStage.close();
                 Notifications.create()
                         .title("Succès")
@@ -292,14 +312,7 @@ public class IngredientController implements Initializable {
                 imageData = this.recupImage();
             }
 
-            Boolean rep = this.updateIngredient(ingredientToUpdate.getId(), this.nameIngredient.getText(), imageData, this.checkBox.isSelected());
-            if (rep == null) {
-                Notifications.create()
-                        .title("Erreur")
-                        .text("Erreur lors de la modification")
-                        .showError();
-            }
-            else if (rep) {
+            if (this.updateIngredient(ingredientToUpdate.getId(), this.nameIngredient.getText(), imageData, this.checkBox.isSelected())) {
                 this.secondaryStage.close();
                 Notifications.create()
                         .title("Sucess")

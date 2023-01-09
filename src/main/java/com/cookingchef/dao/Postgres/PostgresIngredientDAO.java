@@ -22,7 +22,7 @@ public class PostgresIngredientDAO implements IngredientDAO {
     }
 
     @Override
-    public Boolean ingredientAlreadyExist(String name) throws SQLException{
+    public boolean ingredientAlreadyExist(String name) throws SQLException{
         var query = "SELECT * FROM ingredient WHERE name = ?";
         var conn = ConnectionManager.getConnection();
 
@@ -58,11 +58,11 @@ public class PostgresIngredientDAO implements IngredientDAO {
     }
 
     @Override
-    public Boolean createIngredient(String name, byte[] img, Boolean allergen) throws SQLException {
+    public boolean createIngredient(String name, byte[] img, Boolean allergen) throws SQLException {
         if (this.ingredientAlreadyExist(name)) {
-            return Boolean.FALSE;
+            return false;
         } else {
-            var query = "INSERT INTO ingredient (name, image, allergen) VALUES (?, ?, ?)";
+            var query = "INSERT INTO ingredient (name, src, allergen) VALUES (?, ?, ?)";
             var conn = ConnectionManager.getConnection();
 
             try (var stmt = conn.prepareStatement(query)) {
@@ -70,7 +70,7 @@ public class PostgresIngredientDAO implements IngredientDAO {
                 stmt.setBytes(2, img);
                 stmt.setBoolean(3, allergen);
                 stmt.executeUpdate();
-                return Boolean.TRUE;
+                return true;
             }
         }
     }
@@ -87,11 +87,11 @@ public class PostgresIngredientDAO implements IngredientDAO {
     }
 
     @Override
-    public Boolean updateIngredient(int idIngredient, String nameIngredient, byte[] imageIngredient, Boolean allergenIngredient) throws SQLException {
+    public boolean updateIngredient(int idIngredient, String nameIngredient, byte[] imageIngredient, Boolean allergenIngredient) throws SQLException {
         if (this.ingredientAlreadyExist(nameIngredient)) {
-            return Boolean.FALSE;
+            return false;
         } else {
-            var query = "UPDATE ingredient SET name = ?, image = ?, allergen = ? WHERE id = ?";
+            var query = "UPDATE ingredient SET name = ?, src = ?, allergen = ? WHERE id = ?";
             var conn = ConnectionManager.getConnection();
 
             try (var stmt = conn.prepareStatement(query)) {
@@ -101,7 +101,7 @@ public class PostgresIngredientDAO implements IngredientDAO {
                 stmt.setInt(4, idIngredient);
                 stmt.executeUpdate();
 
-                return Boolean.TRUE;
+                return true;
             }
         }
     }
