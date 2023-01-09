@@ -33,4 +33,8 @@ public class UserFacade {
 			return Optional.empty();
 		}
 	}
+
+	public User update(User user) throws SQLException {
+		return this.userDAO.updateUserInDb(user);
+	}
 }

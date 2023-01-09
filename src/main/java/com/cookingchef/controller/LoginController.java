@@ -46,5 +46,10 @@ public class LoginController {
 		}
 	}
 
+	@FXML
+	protected void onClickButtonRegister() throws IOException {
+		Main.redirect("register");
+	}
+
 
 }

@@ -2,6 +2,7 @@ package com.cookingchef.controller;
 import com.cookingchef.facade.UserFacade;
 import com.cookingchef.model.User;
 import com.cookingchef.view.Main;
+import com.cookingchef.utils.UserUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
@@ -68,19 +69,6 @@ public class RegisterController {
 		return confirmPassword.getText();
 	}
 
-	public static boolean emailIsValid(String email) {
-		email = email.toLowerCase();
-		return email.matches("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,6}$");
-	}
-
-	public static boolean phoneIsValid(String phone) {
-		return phone.matches("^[0-9]{10}$");
-	}
-
-	public static boolean dateIsValid(Date date) {
-		return date.before(new Date(System.currentTimeMillis()));
-	}
-
 	public boolean fieldAreNotEmpty() {
 		return !getEmail().isEmpty() && !getName().isEmpty() && !getPhone().isEmpty() && !getPassword().isEmpty() && !getConfirmPassword().isEmpty() && !getQuestion().isEmpty() && !getAnswer().isEmpty();
 	}
@@ -88,9 +76,9 @@ public class RegisterController {
 	@FXML
 	public void onClickButtonRegister() throws SQLException {
 		if (fieldAreNotEmpty()) {
-			if(emailIsValid(getEmail())) {
-				if(phoneIsValid(getPhone())){
-					if(dateIsValid(getBirthdate())) {
+			if(UserUtils.isEmailValid(getEmail())) {
+				if(UserUtils.isPhoneValid(getPhone())){
+					if(UserUtils.isDateValid(getBirthdate())) {
 						if (getPassword().equals(getConfirmPassword())) {
 							User user = new User(getName(), getEmail(), getPassword(), getPhone(), getBirthdate(), getQuestion(), getAnswer());
 							Optional<User> result = userFacade.register(user);

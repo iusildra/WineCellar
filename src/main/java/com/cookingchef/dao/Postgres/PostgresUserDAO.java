@@ -104,7 +104,7 @@ public class PostgresUserDAO implements UserDAO {
 	}
 
 	@Override
-	public void updateUserInDb(User user) throws SQLException {
+	public User updateUserInDb(User user) throws SQLException {
 		var query = "UPDATE users SET name=?, email=?, phone=?, birthdate=?, question=?, answer=?, is_admin=?, password=? WHERE id=?";
 		var conn = ConnectionManager.getConnection();
 
@@ -120,6 +120,7 @@ public class PostgresUserDAO implements UserDAO {
 			stmt.setInt(9, user.getId().get());
 
 			stmt.executeUpdate();
+			return user;
 		}
 	}
 

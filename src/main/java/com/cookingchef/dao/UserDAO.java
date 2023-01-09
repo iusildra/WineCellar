@@ -23,7 +23,7 @@ public interface UserDAO {
 	 * 
 	 * @param user The user object that you want to update in the database.
 	 */
-	public void updateUserInDb(User user) throws SQLException;
+	public User updateUserInDb(User user) throws SQLException;
 
 	/**
 	 * Removes a user from the database.
