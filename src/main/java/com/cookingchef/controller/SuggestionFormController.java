@@ -36,7 +36,7 @@ public class SuggestionFormController implements Initializable {
   @FXML
   private Button closeButton;
 
-  private Optional<Integer> userId = Optional.of(0);//TODO: patch to use logged user
+  private Optional<Integer> userId = Optional.of(0);// TODO: patch to use logged user
   private Optional<Integer> suggestionId = Optional.empty();
   private ObservableList<SuggestionCategory> categories;
 
@@ -44,13 +44,17 @@ public class SuggestionFormController implements Initializable {
 
   @FXML
   protected void onClickValidateButton() {
-    if (!Middlewares.mustBeLoggedIn(userId))
+    if (!Middlewares.mustBeLoggedIn(userId)) {
+      Popups.errorPopup("You must be logged in to create a suggestion");
       return;
+    }
+
+    if (!checkInputs()) {
+      Popups.errorPopup("Please fill all fields");
+      return;
+    }
 
     var value = this.formCategory.getValue();
-    if (!Middlewares.requiresValues(value.getId(), "Please select a category"))
-      return;
-
     AdminSuggestionFacade suggestionFacade = AdminSuggestionFacade.getAdminSuggestionFacade();
     var suggestion = new Suggestion(this.suggestionId, this.formTitle.getText(), this.formDescription.getText(),
         value.getId().get(),
@@ -86,6 +90,11 @@ public class SuggestionFormController implements Initializable {
     this.formTitle.setText(suggestion.getTitle());
     this.formDescription.setText(suggestion.getDescription());
     this.formCategory.setValue(this.categories.filtered(x -> x.getId().get() == suggestion.getCategoryId()).get(0));
+  }
+
+  public boolean checkInputs() {
+    return this.formTitle.getText().length() > 0 && this.formDescription.getText().length() > 0
+        && this.formCategory.getValue() != null;
   }
 
   public void setUserId(Optional<Integer> userId) {

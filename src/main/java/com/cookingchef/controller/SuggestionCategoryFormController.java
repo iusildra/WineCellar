@@ -28,6 +28,11 @@ public class SuggestionCategoryFormController {
 
   @FXML
   protected void onClickValidateButton() {
+    if (!checkInputs()) {
+      Popups.errorPopup("Please fill all fields");
+      return;
+    }
+      
     AdminSuggestionFacade categoryFacade = AdminSuggestionFacade.getAdminSuggestionFacade();
     var category = new SuggestionCategory(categoryId, this.formName.getText());
 
@@ -58,6 +63,10 @@ public class SuggestionCategoryFormController {
   public void fillInputs(SuggestionCategory category) {
     this.categoryId = category.getId();
     this.formName.setText(category.getName());
+  }
+
+  public boolean checkInputs() {
+    return this.formName.getText().length() > 0;
   }
 
   public void setCallback(Runnable callback) {
