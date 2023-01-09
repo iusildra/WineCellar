@@ -31,7 +31,6 @@ public class RecipeListFormController {
             try {
                 recipeListFacade.addRecipeList(getUserId(), recipeList);
             } catch (SQLException e) {
-                //TODO: Popups.errorPopup("Creation failed");
                 Notifications.create()
                         .title("Creation failed")
                         .text("Recipe list creation failed, please refer to an admin.")
