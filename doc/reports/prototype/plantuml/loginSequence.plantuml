@@ -1,4 +1,4 @@
-@startuml
+@startuml loginSequence
 skinparam responseMessageBelowArrow true
 
 actor User
@@ -10,7 +10,7 @@ participant UserDAO
 participant DataBase
 
 activate User
-activate DataBase
+' activate DataBase
 
 User -> Main++: enterUsername
 User -> Main: enterPassword

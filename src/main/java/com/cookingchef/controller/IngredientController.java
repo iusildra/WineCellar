@@ -131,7 +131,7 @@ public class IngredientController implements Initializable {
         return imageData;
     }
 
-    public Boolean createIngredient(String nameIngredient, byte[] imageIngredient, Boolean isAllergen) {
+    public boolean createIngredient(String nameIngredient, byte[] imageIngredient, Boolean isAllergen) {
         try {
             return this.ingredientFacade.createIngredient(nameIngredient, imageIngredient, isAllergen);
         } catch (SQLException e) {

@@ -15,4 +15,6 @@ public interface AbstractFactory {
   IngredientDAO getIngredientDAO();
 
   CategoryDAO getCategoryDAO();
+
+  CartDAO getCartDAO();
 }
