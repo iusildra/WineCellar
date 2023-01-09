@@ -117,4 +117,18 @@ public class RecipeList {
     public void setFav(boolean fav) {
         isFav = fav;
     }
+
+    @Override
+    public int hashCode() {
+        return this.id.hashCode() + this.name.hashCode() + this.recipeList.hashCode() /*+ this.isFav.hashCode()*/; //TODO: idk if an hashCode exist for a boolean
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof RecipeList) {
+            var other = (RecipeList) obj;
+            return this.hashCode() == other.hashCode();
+        }
+        return false;
+    }
 }
