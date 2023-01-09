@@ -141,7 +141,7 @@ public class IngredientController implements Initializable {
 
             this.ingredientList.getItems().remove(idIngredient);
             Notifications.create()
-                    .title("Succes")
+                    .title("Succès")
                     .text("L'ingrédient a été supprimé avec succès")
                     .showConfirm();
         } else {
@@ -185,7 +185,7 @@ public class IngredientController implements Initializable {
                 this.imageView.setImage(new Image(new ByteArrayInputStream(bufferImage)));
             } else {
                 Notifications.create()
-                        .title("Informations")
+                        .title("Information")
                         .text("Image inchangée")
                         .showInformation();
             }
@@ -257,7 +257,7 @@ public class IngredientController implements Initializable {
             if (this.createIngredient(this.nameIngredient.getText(), imageData, this.checkBox.isSelected())) {
                 this.secondaryStage.close();
                 Notifications.create()
-                        .title("Sucess")
+                        .title("Succès")
                         .text("L'ingrédient a été créé avec succès")
                         .showConfirm();
                 this.showList();
@@ -335,14 +335,14 @@ public class IngredientController implements Initializable {
                     Label label = new Label(ingredient.getName());
                     ImageView imageView = new ImageView(new Image(new ByteArrayInputStream(ingredient.getImage())));
 
-                    Button deleteButton = new Button("Delete");
+                    Button deleteButton = new Button("Supprimer");
                     deleteButton.setOnAction(actionEvent -> {
                         Ingredient ingredientToDelete = getItem();
                         // code de suppression de l'ingrédient de la ListView
                         deleteIngredient(ingredientToDelete.getId());
                     });
 
-                    Button updateButton = new Button("Update");
+                    Button updateButton = new Button("Modifer");
                     updateButton.setOnAction(actionEvent -> {
                         Ingredient ingredientToUpdate = getItem();
                         // code de modification de l'ingrédient de la ListView
