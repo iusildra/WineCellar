@@ -20,6 +20,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.controlsfx.control.Notifications;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -28,11 +29,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import org.controlsfx.control.Notifications;
 
 
 public class IngredientController implements Initializable {
@@ -75,10 +73,12 @@ public class IngredientController implements Initializable {
 
         ArrayList<Ingredient> ingredients;
 
-        try {
-            ingredients = this.ingredientFacade.getAllIngredients();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        ingredients =  this.ingredientFacade.getAllIngredients();
+        if (ingredients == null) {
+            Notifications.create()
+                    .title("Erreur")
+                    .text("Erreur avec la base de donnée\nRelancer l'application")
+                    .showError();
         }
         return ingredients;
     }
@@ -130,19 +130,21 @@ public class IngredientController implements Initializable {
         if (rep == null) {
             Notifications.create()
                     .title("Erreur")
-                    .text("Erreur lors de la suppression")
+                    .text("Erreur lors de la création")
                     .showError();
         }
         return rep;
     }
 
     public void deleteIngredient(int idIngredient) {
-        try {
-            this.ingredientFacade.deleteIngredient(idIngredient);
+        if (this.ingredientFacade.deleteIngredient(idIngredient)) {
+
             this.ingredientList.getItems().remove(idIngredient);
-            showText.setText("Ingredient deleted");
-        } catch (SQLException e) {
-            e.printStackTrace();
+            Notifications.create()
+                    .title("Succes")
+                    .text("L'ingrédient a été supprimé avec succès")
+                    .showConfirm();
+        } else {
             Notifications.create()
                     .title("Erreur")
                     .text("Erreur lors de la suppression")
@@ -155,7 +157,7 @@ public class IngredientController implements Initializable {
         if (rep == null) {
             Notifications.create()
                     .title("Erreur")
-                    .text("Erreur lors de la suppression")
+                    .text("Erreur lors de la modification")
                     .showError();
         }
         return rep;
@@ -238,6 +240,7 @@ public class IngredientController implements Initializable {
                         .title("Information")
                         .text("Veuillez remplir le nom de l'ingrédient")
                         .showWarning();
+                return;
             }
 
             byte[] imageData;

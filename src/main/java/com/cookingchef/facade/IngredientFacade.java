@@ -23,8 +23,13 @@ public class IngredientFacade {
         return instance;
     }
 
-    public ArrayList<Ingredient> getAllIngredients() throws SQLException {
-        return this.ingredientDAO.getAllIngredients();
+    public ArrayList<Ingredient> getAllIngredients() {
+        try {
+            return this.ingredientDAO.getAllIngredients();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Boolean createIngredient(String name, byte[] img, Boolean allergen) {
@@ -36,8 +41,14 @@ public class IngredientFacade {
         }
     }
 
-    public void deleteIngredient(int idIngredient) throws SQLException {
-        this.ingredientDAO.deleteIngredient(idIngredient);
+    public Boolean deleteIngredient(int idIngredient) {
+        try {
+            this.ingredientDAO.deleteIngredient(idIngredient);
+            return Boolean.TRUE;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Boolean.FALSE;
+        }
     }
 
     public Boolean updateIngredient(int idIngredient, String nameIngredient, byte[] imageIngredient, Boolean allergenIngredient) {
