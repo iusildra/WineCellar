@@ -26,7 +26,7 @@ public interface RecipeListDAO {
      * @param recipeID The ID of the recipe list you want to get.
      * @return An Optional object that contains a RecipeList object.
      */
-    Optional<RecipeList> getRecipeListById(int userID, int recipeID) throws SQLException;
+    Optional<RecipeList> getRecipeListById(int recipeID) throws SQLException;
 
     /**
      * Returns a list of RecipeList objects that the user in the parameter has.
@@ -34,7 +34,7 @@ public interface RecipeListDAO {
      * @param userID The ID of the specified user.
      * @return A list of recipe lists for the given user.
      */
-    List<RecipeList> getAllRecipeListByUserId(int userID) throws SQLException;
+    List<Optional<RecipeList>> getAllRecipeListByUserId(int userID) throws SQLException;
 
     /**
      * Fetch the favorite recipe list for the user from the database.
@@ -42,7 +42,12 @@ public interface RecipeListDAO {
      * @param userID The ID of the current user.
      * @return An Optional object that contains a RecipeList object.
      */
-    default Optional<RecipeList> getFavRecipeList(int userID) throws SQLException {
-        return getRecipeListById(userID, 0);
-    }
+    Optional<RecipeList> getFavRecipeList(int userID) throws SQLException;
+
+    /**
+     * Delete all occurrences of the RecipeList given.
+     *
+     * @param recipeList The recipe list to delete.
+     */
+    void removeRecipeListFromDb(RecipeList recipeList) throws SQLException;
 }

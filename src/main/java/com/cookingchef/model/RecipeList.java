@@ -8,7 +8,6 @@ public class RecipeList {
     private String name;
     private ArrayList<Recipe> recipeList;
     private boolean isFav = false;
-    // TODO: rajouter la liste de recettes ? + l'ajouter dans la query createRLInDb ?
 
     /**
      * Constructor for a new RecipeList.
@@ -17,6 +16,30 @@ public class RecipeList {
     public RecipeList(String name) {
         this.name = name;
         this.recipeList = new ArrayList<Recipe>();
+    }
+
+    /**
+     * Constructor for a new RecipeList.
+     * @param name The name of the RecipeList
+     * @param id The ID of the RecipeList.
+     */
+    public RecipeList(int id, String name) {
+        this.id = Optional.of(id);
+        this.name = name;
+    }
+
+    /**
+     * Constructor for a new RecipeList.
+     * @param name The name of the RecipeList
+     * @param recipeList An existant list of recipes.
+     * @param isFav Whether the RecipeList is favorite or not.
+     * @param id The ID of the RecipeList.
+     */
+    public RecipeList(int id, String name, ArrayList<Recipe> recipeList, boolean isFav) {
+        this.id = Optional.of(id);
+        this.name = name;
+        this.recipeList = recipeList;
+        this.isFav = isFav;
     }
 
     /**
