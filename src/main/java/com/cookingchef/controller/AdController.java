@@ -1,46 +1,33 @@
 package com.cookingchef.controller;
 
-
 import com.cookingchef.facade.AdFacade;
 import com.cookingchef.facade.IngredientFacade;
+import com.cookingchef.facade.PartnerFacade;
 import com.cookingchef.model.Ad;
 import com.cookingchef.model.Ingredient;
 import com.cookingchef.model.Partner;
 import com.cookingchef.view.Main;
-import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import org.controlsfx.control.Notifications;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AdController implements Initializable {
 
     @FXML
-    private ListView<Ad> adListView = new ListView<Ad>();
+    private ListView<Ad> adListView = new ListView<>();
 
     @FXML
     private Button cancelButton;
@@ -55,19 +42,22 @@ public class AdController implements Initializable {
     private TextField formPrice;
 
     @FXML
-    private ComboBox<Ingredient> ingredientComboBox = new ComboBox<Ingredient>();
+    private ComboBox<Ingredient> ingredientComboBox = new ComboBox<>();
 
     @FXML
-    private ComboBox<Partner> partnerComboBox = new ComboBox<Partner>();
+    private ComboBox<Partner> partnerComboBox = new ComboBox<>();
 
     @FXML
     private Stage secondaryStage;
-
 
     private IngredientFacade ingredientFacade;
     private AdFacade adFacade;
     private PartnerFacade partnerFacade;
 
+    private static final String INFORMATION_TITLE = "Information";
+    private static final String ERROR_TITLE = "Erreur";
+    private static final String SUCCESS_TITLE = "Succès";
+    private static final String DATA_FETCHING_ERROR = "Erreur lors de la récupération des données";
 
     public AdController() {
         this.adFacade = AdFacade.getAdFacade();
@@ -78,18 +68,14 @@ public class AdController implements Initializable {
     public boolean createAd(String description, int price, int partnerId, int ingredientId) {
         try {
             Ad ad = new Ad(description, price, partnerId, ingredientId);
-            if (this.adFacade.addAd(ad).isPresent()) {
-                return true;
-            }else{
-                return false;
-            }
+            return this.adFacade.addAd(ad).isPresent();
         } catch (SQLException e) {
             Notifications.create()
-                    .title("Erreur")
+                    .title(ERROR_TITLE)
                     .text("Erreur lors de la création")
                     .showError();
             e.printStackTrace();
-            throw new RuntimeException(e);
+            return false;
         }
     }
 
@@ -99,31 +85,30 @@ public class AdController implements Initializable {
 
             this.adListView.getItems().remove(ad);
             Notifications.create()
-                    .title("Succès")
+                    .title(SUCCESS_TITLE)
                     .text("La publicité a été supprimée avec succès")
                     .showConfirm();
         } catch (SQLException e) {
             Notifications.create()
-                    .title("Erreur")
+                    .title(ERROR_TITLE)
                     .text("Erreur lors de la suppression")
                     .showError();
             e.printStackTrace();
-            throw new RuntimeException(e);
         }
     }
 
     public boolean updateAd(int adId, String description, int price, int partnerId, int ingredientId) {
         try {
-            Ad ad = new Ad(adId,description, price, partnerId, ingredientId);
+            Ad ad = new Ad(adId, description, price, partnerId, ingredientId);
             this.adFacade.updateAd(ad);
             return true;
         } catch (SQLException e) {
             Notifications.create()
-                    .title("Erreur")
+                    .title(ERROR_TITLE)
                     .text("Erreur lors de la modification")
                     .showError();
             e.printStackTrace();
-            throw new RuntimeException(e);
+            return false;
         }
     }
 
@@ -140,15 +125,20 @@ public class AdController implements Initializable {
         this.formPrice = new TextField();
 
         Label labelPartner = new Label("Choisir le partenaire :");
-        this.partnerComboBox = new ComboBox<Partner>();
-        this.partnerComboBox.setItems(FXCollections.observableArrayList(this.partnerFacade.getAllPartners()));
+        this.partnerComboBox = new ComboBox<>();
 
         Label labelIngredient = new Label("Choisir l'ingrédient de votre pub :");
-        this.ingredientComboBox = new ComboBox<Ingredient>();
+        this.ingredientComboBox = new ComboBox<>();
         try {
-            this.ingredientComboBox.setItems(FXCollections.observableArrayList(this.ingredientFacade.getAllIngredients()));
+            this.partnerComboBox.setItems(FXCollections.observableArrayList(this.partnerFacade.getAllPartners()));
+            this.ingredientComboBox
+                    .setItems(FXCollections.observableArrayList(this.ingredientFacade.getAllIngredients()));
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            Notifications.create()
+                    .title(ERROR_TITLE)
+                    .text(DATA_FETCHING_ERROR)
+                    .showError();
+            return;
         }
 
         this.cancelButton = new Button("Annuler");
@@ -197,140 +187,148 @@ public class AdController implements Initializable {
         // Définir le bouton valider pour le create form
         this.validateButton.setOnAction(actionEvent -> {
 
-            //Si champ description est vide
+            // Si champ description est vide
             if (this.formDescription.getText().isEmpty()) {
                 Notifications.create()
-                        .title("Information")
+                        .title(INFORMATION_TITLE)
                         .text("Veuillez donner une description à votre publicité")
                         .showWarning();
                 return;
             }
 
-            //Si champ prix est vide
+            // Si champ prix est vide
             if (this.formPrice.getText().isEmpty()) {
                 Notifications.create()
-                        .title("Information")
+                        .title(INFORMATION_TITLE)
                         .text("Veuillez donner un prix à votre publicité")
                         .showWarning();
                 return;
             }
 
-            //Si le champ prix n'est pas un nombre
+            // Si le champ prix n'est pas un nombre
             if (!this.formPrice.getText().matches("[0-9]+")) {
                 Notifications.create()
-                        .title("Information")
+                        .title(INFORMATION_TITLE)
                         .text("Veuillez donner un prix valide")
                         .showWarning();
                 return;
             }
 
-            //Si le champ partner n'est pas selectionné
+            // Si le champ partner n'est pas sélectionné
             if (this.partnerComboBox.getValue().equals(null)) {
                 Notifications.create()
-                        .title("Information")
-                        .text("Veuillez selectionner un partenaire")
+                        .title(INFORMATION_TITLE)
+                        .text("Veuillez sélectionner un partenaire")
                         .showWarning();
                 return;
             }
 
-            //Si le champ ingredient n'est pas selectionné
+            // Si le champ ingredient n'est pas sélectionné
             if (this.ingredientComboBox.getValue().equals(null)) {
                 Notifications.create()
-                        .title("Information")
+                        .title(INFORMATION_TITLE)
                         .text("Veuillez selectionner un ingredient")
                         .showWarning();
                 return;
             }
 
-            if (this.createAd(this.formDescription.getText(), Integer.parseInt(this.formPrice.getText()), this.partnerComboBox.getValue().getId().get(), this.ingredientComboBox.getValue().getId())) {
+            if (this.createAd(this.formDescription.getText(), Integer.parseInt(this.formPrice.getText()),
+                    this.partnerComboBox.getValue().getId().get(), this.ingredientComboBox.getValue().getId())) {
                 this.secondaryStage.close();
                 Notifications.create()
-                        .title("Succès")
+                        .title(SUCCESS_TITLE)
                         .text("La publicité a été créée avec succès")
                         .showConfirm();
                 this.showList();
             } else {
                 Notifications.create()
-                        .title("Erreur")
+                        .title(ERROR_TITLE)
                         .text("Erreur lors de la création")
                         .showWarning();
             }
         });
     }
 
-    public void showFormUpdate(Ad ad){
+    public void showFormUpdate(Ad ad) {
         // Afficher le formulaire général du update form
         this.showForm();
 
         // Remplir avec les informations existantes
         this.formDescription.setText(ad.getDescriptionPromotion());
         this.formPrice.setText(String.valueOf(ad.getPrice()));
-        this.partnerComboBox.setValue(this.partnerFacade.getPartnerById(ad.getPartnerId()));
         try {
+            this.partnerFacade.getPartnerById(ad.getPartnerId())
+                    .ifPresent(partner -> this.partnerComboBox.setValue(partner));
             this.ingredientComboBox.setValue(this.ingredientFacade.getIngredientById(ad.getIngredientId()));
         } catch (SQLException e) {
+            Notifications.create()
+                    .title(ERROR_TITLE)
+                    .text(DATA_FETCHING_ERROR)
+                    .showError();
             e.printStackTrace();
-            throw new RuntimeException(e);
+            return;
         }
 
         // Définir le bouton valider pour le update form
         this.validateButton.setOnAction(actionEvent -> {
 
-            //Si champ description est vide
+            // Si champ description est vide
             if (this.formDescription.getText().isEmpty()) {
                 Notifications.create()
-                        .title("Information")
+                        .title(INFORMATION_TITLE)
                         .text("Veuillez donner une description à votre publicité")
                         .showWarning();
                 return;
             }
 
-            //Si champ prix est vide
+            // Si champ prix est vide
             if (this.formPrice.getText().isEmpty()) {
                 Notifications.create()
-                        .title("Information")
+                        .title(INFORMATION_TITLE)
                         .text("Veuillez donner un prix à votre publicité")
                         .showWarning();
                 return;
             }
 
-            //Si le champ prix n'est pas un nombre
+            // Si le champ prix n'est pas un nombre
             if (!this.formPrice.getText().matches("[0-9]+")) {
                 Notifications.create()
-                        .title("Information")
+                        .title(INFORMATION_TITLE)
                         .text("Veuillez donner un prix valide")
                         .showWarning();
                 return;
             }
 
-            //Si le champ partner n'est pas selectionné
+            // Si le champ partner n'est pas sélectionné
             if (this.partnerComboBox.getValue().equals(null)) {
                 Notifications.create()
-                        .title("Information")
+                        .title(INFORMATION_TITLE)
                         .text("Veuillez selectionner un partenaire")
                         .showWarning();
                 return;
             }
 
-            //Si le champ ingredient n'est pas selectionné
+            // Si le champ ingredient n'est pas sélectionné
             if (this.ingredientComboBox.getValue().equals(null)) {
                 Notifications.create()
-                        .title("Information")
+                        .title(INFORMATION_TITLE)
                         .text("Veuillez selectionner un ingredient")
                         .showWarning();
                 return;
             }
 
-            if (this.updateAd(ad.getId().get(), this.formDescription.getText(), Integer.parseInt(this.formPrice.getText()), this.partnerComboBox.getValue().getId().get(), this.ingredientComboBox.getValue().getId())) {
+            if (this.updateAd(ad.getId().get(), this.formDescription.getText(),
+                    Integer.parseInt(this.formPrice.getText()), this.partnerComboBox.getValue().getId().get(),
+                    this.ingredientComboBox.getValue().getId())) {
                 this.secondaryStage.close();
                 Notifications.create()
-                        .title("Sucess")
+                        .title(SUCCESS_TITLE)
                         .text("La publicité a été mise à jour avec succès")
                         .showConfirm();
                 this.showList();
             } else {
                 Notifications.create()
-                        .title("Erreur")
+                        .title(ERROR_TITLE)
                         .text("Erreur lors de la mise à jour")
                         .showWarning();
             }
@@ -338,35 +336,29 @@ public class AdController implements Initializable {
         });
     }
 
-    public ArrayList<Ad> showList() {
-
-        ArrayList<Ad> ads;
-
+    public void showList() {
         try {
-            ads = this.adFacade.getAllAds();
+            this.adListView.getItems().setAll(this.adFacade.getAllAds());
+            this.adListView.refresh();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-        if (ads == null) {
             Notifications.create()
-                    .title("Erreur")
-                    .text("Erreur avec la base de donnée\nRelancer l'application")
+                    .title(ERROR_TITLE)
+                    .text(DATA_FETCHING_ERROR)
                     .showError();
         }
-        return ads;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ObservableList<Ad> ads = FXCollections.observableArrayList(this.showList());
+        adListView.setCellFactory(param -> listCellFactory());
+        this.showList();
+    }
 
+    public ListCell<Ad> listCellFactory() {
         IngredientFacade ingredientFacade1 = IngredientFacade.getIngredientFacade();
         PartnerFacade partnerFacade1 = PartnerFacade.getPartnerFacade();
-
-        adListView.setItems(ads);
-
-        adListView.setCellFactory(param -> new ListCell<>() {
+        return new ListCell<Ad>() {
 
             @Override
             protected void updateItem(Ad ad, boolean empty) {
@@ -376,15 +368,19 @@ public class AdController implements Initializable {
                     setText(null);
                 } else {
                     HBox hBox = new HBox(5);
-                    Label descriptionLabel = new Label(ad.getDescriptionPromotion());
-                    Label priceLabel = new Label(String.valueOf(ad.getPrice()));
-                    Label partnerLabel = new Label(partnerFacade1.getPartnerById(ad.getPartnerId()).getName());
                     Label ingredientLabel;
+                    Label partnerLabel;
                     try {
-                        ingredientLabel = new Label(ingredientFacade1.getIngredientById(ad.getIngredientId()).getName());
+                        partnerLabel = new Label(partnerFacade1.getPartnerById(ad.getPartnerId()).get().getName());
+                        ingredientLabel = new Label(
+                                ingredientFacade1.getIngredientById(ad.getIngredientId()).getName());
                     } catch (SQLException e) {
+                        Notifications.create()
+                                .title(ERROR_TITLE)
+                                .text(DATA_FETCHING_ERROR)
+                                .showError();
                         e.printStackTrace();
-                        throw new RuntimeException(e);
+                        return;
                     }
 
                     Button deleteButton = new Button("Supprimer");
@@ -401,10 +397,12 @@ public class AdController implements Initializable {
                         showFormUpdate(adToUpdate);
                     });
 
-                    hBox.getChildren().addAll(descriptionLabel, priceLabel, partnerLabel, ingredientLabel, deleteButton, updateButton);
+                    hBox.getChildren().addAll(new Label(ad.getDescriptionPromotion()),
+                            new Label(String.valueOf(ad.getPrice())), partnerLabel, ingredientLabel, deleteButton,
+                            updateButton);
                     setGraphic(hBox);
                 }
             }
-        });
+        };
     }
 }

@@ -6,7 +6,6 @@ import com.cookingchef.model.Ad;
 import com.cookingchef.model.AdDbFields;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
@@ -100,12 +99,7 @@ public class PostgresAdDAO implements AdDAO {
     }
 
     @Override
-    public ArrayList<Ad> getAdsByName(String name) throws SQLException {
+    public List<Ad> getAdsByName(String name) throws SQLException {
         return null;
-    }
-
-    @Override
-    public ArrayList<Ad> getAds() throws SQLException {
-        return AdDAO.super.getAds();
     }
 }
