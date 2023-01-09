@@ -2,11 +2,17 @@ package com.cookingchef.model;
 
 import java.util.Optional;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Suggestion {
   private Optional<Integer> id = Optional.empty();
   private String title;
   private String description;
   private int categoryId;
+  private String categoryLabel;
   private int authorId;
 
   /**
@@ -15,10 +21,11 @@ public class Suggestion {
    * @param categoryId
    * @param authorId
    */
-  public Suggestion(String title, String description, int categoryId, int authorId) {
+  public Suggestion(String title, String description, int categoryId, String categoryLabel, int authorId) {
     this.title = title;
     this.description = description;
     this.categoryId = categoryId;
+    this.categoryLabel = categoryLabel;
     this.authorId = authorId;
   }
 
@@ -29,12 +36,33 @@ public class Suggestion {
    * @param categoryId
    * @param authorId
    */
-  public Suggestion(Optional<Integer> id, String title, String description, int categoryId, int authorId) {
+  public Suggestion(Optional<Integer> id, String title, String description, int categoryId, String categoryLabel, int authorId) {
     this.id = id;
     this.title = title;
     this.description = description;
     this.categoryId = categoryId;
+    this.categoryLabel = categoryLabel;
     this.authorId = authorId;
+  }
+
+  public IntegerProperty idProperty() {
+    return new SimpleIntegerProperty(this.id.orElse(-1));
+  }
+
+  public StringProperty nameProperty() {
+    return new SimpleStringProperty(this.title);
+  }
+
+  public StringProperty descriptionProperty() {
+    return new SimpleStringProperty(this.description);
+  }
+
+  public IntegerProperty categoryNameProperty() {
+    return new SimpleIntegerProperty(this.categoryId);
+  }
+
+  public IntegerProperty authorProperty() {
+    return new SimpleIntegerProperty(this.authorId);
   }
 
   /**
@@ -94,6 +122,20 @@ public class Suggestion {
    */
   public void setCategoryId(int categoryId) {
     this.categoryId = categoryId;
+  }
+
+  /**
+   * @return the categoryLabel
+   */
+  public String getCategoryLabel() {
+    return categoryLabel;
+  }
+
+  /**
+   * @param categoryLabel the categoryLabel to set
+   */
+  public void setCategoryLabel(String categoryLabel) {
+    this.categoryLabel = categoryLabel;
   }
 
   /**

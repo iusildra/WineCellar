@@ -1,11 +1,13 @@
 package com.cookingchef.facade;
 
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.cookingchef.dao.AdminSuggestionDAO;
 import com.cookingchef.factory.PostgresFactory;
 import com.cookingchef.model.Suggestion;
+import com.cookingchef.model.SuggestionCategory;
 
 public class AdminSuggestionFacade extends UserSuggestionFacade {
 
@@ -28,6 +30,18 @@ public class AdminSuggestionFacade extends UserSuggestionFacade {
 
   public void updateSuggestion(Suggestion suggestion) throws SQLException {
     adminSgSuggestionDAO.updateSuggestionInDb(suggestion);
+  }
+
+  public Optional<Integer> addSuggestionCategory(SuggestionCategory category) throws SQLException {
+    return adminSgSuggestionDAO.registerCategoryInDb(category);
+  }
+
+  public void deleteSuggestionCategory(SuggestionCategory category) throws SQLException {
+    adminSgSuggestionDAO.removeCategoryFromDb(category);
+  }
+
+  public void updateSuggestionCategory(SuggestionCategory category) throws SQLException {
+    adminSgSuggestionDAO.updateCategoryInDb(category);
   }
 
 }

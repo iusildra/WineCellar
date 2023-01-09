@@ -4,8 +4,9 @@ public enum SuggestionDbFields {
   ID("id"),
   TITLE("title"),
   DESCRIPTION("description"),
-  CATEGORY_ID("category"),
-  AUTHOR_ID("user_id");
+  CATEGORY("category"),
+  CATEGORY_LABEL("name"),
+  AUTHOR("user_id");
 
   public final String value;
 
