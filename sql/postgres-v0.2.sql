@@ -13,7 +13,6 @@ DROP TABLE IF EXISTS "public"."recipe_comment";
 DROP TABLE IF EXISTS "public"."recipe_category_recipe";
 DROP TABLE IF EXISTS "public"."recipe_ingredient";
 DROP TABLE IF EXISTS "public"."recipe_list_recipe";
-DROP TABLE IF EXISTS "public"."recipe_list_user";
 DROP TABLE IF EXISTS "public"."cart_user";
 
 DROP TABLE IF EXISTS "public"."advert";
