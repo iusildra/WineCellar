@@ -37,13 +37,6 @@ public interface AdDAO {
      */
     public Optional<Ad> getAdById(int id) throws SQLException;
 
-    /**
-     * Returns a list of ads whose name matches the given name.
-     *
-     * @param name The name of the ad you want to search for.
-     * @return A list of ads with the name specified.
-     */
-    public List<Ad> getAdsByName(String name) throws SQLException;
 
 
     /**

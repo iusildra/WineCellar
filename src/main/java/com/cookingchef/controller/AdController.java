@@ -298,9 +298,6 @@ public class AdController implements Initializable {
         });
     }
 
-    public List<Ad> showList() {
-
-        List<Ad> ads;
 
     public void showList() {
         try {
@@ -313,12 +310,11 @@ public class AdController implements Initializable {
                     .text(DATA_FETCHING_ERROR)
                     .showError();
         }
-        return ads;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        adListView.setCellFactory(param -> listCellFactory());
+        adListView.setCellFactory(param -> this.listCellFactory());
         this.showList();
     }
 
