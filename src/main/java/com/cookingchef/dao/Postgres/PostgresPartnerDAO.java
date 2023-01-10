@@ -86,7 +86,7 @@ public class PostgresPartnerDAO implements PartnerDAO {
       if (rs.next()) {
         return Optional.of(
             new Partner(
-                rs.getInt(PartnerDbFields.ID.value),
+                Optional.of(rs.getInt(PartnerDbFields.ID.value)),
                 rs.getString(PartnerDbFields.NAME.value),
                 rs.getString(PartnerDbFields.DESCRIPTION.value),
                 rs.getString(PartnerDbFields.WEBSITE.value)));
@@ -109,7 +109,7 @@ public class PostgresPartnerDAO implements PartnerDAO {
       while (rs.next()) {
         partners.add(
             new Partner(
-                rs.getInt(PartnerDbFields.ID.value),
+                Optional.of(rs.getInt(PartnerDbFields.ID.value)),
                 rs.getString(PartnerDbFields.NAME.value),
                 rs.getString(PartnerDbFields.DESCRIPTION.value),
                 rs.getString(PartnerDbFields.WEBSITE.value)));

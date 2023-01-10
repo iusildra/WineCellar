@@ -36,5 +36,11 @@ public class PostgresFactory implements AbstractFactory {
   }
 
   @Override
-  public CartDAO getCartDAO(){return PostgresCartDAO.getPostgresCartDAO();}
-}
+  public CartDAO getCartDAO() {
+    return PostgresCartDAO.getPostgresCartDAO();
+  }
+
+  @Override
+  public AdDAO getAdDAO() {
+    return PostgresAdDAO.getPostgresAdDAO();
+  }}

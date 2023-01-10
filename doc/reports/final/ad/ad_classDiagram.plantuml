@@ -1,0 +1,51 @@
+@startuml
+
+hide empty members
+
+class "Main" as UI {
+    +redirect()
+}
+
+class "AdvController" as Controller {
+    -Adv[] ads
+    +advPage()
+    +onClickButtonAddAdv()
+    +onClickButtonDeleteAdv()
+    +onClickButtonEditAdv()
+}
+
+class "AdvFacade" as Facade {
+    +getAdvDAO()
+    +addAdv()
+    +deleteAdv()
+    +editAdv()
+}
+
+class "AdvDAO" as DAO {
+
+    +getAdv()
+    +createAdv()
+    +updateAdv()
+    +deleteAdv()
+
+}
+
+class AbstractFactory {
+    +getAdvDAO()
+    +getInstance()
+}
+
+class PostgresDAOFactory implements AbstractFactory {
+    +getAdvDAO()
+    +getInstance()
+}
+
+UI       "1" -->  "1" Controller: > controlled by
+Controller "1" -->  "1" Facade: > uses
+Facade     "1" -u-> "1" AbstractFactory: > uses
+AbstractFactory    "1" -->  "1" DAO: > creates
+Facade     "1" -u-> "1" DAO: > uses
+
+
+
+@enduml

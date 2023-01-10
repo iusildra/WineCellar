@@ -1,6 +1,10 @@
 module com.cookingchef {
 	requires transitive javafx.controls;
-	requires javafx.fxml;
+	requires transitive javafx.fxml;
+	requires transitive javafx.base;
+	requires transitive javafx.graphics;
+	
+
 	requires java.naming;
 
 	requires org.controlsfx.controls;

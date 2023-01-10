@@ -14,7 +14,9 @@ DROP TABLE IF EXISTS "public"."recipe_category_recipe";
 DROP TABLE IF EXISTS "public"."recipe_ingredient";
 DROP TABLE IF EXISTS "public"."recipe_list_recipe";
 DROP TABLE IF EXISTS "public"."cart_user";
+DROP TABLE IF EXISTS "public"."meal_category";
 
+DROP TABLE IF EXISTS "public"."calendar";
 DROP TABLE IF EXISTS "public"."advert";
 DROP TABLE IF EXISTS "public"."comment";
 DROP TABLE IF EXISTS "public"."ingredient";
@@ -28,6 +30,17 @@ DROP TABLE IF EXISTS "public"."suggestion";
 DROP TABLE IF EXISTS "public"."unit";
 DROP TABLE IF EXISTS "public"."suggestion_category";
 DROP TABLE IF EXISTS "public"."users";
+-- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- Sequence and defined type
+CREATE SEQUENCE IF NOT EXISTS meal_category_id_seq;
+
+-- Table Definition
+CREATE TABLE "public"."meal_category" (
+    "id" int4 NOT NULL DEFAULT nextval('meal_category_id_seq'::regclass),
+    "name" varchar(255) NOT NULL,
+    PRIMARY KEY ("id")
+);
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Sequence and defined type
@@ -237,6 +250,18 @@ CREATE TABLE "public"."recipe_list_recipe" (
 
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
+-- Table Definition
+CREATE TABLE "public"."calendar" (
+    "user_id" int4 NOT NULL,
+    "recipe_id" int4 NOT NULL,
+    "meal_category_id" int4 NOT NULL,
+    "date" timestamp NOT NULL DEFAULT now(),
+    PRIMARY KEY ("user_id", "recipe_id", "meal_category_id", "date")
+);
+
+
+-- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
 -- Sequence and defined type
 CREATE SEQUENCE IF NOT EXISTS suggestion_id_seq;
 
@@ -266,6 +291,7 @@ CREATE TABLE "public"."suggestion_category" (
 INSERT INTO suggestion_category VALUES (0, 'test0');
 INSERT INTO suggestion_category(name) VALUES ('test1'), ('test2');
 
+DROP TABLE IF EXISTS "public"."unit";
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Sequence and defined type
@@ -321,3 +347,6 @@ ALTER TABLE "public"."recipe_list_recipe" ADD FOREIGN KEY ("recipe_list_id") REF
 ALTER TABLE "public"."recipe_list" ADD FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."suggestion" ADD FOREIGN KEY ("category") REFERENCES "public"."suggestion_category"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 ALTER TABLE "public"."suggestion" ADD FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "public"."calendar" ADD FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."calendar" ADD FOREIGN KEY ("recipe_id") REFERENCES "public"."recipe"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."calendar" ADD FOREIGN KEY ("meal_category_id") REFERENCES "public"."meal_category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
