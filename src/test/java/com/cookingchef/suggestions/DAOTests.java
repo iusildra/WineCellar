@@ -1,5 +1,7 @@
 package com.cookingchef.suggestions;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -25,7 +27,7 @@ public class DAOTests {
 
   @Test
   void createSuggestion() throws SQLException {
-    var sugg = new Suggestion("abc", "abc", 0, 0);
+    var sugg = new Suggestion("abc", "abc", 0, "a", 0);
     userDAO.createSuggestionInDb(sugg);
 
     var newSugg = userDAO.getSuggestionById(sugg.getId().get());
@@ -36,7 +38,7 @@ public class DAOTests {
 
   @Test
   void updateSuggestion() throws SQLException {
-    var sugg = new Suggestion("abc", "abc", 0, 0);
+    var sugg = new Suggestion("abc", "abc", 0, "a", 0);
     userDAO.createSuggestionInDb(sugg);
 
     sugg.setCategoryId(1);
@@ -50,7 +52,7 @@ public class DAOTests {
 
   @Test
   void removeSuggestion() throws SQLException {
-    var sugg = new Suggestion("abc", "abc", 0, 0);
+    var sugg = new Suggestion("abc", "abc", 0, "a", 0);
     userDAO.createSuggestionInDb(sugg);
 
     adminDAO.removeSuggestionFromDb(sugg);
@@ -63,10 +65,10 @@ public class DAOTests {
   @Test
   void getSuggestionsByTitle() throws SQLException {
     var suggestions = new ArrayList<Suggestion>();
-    suggestions.add(new Suggestion("abc", "abc", 0, 0));
-    suggestions.add(new Suggestion("abc", "abc", 0, 0));
-    suggestions.add(new Suggestion("abc", "abc", 0, 0));
-    suggestions.add(new Suggestion("def", "abc", 0, 0));
+    suggestions.add(new Suggestion("abc", "abc", 0, "a", 0));
+    suggestions.add(new Suggestion("abc", "abc", 0, "a", 0));
+    suggestions.add(new Suggestion("abc", "abc", 0, "a", 0));
+    suggestions.add(new Suggestion("def", "abc", 0, "a", 0));
 
     for (var sugg : suggestions) {
       userDAO.createSuggestionInDb(sugg);
@@ -84,10 +86,10 @@ public class DAOTests {
   @Test
   void getAllSuggestions() throws SQLException {
     var suggestions = new ArrayList<Suggestion>();
-    suggestions.add(new Suggestion("abc", "abc", 0, 0));
-    suggestions.add(new Suggestion("abc", "abc", 0, 0));
-    suggestions.add(new Suggestion("abc", "abc", 0, 0));
-    suggestions.add(new Suggestion("def", "abc", 0, 0));
+    suggestions.add(new Suggestion("abc", "abc", 0, "a", 0));
+    suggestions.add(new Suggestion("abc", "abc", 0, "a", 0));
+    suggestions.add(new Suggestion("abc", "abc", 0, "a", 0));
+    suggestions.add(new Suggestion("def", "abc", 0, "a", 0));
 
     for (var sugg : suggestions) {
       userDAO.createSuggestionInDb(sugg);
@@ -101,4 +103,26 @@ public class DAOTests {
 
     assert newSugg.size() == 4;
   }
+
+  // @Test
+  // void getAllCategories() throws SQLException {
+  //   var categories = new ArrayList<SuggestionCategory>();
+  //   categories.add(new SuggestionCategory("abc"));
+  //   categories.add(new SuggestionCategory("abc"));
+  //   categories.add(new SuggestionCategory("abc"));
+  //   categories.add(new SuggestionCategory("def"));
+
+  //   for (var cat : categories) {
+  //     adminDAO.registerCategoryInDb(cat);
+  //   }
+
+  //   var newCat = userDAO.getCategories();
+
+  //   for (var cat : categories) {
+  //     adminDAO.removeCategoryFromDb(cat);
+  //   }
+
+  //   //TODO: fix this, there are already 3 categories from SQL
+  //   assertEquals(7, newCat.size());
+  // }
 }

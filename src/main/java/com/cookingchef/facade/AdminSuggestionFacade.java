@@ -29,5 +29,4 @@ public class AdminSuggestionFacade extends UserSuggestionFacade {
   public void updateSuggestion(Suggestion suggestion) throws SQLException {
     adminSgSuggestionDAO.updateSuggestionInDb(suggestion);
   }
-
 }
