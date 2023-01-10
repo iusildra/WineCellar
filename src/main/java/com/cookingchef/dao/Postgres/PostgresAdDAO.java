@@ -4,8 +4,11 @@ import com.cookingchef.dao.AdDAO;
 import com.cookingchef.dbutils.ConnectionManager;
 import com.cookingchef.model.Ad;
 import com.cookingchef.model.AdDbFields;
+import com.cookingchef.model.Partner;
+import com.cookingchef.model.PartnerDbFields;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
@@ -99,7 +102,24 @@ public class PostgresAdDAO implements AdDAO {
     }
 
     @Override
-    public List<Ad> getAdsByName(String name) throws SQLException {
-        return null;
+    public ArrayList<Ad> getAds() throws SQLException {
+        var query = "SELECT * FROM advert";
+        var conn = ConnectionManager.getConnection();
+
+        try (var stmt = conn.prepareStatement(query)) {
+            stmt.executeQuery();
+            var rs = stmt.getResultSet();
+            var ads = new ArrayList<Ad>();
+            while (rs.next()) {
+                ads.add(
+                        new Ad(
+                                rs.getInt(AdDbFields.ID.value),
+                                rs.getString(AdDbFields.DESCRIPTION_PROMOTION.value),
+                                rs.getInt(AdDbFields.PRICE.value),
+                                rs.getInt(AdDbFields.PARTNER_ID.value),
+                                rs.getInt(AdDbFields.INGREDIENT_ID.value)));
+            }
+            return ads;
+        }
     }
 }

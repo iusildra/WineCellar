@@ -51,7 +51,5 @@ public interface AdDAO {
      *
      * @return Every ad in the database.
      */
-    public default List<Ad> getAds() throws SQLException {
-        return getAdsByName("");
-    }
+    public List<Ad> getAds() throws SQLException;
 }

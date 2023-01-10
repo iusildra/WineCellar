@@ -22,6 +22,7 @@ import org.controlsfx.control.Notifications;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class AdController implements Initializable {
@@ -180,6 +181,53 @@ public class AdController implements Initializable {
         this.secondaryStage.show();
     }
 
+    public void verificationParamètres(){
+        //Si champ description est vide
+        if (this.formDescription.getText().isEmpty()) {
+            Notifications.create()
+                    .title("Information")
+                    .text("Veuillez donner une description à votre publicité")
+                    .showWarning();
+            return;
+        }
+
+        //Si champ prix est vide
+        if (this.formPrice.getText().isEmpty()) {
+            Notifications.create()
+                    .title("Information")
+                    .text("Veuillez donner un prix à votre publicité")
+                    .showWarning();
+            return;
+        }
+
+        //Si le champ prix n'est pas un nombre
+        if (!this.formPrice.getText().matches("[0-9]+")) {
+            Notifications.create()
+                    .title("Information")
+                    .text("Veuillez donner un prix valide")
+                    .showWarning();
+            return;
+        }
+
+        //Si le champ partner n'est pas selectionné
+        if (this.partnerComboBox.getValue().equals(null)) {
+            Notifications.create()
+                    .title("Information")
+                    .text("Veuillez selectionner un partenaire")
+                    .showWarning();
+            return;
+        }
+
+        //Si le champ ingredient n'est pas selectionné
+        if (this.ingredientComboBox.getValue().equals(null)) {
+            Notifications.create()
+                    .title("Information")
+                    .text("Veuillez selectionner un ingredient")
+                    .showWarning();
+            return;
+        }
+    }
+
     public void showFormCreate() {
         // Afficher le formulaire général de create Ingredient
         this.showForm();
@@ -187,50 +235,7 @@ public class AdController implements Initializable {
         // Définir le bouton valider pour le create form
         this.validateButton.setOnAction(actionEvent -> {
 
-            // Si champ description est vide
-            if (this.formDescription.getText().isEmpty()) {
-                Notifications.create()
-                        .title(INFORMATION_TITLE)
-                        .text("Veuillez donner une description à votre publicité")
-                        .showWarning();
-                return;
-            }
-
-            // Si champ prix est vide
-            if (this.formPrice.getText().isEmpty()) {
-                Notifications.create()
-                        .title(INFORMATION_TITLE)
-                        .text("Veuillez donner un prix à votre publicité")
-                        .showWarning();
-                return;
-            }
-
-            // Si le champ prix n'est pas un nombre
-            if (!this.formPrice.getText().matches("[0-9]+")) {
-                Notifications.create()
-                        .title(INFORMATION_TITLE)
-                        .text("Veuillez donner un prix valide")
-                        .showWarning();
-                return;
-            }
-
-            // Si le champ partner n'est pas sélectionné
-            if (this.partnerComboBox.getValue().equals(null)) {
-                Notifications.create()
-                        .title(INFORMATION_TITLE)
-                        .text("Veuillez sélectionner un partenaire")
-                        .showWarning();
-                return;
-            }
-
-            // Si le champ ingredient n'est pas sélectionné
-            if (this.ingredientComboBox.getValue().equals(null)) {
-                Notifications.create()
-                        .title(INFORMATION_TITLE)
-                        .text("Veuillez selectionner un ingredient")
-                        .showWarning();
-                return;
-            }
+            this.verificationParamètres();
 
             if (this.createAd(this.formDescription.getText(), Integer.parseInt(this.formPrice.getText()),
                     this.partnerComboBox.getValue().getId().get(), this.ingredientComboBox.getValue().getId())) {
@@ -272,50 +277,7 @@ public class AdController implements Initializable {
         // Définir le bouton valider pour le update form
         this.validateButton.setOnAction(actionEvent -> {
 
-            // Si champ description est vide
-            if (this.formDescription.getText().isEmpty()) {
-                Notifications.create()
-                        .title(INFORMATION_TITLE)
-                        .text("Veuillez donner une description à votre publicité")
-                        .showWarning();
-                return;
-            }
-
-            // Si champ prix est vide
-            if (this.formPrice.getText().isEmpty()) {
-                Notifications.create()
-                        .title(INFORMATION_TITLE)
-                        .text("Veuillez donner un prix à votre publicité")
-                        .showWarning();
-                return;
-            }
-
-            // Si le champ prix n'est pas un nombre
-            if (!this.formPrice.getText().matches("[0-9]+")) {
-                Notifications.create()
-                        .title(INFORMATION_TITLE)
-                        .text("Veuillez donner un prix valide")
-                        .showWarning();
-                return;
-            }
-
-            // Si le champ partner n'est pas sélectionné
-            if (this.partnerComboBox.getValue().equals(null)) {
-                Notifications.create()
-                        .title(INFORMATION_TITLE)
-                        .text("Veuillez selectionner un partenaire")
-                        .showWarning();
-                return;
-            }
-
-            // Si le champ ingredient n'est pas sélectionné
-            if (this.ingredientComboBox.getValue().equals(null)) {
-                Notifications.create()
-                        .title(INFORMATION_TITLE)
-                        .text("Veuillez selectionner un ingredient")
-                        .showWarning();
-                return;
-            }
+            this.verificationParamètres();
 
             if (this.updateAd(ad.getId().get(), this.formDescription.getText(),
                     Integer.parseInt(this.formPrice.getText()), this.partnerComboBox.getValue().getId().get(),
@@ -336,6 +298,10 @@ public class AdController implements Initializable {
         });
     }
 
+    public List<Ad> showList() {
+
+        List<Ad> ads;
+
     public void showList() {
         try {
             this.adListView.getItems().setAll(this.adFacade.getAllAds());
@@ -347,6 +313,7 @@ public class AdController implements Initializable {
                     .text(DATA_FETCHING_ERROR)
                     .showError();
         }
+        return ads;
     }
 
     @Override
