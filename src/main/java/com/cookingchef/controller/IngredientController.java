@@ -148,7 +148,11 @@ public class IngredientController implements Initializable {
         try {
             this.ingredientFacade.deleteIngredient(idIngredient) ;
 
-            this.ingredientList.getItems().remove(idIngredient);
+            int i = 0;
+            while (this.ingredientList.getItems().get(i).getId() != idIngredient) {
+                i++;
+            }
+            this.ingredientList.getItems().remove(i);
             Notifications.create()
                     .title("Succès")
                     .text("L'ingrédient a été supprimé avec succès")
@@ -300,6 +304,7 @@ public class IngredientController implements Initializable {
                         .title("Information")
                         .text("Veuillez remplir le nom de l'ingrédient")
                         .showWarning();
+                return;
             }
             byte[] imageData;
             if (this.imageView.getImage() == null) {
@@ -344,9 +349,11 @@ public class IngredientController implements Initializable {
                 if (empty || ingredient == null || ingredient.getName() == null) {
                     setText(null);
                 } else {
-                    HBox hBox = new HBox(5);
+                    VBox vBox = new VBox();
                     Label label = new Label(ingredient.getName());
                     ImageView imageView = new ImageView(new Image(new ByteArrayInputStream(ingredient.getImage())));
+                    imageView.setFitHeight(50);
+                    imageView.setFitWidth(50);
 
                     Button deleteButton = new Button("Supprimer");
                     deleteButton.setOnAction(actionEvent -> {
@@ -365,8 +372,14 @@ public class IngredientController implements Initializable {
                     if (ingredient.getAllergen()) {
                         label.setStyle("-fx-text-fill: red");
                     }
-                    hBox.getChildren().addAll(imageView, label, deleteButton, updateButton);
-                    setGraphic(hBox);
+
+                    HBox hBox = new HBox(deleteButton, updateButton);
+                    hBox.setSpacing(10);
+                    hBox.setPadding(new Insets(10));
+                    hBox.setAlignment(Pos.CENTER);
+
+                    vBox.getChildren().addAll(imageView, label, hBox);
+                    setGraphic(vBox);
                 }
             }
         });
