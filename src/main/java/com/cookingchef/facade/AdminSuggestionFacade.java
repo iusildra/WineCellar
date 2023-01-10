@@ -1,7 +1,6 @@
 package com.cookingchef.facade;
 
 import java.sql.SQLException;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.cookingchef.dao.AdminSuggestionDAO;

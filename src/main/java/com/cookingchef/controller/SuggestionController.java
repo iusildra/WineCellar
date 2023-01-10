@@ -28,8 +28,6 @@ import javafx.stage.Stage;
 
 public class SuggestionController implements Initializable {
   @FXML
-  private Button categoryJump = new Button();
-  @FXML
   private TableView<Suggestion> suggestionView = new TableView<>();
   @FXML
   private TableColumn<Suggestion, Integer> id = new TableColumn<>("ID");
@@ -108,23 +106,6 @@ public class SuggestionController implements Initializable {
     this.suggestionView.getColumns().add(deleteSuggestion);
   }
 
-  public void jumpToCategories() {
-    var loader = new FXMLLoader(Main.class.getResource("suggestions/category-view.fxml"));
-    Parent form;
-    try {
-      form = loader.load();
-    } catch (IOException e) {
-      Popups.errorPopup("Could not properly load form");
-      e.printStackTrace();
-      return;
-    }
-
-    Stage stage = new Stage();
-    stage.setTitle("Viewing categories");
-    stage.setScene(new Scene(form, 450, 450));
-    stage.show();
-  }
-
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     this.id.setCellValueFactory(new PropertyValueFactory<Suggestion, Integer>("id"));
@@ -135,7 +116,6 @@ public class SuggestionController implements Initializable {
 
     if (this.writer.getIsAdmin()) {
       this.addAdminCommands();
-      this.categoryJump.setVisible(true);
     }
 
     fetchSuggestions();

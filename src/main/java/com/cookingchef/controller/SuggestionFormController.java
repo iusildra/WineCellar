@@ -1,9 +1,9 @@
 package com.cookingchef.controller;
 
-import com.cookingchef.dao.Postgres.PostgresUserSuggestionDAO;
+import com.cookingchef.dao.Postgres.PostgresCategoryDAO;
 import com.cookingchef.facade.AdminSuggestionFacade;
 import com.cookingchef.model.Suggestion;
-import com.cookingchef.model.SuggestionCategory;
+import com.cookingchef.model.Category;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,6 +19,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class SuggestionFormController implements Initializable {
   @FXML
@@ -31,14 +32,14 @@ public class SuggestionFormController implements Initializable {
   private TextField formDescription;
 
   @FXML
-  private ComboBox<SuggestionCategory> formCategory;
+  private ComboBox<Category> formCategory;
 
   @FXML
   private Button closeButton;
 
   private Optional<Integer> userId = Optional.of(0);// TODO: patch to use logged user
   private Optional<Integer> suggestionId = Optional.empty();
-  private ObservableList<SuggestionCategory> categories;
+  private ObservableList<Category> categories;
 
   private Optional<Runnable> callback = Optional.empty();
 
@@ -57,8 +58,8 @@ public class SuggestionFormController implements Initializable {
     var value = this.formCategory.getValue();
     AdminSuggestionFacade suggestionFacade = AdminSuggestionFacade.getAdminSuggestionFacade();
     var suggestion = new Suggestion(this.suggestionId, this.formTitle.getText(), this.formDescription.getText(),
-        value.getId().get(),
-        value.getName(), this.userId.get());
+        value.getIdCategory(),
+        value.getNameCategory(), this.userId.get());
 
     if (suggestion.getId().isEmpty()) {
       try {
@@ -89,7 +90,7 @@ public class SuggestionFormController implements Initializable {
     this.suggestionId = suggestion.getId();
     this.formTitle.setText(suggestion.getTitle());
     this.formDescription.setText(suggestion.getDescription());
-    this.formCategory.setValue(this.categories.filtered(x -> x.getId().get() == suggestion.getCategoryId()).get(0));
+    this.formCategory.setValue(this.categories.filtered(x -> x.getIdCategory() == suggestion.getCategoryId()).get(0));
   }
 
   public boolean checkInputs() {
@@ -115,7 +116,8 @@ public class SuggestionFormController implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
     try {
       this.categories = FXCollections
-          .observableArrayList(PostgresUserSuggestionDAO.getPostgresUserSuggestionDAO().getCategories());
+          .observableArrayList(PostgresCategoryDAO.getPostgresCategoryDAO().getAllCategories().stream()
+              .filter(x -> x.getKey().equals("Suggestion")).map(x -> x.getValue()).collect(Collectors.toList()));
       this.formCategory.setItems(this.categories);
     } catch (SQLException e) {
       Popups.errorPopup("Failed to load categories");

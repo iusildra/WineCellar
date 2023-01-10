@@ -1,7 +1,6 @@
 package com.cookingchef.dao;
 
 import java.sql.SQLException;
-import java.util.Optional;
 
 import com.cookingchef.model.Suggestion;
 

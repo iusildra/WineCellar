@@ -40,11 +40,6 @@
                      <Insets left="20.0" top="10.0" />
                   </HBox.margin>
                </Button>
-               <Button fx:id="categoryJump" mnemonicParsing="false" onAction="#jumpToCategories" text="Add category" visible="false">
-                  <HBox.margin>
-                     <Insets left="20.0" top="10.0" />
-                  </HBox.margin>
-               </Button>
             </children>
          </HBox>
          <ScrollPane>
