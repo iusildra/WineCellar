@@ -128,4 +128,22 @@ public class PostgresCategoryDAO implements CategoryDAO {
         }
         return categoriesId;
     }
+
+    @Override
+    public Category getCategoryRecipeById(int idCategory) throws SQLException {
+        var query = "SELECT * FROM recipe_category WHERE id = ?";
+        var conn = ConnectionManager.getConnection();
+
+        try (var stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, idCategory);
+            var rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new Category(
+                        rs.getInt(CategoryDbFields.ID.value),
+                        rs.getString(CategoryDbFields.NAME.value));
+            }
+            return null;
+        }
+    }
 }

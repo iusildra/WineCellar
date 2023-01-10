@@ -5,7 +5,6 @@ import com.cookingchef.factory.PostgresFactory;
 import com.cookingchef.model.Ingredient;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class IngredientFacade {
@@ -24,7 +23,7 @@ public class IngredientFacade {
         return instance;
     }
 
-    public ArrayList<Ingredient> getAllIngredients() throws SQLException{
+    public List<Ingredient> getAllIngredients() throws SQLException{
         return this.ingredientDAO.getAllIngredients();
     }
 

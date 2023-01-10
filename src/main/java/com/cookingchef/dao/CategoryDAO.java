@@ -17,4 +17,6 @@ public interface CategoryDAO {
     boolean isAlreadyExist(CategoryDb tableCategory, String nameCategory) throws SQLException;
 
     List<Integer> getCategoriesIdByNames(List<String> categoriesNames) throws SQLException;
+
+    Category getCategoryRecipeById(int idCategory) throws SQLException;
 }

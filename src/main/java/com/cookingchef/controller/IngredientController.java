@@ -4,7 +4,6 @@ import com.cookingchef.facade.IngredientFacade;
 import com.cookingchef.model.Ingredient;
 import com.cookingchef.view.Main;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -29,7 +28,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class IngredientController implements Initializable {
@@ -63,23 +61,17 @@ public class IngredientController implements Initializable {
         this.ingredientFacade = IngredientFacade.getIngredientFacade();
     }
 
-    public ArrayList<Ingredient> showList() {
-
-        ArrayList<Ingredient> ingredients;
-
+    public void fetchList() {
         try {
-            ingredients = this.ingredientFacade.getAllIngredients();
+            this.ingredientList.setItems(FXCollections.observableArrayList(this.ingredientFacade.getAllIngredients()));
+            this.ingredientList.refresh();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-        if (ingredients == null) {
             Notifications.create()
                     .title("Erreur")
                     .text("Erreur avec la base de donnée\nRelancer l'application")
                     .showError();
         }
-        return ingredients;
     }
 
     private byte[] addImageIngredient(Stage stage) {
@@ -124,16 +116,27 @@ public class IngredientController implements Initializable {
         return imageData;
     }
 
-    public boolean createIngredient(String nameIngredient, byte[] imageIngredient, Boolean isAllergen) {
+    public void createIngredient(String nameIngredient, byte[] imageIngredient, Boolean isAllergen) {
         try {
-            return this.ingredientFacade.createIngredient(nameIngredient, imageIngredient, isAllergen);
+            if (this.ingredientFacade.createIngredient(nameIngredient, imageIngredient, isAllergen)) {
+                this.secondaryStage.close();
+                Notifications.create()
+                        .title("Succès")
+                        .text("L'ingrédient a été créé avec succès")
+                        .showConfirm();
+                this.fetchList();
+            } else {
+                Notifications.create()
+                        .title("Erreur")
+                        .text("Nom déjà utilisé")
+                        .showWarning();
+            }
         } catch (SQLException e) {
             Notifications.create()
                     .title("Erreur")
                     .text("Erreur lors de la création")
                     .showError();
             e.printStackTrace();
-            throw new RuntimeException(e);
         }
     }
 
@@ -156,20 +159,30 @@ public class IngredientController implements Initializable {
                     .text("Erreur lors de la suppression")
                     .showError();
             e.printStackTrace();
-            throw new RuntimeException(e);
         }
     }
 
-    public boolean updateIngredient(int idIngredient, String nameIngredient, byte[] imageIngredient, boolean isAllergen) {
+    public void updateIngredient(int idIngredient, String nameIngredient, byte[] imageIngredient, boolean isAllergen) {
         try {
-            return this.ingredientFacade.updateIngredient(idIngredient, nameIngredient, imageIngredient, isAllergen);
+            if (this.ingredientFacade.updateIngredient(idIngredient, nameIngredient, imageIngredient, isAllergen)) {
+                this.secondaryStage.close();
+                Notifications.create()
+                        .title("Sucess")
+                        .text("L'ingrédient a été mis à jour avec succès")
+                        .showConfirm();
+                this.fetchList();
+            } else {
+                Notifications.create()
+                        .title("Erreur")
+                        .text("Nom déjà utilisé")
+                        .showWarning();
+            }
         } catch (SQLException e) {
             Notifications.create()
                     .title("Erreur")
                     .text("Erreur lors de la modification")
                     .showError();
             e.printStackTrace();
-            return false;
         }
     }
 
@@ -263,19 +276,7 @@ public class IngredientController implements Initializable {
                 imageData = this.recupImage();
             }
 
-            if (this.createIngredient(this.nameIngredient.getText(), imageData, this.checkBox.isSelected())) {
-                this.secondaryStage.close();
-                Notifications.create()
-                        .title("Succès")
-                        .text("L'ingrédient a été créé avec succès")
-                        .showConfirm();
-                this.showList();
-            } else {
-                Notifications.create()
-                        .title("Erreur")
-                        .text("Nom déjà utilisé")
-                        .showWarning();
-            }
+            this.createIngredient(this.nameIngredient.getText(), imageData, this.checkBox.isSelected());
         });
     }
 
@@ -285,7 +286,9 @@ public class IngredientController implements Initializable {
 
         // Remplir avec les informations existantes
         this.nameIngredient.setText(ingredientToUpdate.getName());
-        this.imageView.setImage(new Image(new ByteArrayInputStream(ingredientToUpdate.getImage())));
+        if (ingredientToUpdate.getImage() != null) {
+            this.imageView.setImage(new Image(new ByteArrayInputStream(ingredientToUpdate.getImage())));
+        }
         this.checkBox.setSelected(ingredientToUpdate.getAllergen());
 
         // Définir le bouton valider pour le update form
@@ -309,31 +312,18 @@ public class IngredientController implements Initializable {
                 imageData = this.recupImage();
             }
 
-            if (this.updateIngredient(ingredientToUpdate.getId(), this.nameIngredient.getText(), imageData, this.checkBox.isSelected())) {
-                this.secondaryStage.close();
-                Notifications.create()
-                        .title("Sucess")
-                        .text("L'ingrédient a été mis à jour avec succès")
-                        .showConfirm();
-                this.showList();
-            } else {
-                Notifications.create()
-                        .title("Erreur")
-                        .text("Nom déjà utilisé")
-                        .showWarning();
-            }
-
+            this.updateIngredient(ingredientToUpdate.getId(), this.nameIngredient.getText(), imageData, this.checkBox.isSelected());
         });
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ObservableList<Ingredient> ingredients = FXCollections.observableArrayList(this.showList());
+        this.ingredientList.setCellFactory(param -> cellFactory());
+        fetchList();
+    }
 
-        ingredientList.setItems(ingredients);
-
-        ingredientList.setCellFactory(param -> new ListCell<>() {
-
+    private ListCell<Ingredient> cellFactory() {
+        return new ListCell<>() {
             @Override
             protected void updateItem(Ingredient ingredient, boolean empty) {
                 super.updateItem(ingredient, empty);
@@ -377,6 +367,6 @@ public class IngredientController implements Initializable {
                     setGraphic(vBox);
                 }
             }
-        });
+        };
     }
 }

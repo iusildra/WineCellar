@@ -43,4 +43,8 @@ public class CategoryFacade {
     public List<Integer> getCategoriesIdByNames(List<String> categories) throws SQLException{
         return this.categoryDAO.getCategoriesIdByNames(categories);
     }
+
+    public Category getCategoryRecipeById(int idCategory) throws SQLException {
+        return this.categoryDAO.getCategoryRecipeById(idCategory);
+    }
 }

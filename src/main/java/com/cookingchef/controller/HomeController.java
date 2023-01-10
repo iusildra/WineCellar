@@ -145,7 +145,7 @@ public class HomeController implements Initializable {
 
         this.listeRecipe.setCellFactory(param -> cellFactory());
         this.getRecettes();
-        this.comboBox.setItems(FXCollections.observableArrayList(CategorySearch.values()));
+        this.comboBox.getItems().setAll(CategorySearch.INGREDIENT, CategorySearch.RECIPE, CategorySearch.CATEGORY);
         this.comboBox.setValue(CategorySearch.RECIPE);
 
     }
