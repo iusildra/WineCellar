@@ -49,8 +49,7 @@
          </Pane>
             <ScrollPane>
                 <content>
-                    <ListView fx:id="ingredientList" prefHeight="304.0" prefWidth="348.0" />
-
+                    <ListView fx:id="ingredientList"/>
                 </content>
                 <VBox.margin>
                     <Insets left="80.0" right="80.0" top="40.0" />

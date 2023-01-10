@@ -13,7 +13,6 @@ DROP TABLE IF EXISTS "public"."recipe_comment";
 DROP TABLE IF EXISTS "public"."recipe_category_recipe";
 DROP TABLE IF EXISTS "public"."recipe_ingredient";
 DROP TABLE IF EXISTS "public"."recipe_list_recipe";
-DROP TABLE IF EXISTS "public"."recipe_list_user";
 DROP TABLE IF EXISTS "public"."cart_user";
 
 DROP TABLE IF EXISTS "public"."advert";
@@ -220,6 +219,8 @@ CREATE SEQUENCE IF NOT EXISTS recipe_lists_id_seq;
 CREATE TABLE "public"."recipe_list" (
     "id" int4 NOT NULL DEFAULT nextval('recipe_lists_id_seq'::regclass),
     "name" varchar(255) NOT NULL,
+    "user_id" int4 NOT NULL,
+    "is_fav" bool NOT NULL DEFAULT false,
     PRIMARY KEY ("id")
 );
 
@@ -231,16 +232,6 @@ CREATE TABLE "public"."recipe_list_recipe" (
     "recipe_list_id" int4 NOT NULL,
     "recipe_id" int4 NOT NULL,
     PRIMARY KEY ("recipe_id","recipe_list_id")
-);
-
-
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Table Definition
-CREATE TABLE "public"."recipe_list_user" (
-    "user_id" int4 NOT NULL,
-    "recipe_list_id" int4 NOT NULL,
-    PRIMARY KEY ("user_id","recipe_list_id")
 );
 
 
@@ -327,7 +318,6 @@ ALTER TABLE "public"."recipe_ingredient" ADD FOREIGN KEY ("recipe_id") REFERENCE
 ALTER TABLE "public"."recipe_ingredient" ADD FOREIGN KEY ("unit") REFERENCES "public"."unit"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 ALTER TABLE "public"."recipe_ingredient" ADD FOREIGN KEY ("ingredient_id") REFERENCES "public"."ingredient"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."recipe_list_recipe" ADD FOREIGN KEY ("recipe_list_id") REFERENCES "public"."recipe_list"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "public"."recipe_list_user" ADD FOREIGN KEY ("recipe_list_id") REFERENCES "public"."recipe_list"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "public"."recipe_list_user" ADD FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."recipe_list" ADD FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."suggestion" ADD FOREIGN KEY ("category") REFERENCES "public"."suggestion_category"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 ALTER TABLE "public"."suggestion" ADD FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE SET NULL ON UPDATE CASCADE;

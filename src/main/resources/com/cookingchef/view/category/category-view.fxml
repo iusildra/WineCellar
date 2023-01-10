@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.CategoryController">
+    <top>
+        <Pane>
+            <children>
+                <HBox layoutX="116.0" layoutY="3.0" prefHeight="100.0">
+                    <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="My Chef Cook" wrappingWidth="404.51012420654297">
+                            <font>
+                                <Font size="50.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets top="10.0" />
+                            </HBox.margin>
+                        </Text>
+                    </children>
+                </HBox>
+            </children>
+        </Pane>
+    </top>
+    <center>
+        <VBox alignment="CENTER" maxWidth="1500.0" BorderPane.alignment="CENTER">
+            <Pane prefHeight="200.0" prefWidth="200.0">
+                <children>
+               <HBox layoutX="14.0" layoutY="14.0" prefHeight="90.0" prefWidth="989.0" spacing="40.0">
+                  <children>
+                          <Label alignment="CENTER" contentDisplay="BOTTOM" prefHeight="19.0" prefWidth="299.0" text="Liste des catégories :" underline="true">
+                              <font>
+                                  <Font size="28.0" />
+                              </font>
+                              <effect>
+                                  <InnerShadow />
+                              </effect>
+                          </Label>
+                         <Button alignment="CENTER" mnemonicParsing="false" onAction="#showFormCreate" text="Create catégorie" HBox.hgrow="ALWAYS" />
+                  </children>
+               </HBox>
+                </children>
+            </Pane>
+         <ListView fx:id="categoriesList" prefHeight="200.0" prefWidth="200.0" />
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+        </VBox>
+
+    </center>
+</BorderPane>

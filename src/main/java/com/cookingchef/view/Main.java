@@ -19,7 +19,7 @@ public class Main extends Application {
 
 	public static Stage stage;
 
-	private static VBox root = new VBox();
+	private static final VBox root = new VBox();
 	private static Map<String, URL> scenes = new HashMap<>();
 
 	public static User getUser() {
@@ -62,8 +62,9 @@ public class Main extends Application {
 		addScene("home", Main.class.getResource("home-view.fxml"));
 		addScene("ingredient", Main.class.getResource("ingredient/ingredient-view.fxml"));
 		addScene("ad", Main.class.getResource("ads/ad-view.fxml"));
-
-		redirect("ingredient");
+		addScene("category", Main.class.getResource("category/category-view.fxml"));
+		addScene("suggestionView", Main.class.getResource("suggestions/suggestion-view.fxml"));
+		redirect("ad");
 		Scene scene = new Scene(root, 1920, 1080);
 		stage.setTitle("MyChefCook");
 		stage.setScene(scene);
