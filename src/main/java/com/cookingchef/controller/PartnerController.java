@@ -152,7 +152,7 @@ public class PartnerController implements Initializable {
 
   public TableCell<Partner, Partner> editButtonFactory(Optional<Runnable> callback) {
     return new TableCell<Partner, Partner>() {
-      private final Button deleteButton = new Button("Edit");
+      private final Button editButton = new Button("Edit");
 
       @Override
       protected void updateItem(Partner partner, boolean empty) {
@@ -163,8 +163,8 @@ public class PartnerController implements Initializable {
           return;
         }
 
-        setGraphic(deleteButton);
-        deleteButton.setOnAction(event -> {
+        setGraphic(editButton);
+        editButton.setOnAction(event -> {
           onUpdatePartner(partner);
           callback.ifPresent(Runnable::run);
         });
