@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.cookingchef.model.Suggestion;
-import com.cookingchef.model.SuggestionCategory;
 
 public interface UserSuggestionDAO {
   /**
@@ -40,11 +39,4 @@ public interface UserSuggestionDAO {
    * @return The list of suggestions.
    */
   public List<Suggestion> getSuggestions() throws SQLException;
-
-  /**
-   * Returns the list of categories from the database.
-   * 
-   * @return The list of categories.
-   */
-  public List<SuggestionCategory> getCategories() throws SQLException;
 }

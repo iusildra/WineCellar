@@ -8,7 +8,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import com.cookingchef.dao.UserSuggestionDAO;
 import com.cookingchef.factory.PostgresFactory;
 import com.cookingchef.model.Suggestion;
-import com.cookingchef.model.SuggestionCategory;
 
 public class UserSuggestionFacade {
   private static AtomicReference<UserSuggestionFacade> instance = new AtomicReference<>();
@@ -43,9 +42,5 @@ public class UserSuggestionFacade {
 
   public List<Suggestion> getAllSuggestions() throws SQLException {
     return userSuggestionDAO.getSuggestions();
-  }
-
-  public List<SuggestionCategory> getAllCategories() throws SQLException {
-    return userSuggestionDAO.getCategories();
   }
 }

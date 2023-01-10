@@ -10,8 +10,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import com.cookingchef.dao.UserSuggestionDAO;
 import com.cookingchef.dbutils.ConnectionManager;
 import com.cookingchef.model.Suggestion;
-import com.cookingchef.model.SuggestionCategory;
-import com.cookingchef.model.SuggestionCategoryDbFields;
 import com.cookingchef.model.SuggestionDbFields;
 
 public class PostgresUserSuggestionDAO implements UserSuggestionDAO {
@@ -112,23 +110,5 @@ public class PostgresUserSuggestionDAO implements UserSuggestionDAO {
         rs.getInt(SuggestionDbFields.CATEGORY.value),
         rs.getString(SuggestionDbFields.CATEGORY_LABEL.value),
         rs.getInt(SuggestionDbFields.AUTHOR.value));
-  }
-
-  public List<SuggestionCategory> getCategories() throws SQLException {
-    var query = "SELECT * FROM suggestion_category";
-    var conn = ConnectionManager.getConnection();
-
-    try (var stmt = conn.prepareStatement(query)) {
-      var rs = stmt.executeQuery();
-
-      var categories = new ArrayList<SuggestionCategory>();
-
-      while (rs.next())
-        categories.add(new SuggestionCategory(
-            Optional.of(rs.getInt(SuggestionCategoryDbFields.ID.value)),
-            rs.getString(SuggestionCategoryDbFields.NAME.value)));
-
-      return categories;
-    }
   }
 }
