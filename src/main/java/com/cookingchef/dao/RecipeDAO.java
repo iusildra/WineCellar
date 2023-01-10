@@ -63,7 +63,7 @@ public interface RecipeDAO {
      * @return
      * @throws SQLException
      */
-    public List<Recipe> getRecipesByCategories(ArrayList<int> categories) throws SQLException;
+    public List<Recipe> getRecipesByCategories(List<Integer> categories) throws SQLException;
 
     /**
      * Returns a list of recipes whose ingredient matches the given ingredient.
@@ -71,6 +71,6 @@ public interface RecipeDAO {
      * @return
      * @throws SQLException
      */
-    public List<Recipe> getRecipesByIngredients(ArrayList<int> ingredients) throws SQLException;
+    public List<Recipe> getRecipesByIngredients(List<Integer> ingredients) throws SQLException;
 
 }

@@ -41,8 +41,8 @@ public class RecipeFacade {
         recipeDAO.updateRecipeInDb(ad);
     }
 
-    public void getRecipeByName(String name) throws SQLException {
-        recipeDAO.getRecipesByName(name);
+    public List<Recipe> getRecipesByName(String name) throws SQLException {
+        return recipeDAO.getRecipesByName(name);
     }
 
     public Optional<Recipe> getRecipeById(int id) throws SQLException {
@@ -53,11 +53,11 @@ public class RecipeFacade {
         return recipeDAO.getRecipes();
     }
 
-    public List<Recipe> getRecipesByCategories(ArrayList<int> categoryId) throws SQLException {
+    public List<Recipe> getRecipesByCategories(List<Integer> categoryId) throws SQLException {
         return recipeDAO.getRecipesByCategories(categoryId);
     }
 
-    public List<Recipe> getRecipesByIngredients(ArrayList<int> ingredientId) throws SQLException {
+    public List<Recipe> getRecipesByIngredients(List<Integer> ingredientId) throws SQLException {
         return recipeDAO.getRecipesByIngredients(ingredientId);
     }
 }
