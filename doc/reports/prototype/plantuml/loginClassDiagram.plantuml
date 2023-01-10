@@ -1,21 +1,33 @@
 @startuml loginClassDiagram
 hide empty members
-class LoginWindow {
-  + display()
+
+class Main {
+    + main(String[] args) : void
 }
 
 class LoginController {
-  + login()
+    + getEmail() : String
+    + getPassword() : String
+    + onClickButtonLogin()
 }
 
-Interface DAO {
-  + {abstract} login()
-  + {abstract} validatePassword()
+class UserFacade {
+    - {static} instance : UserFacade
+    - userDAO : UserDAO
+    - UserFacade()
+    + {static} getUserFacade() : UserFacade
+    + login() : User
 }
 
-class AuthSystem {
-  + login()
-  + validatePassword()
+Interface UserDAO {
+  + {abstract} getUserByEmailPwd() : User
+}
+
+class PostgresUserDAO {
+    - {static} instance : PostgresUserDAO
+    - PostgresUserDAO()
+    + {static} getPostgresUserDAO() : PostgresUserDAO
+    + getUserByEmailPwd() : User
 }
 
 class ConnectionManager {
@@ -24,25 +36,36 @@ class ConnectionManager {
   + {static} releaseConnection(): void
 }
 
-abstract DAOFactory {
-  - instance: DAOFactory
-  - DAOFactory()
-  + getInstance(): DAOFactory
+interface AbstractFactory {
+  + {static} getInstance(): AbstractFactory
+  + {abstract} getUserDAO() : UserDAO
 }
-DAOFactory *-- DAOFactory
 
-class AuthSysFactory
-AuthSysFactory -u-|> DAOFactory
-
+class PostgresFactory {
+    - {static} instance : PostgresFactory
+    - PostgresFactory()
+    + {static} getPostgresFactory(): PostgresFactory
+    + getUserDAO() : UserDAO
+}
 
 database "Postgres\nDatabase" as Postgres {
 
 }
 
-DAO               -u-> ConnectionManager
-AuthSystem        .u.|> DAO
-LoginController   -->  DAO
-LoginWindow       -> LoginController
-ConnectionManager -d-> Postgres
-AuthSysFactory    -d-> AuthSystem: <<instanciate>>
+Main - LoginController
+
+LoginController --> UserFacade
+
+PostgresFactory --|> AbstractFactory
+PostgresUserDAO --|> UserDAO
+
+UserFacade --> PostgresFactory : instanciate
+
+PostgresFactory --> PostgresUserDAO : instanciate
+
+
+
+PostgresUserDAO --> ConnectionManager : getConnection()
+
+ConnectionManager --> Postgres : connect
 @enduml

@@ -28,8 +28,8 @@ interface IngredientAbstractFactory {
 }
 
 
-class PostgresIngredientFactory {
-  + getPostgresIngredientFactory(): PostgresIngredientFactory
+class PostgresFactory {
+  + getPostgresFactory(): PostgresFactory
   + get IngredientDAO() : IngredientDAO
 }
 

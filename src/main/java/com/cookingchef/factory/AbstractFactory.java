@@ -4,13 +4,19 @@ import com.cookingchef.dao.*;
 
 public interface AbstractFactory {
 
-  public UserDAO getUserDAO();
+  UserDAO getUserDAO();
 
-  public AdminSuggestionDAO getAdminSuggestionDAO();
+  AdminSuggestionDAO getAdminSuggestionDAO();
 
-  public UserSuggestionDAO getUserSuggestionDAO();
+  UserSuggestionDAO getUserSuggestionDAO();
 
-  public PartnerDAO getPartnerDAO();
+  PartnerDAO getPartnerDAO();
 
-  public CartDAO getCartDAO();
+  IngredientDAO getIngredientDAO();
+
+  CategoryDAO getCategoryDAO();
+
+  CartDAO getCartDAO();
+
+  AdDAO getAdDAO();
 }

@@ -17,7 +17,9 @@ public class Main extends Application {
 
 	private static User user;
 
-	private static VBox root = new VBox();
+	public static Stage stage;
+
+	private static final VBox root = new VBox();
 	private static Map<String, URL> scenes = new HashMap<>();
 
 	public static User getUser() {
@@ -49,17 +51,20 @@ public class Main extends Application {
 		root.getChildren().add(FXMLLoader.load(scenes.get(scene)));
 	}
 
-	public static void main(String[] args) {
-		launch();
-	}
+	public static void main(String[] args) {launch();}
 
 	@Override
 	public void start(Stage stage) throws IOException {
+		this.stage = stage;
 		var defaultVal = "postgres";
 		ConnectionManager.openConnectionPool(defaultVal, defaultVal, defaultVal, 5432);
 		addScene("login", Main.class.getResource("login-view.fxml"));
 		addScene("home", Main.class.getResource("home-view.fxml"));
-		redirect("login");
+		addScene("ingredient", Main.class.getResource("ingredient/ingredient-view.fxml"));
+		addScene("ad", Main.class.getResource("ads/ad-view.fxml"));
+		addScene("category", Main.class.getResource("category/category-view.fxml"));
+		addScene("suggestionView", Main.class.getResource("suggestions/suggestion-view.fxml"));
+		redirect("ad");
 		Scene scene = new Scene(root, 1920, 1080);
 		stage.setTitle("MyChefCook");
 		stage.setScene(scene);
