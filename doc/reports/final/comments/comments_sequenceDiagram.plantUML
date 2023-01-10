@@ -1,0 +1,59 @@
+@startuml
+
+actor User
+
+participant "Main" as UI
+participant "CommentController" as Controller
+participant "CommentFacade" as Facade
+participant "AbstractFactory" as Factory
+participant "CommentDAO" as DAO
+
+== Create Comment ==
+User -> UI++ : fill comment form
+UI -> Controller++ : onClickAddComment()
+Controller -> Facade++ : addComment()
+Facade -> Factory++ : getCommentDAO()
+Factory --> Facade-- : CommentDAO
+Facade -> DAO++ : createComment()
+DAO --> Facade : true
+Facade --> Controller : true
+Controller --> UI : DisplayStatus(true)
+UI --> User : Display Success Message
+
+== Update Comment ==
+
+User -> UI : click on button Update Comment
+UI -> Controller : PopupUpdateComment()
+Controller --> UI : showUpdateComment()
+UI --> User : Display Update Comment Popup
+User -> UI : fill in the form
+User -> UI : click on button Update
+UI -> Controller : updateComment()
+Controller -> Facade : updateComment()
+Facade -> Factory : getCommentDAO()
+Factory --> Facade : CommentDAO
+Facade -> DAO : updateComment()
+DAO --> Facade : true
+Facade --> Controller : true
+Controller --> UI : DisplayStatus(true)
+UI --> User : Display Success Message
+
+== Delete Comment ==
+
+User -> UI : click on button Delete Comment
+UI -> Controller : PopupDeleteComment()
+Controller --> UI : showDeleteComment()
+UI --> User : Display Delete Comment Popup
+User -> UI : click on button Delete
+UI -> Controller : deleteComment()
+Controller -> Facade : deleteComment()
+Facade -> Factory : getCommentDAO()
+Factory --> Facade : CommentDAO
+Facade -> DAO : deleteComment()
+DAO --> Facade : true
+Facade --> Controller : true
+Controller --> UI : DisplayStatus(true)
+UI --> User : Display Success Message
+
+
+@enduml
