@@ -12,9 +12,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="1080" maxWidth="1920" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.ProfileController">
+<BorderPane maxHeight="1080" maxWidth="1920" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.ProfileController">
     <top>
-        <fx:include fx:id="navbar" source="navbar-view.fxml" />
+        <fx:include fx:id="navbar" source="../navbar-view.fxml" />
     </top>
    <center>
       <VBox maxHeight="700.0" maxWidth="600.0" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">

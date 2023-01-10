@@ -2,6 +2,7 @@ Button {
     -fx-background-color: #006AF5;
     -fx-border-radius: 50px;
     -fx-background-radius: 4px;
+    -fx-text-fill: white;
 }
 
 BorderPane {
@@ -15,4 +16,8 @@ TextField {
 
 PasswordField {
     -fx-background-color: -fx-text-box-border, -fx-control-inner-background;
+}
+
+.BurgerMenu {
+    -fx-background-color: #ffffff;
 }

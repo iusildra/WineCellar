@@ -1,5 +1,8 @@
 package com.cookingchef.model;
 
+import javafx.beans.property.*;
+import javafx.beans.value.ObservableValue;
+
 import java.util.Date;
 import java.util.Optional;
 
@@ -37,6 +40,18 @@ public class User {
 		this.question = question;
 		this.answer = answer;
 		this.isAdmin = isAdmin;
+	}
+
+	public User(User user) {
+		this.id = user.getId();
+		this.name = user.getName();
+		this.email = user.getEmail();
+		this.password = user.getPassword();
+		this.phone = user.getPhone();
+		this.birthdate = user.getBirthdate();
+		this.question = user.getQuestion();
+		this.answer = user.getAnswer();
+		this.isAdmin = user.getIsAdmin();
 	}
 
 	/**
@@ -189,5 +204,34 @@ public class User {
 
 		}
 		return false;
+	}
+
+	public IntegerProperty idProperty() {
+		return new SimpleIntegerProperty(id.orElse(-1));
+	}
+
+	public StringProperty nameProperty() {
+		return new SimpleStringProperty(name);
+	}
+
+	public StringProperty emailProperty() {
+		return new SimpleStringProperty(email);
+	}
+
+
+	public StringProperty phoneProperty() {
+		return new SimpleStringProperty(phone);
+	}
+
+	public StringProperty birthdateProperty() {
+		return new SimpleStringProperty(birthdate.toString());
+	}
+
+	public BooleanProperty isAdminProperty() {
+		return new SimpleBooleanProperty(isAdmin);
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 }

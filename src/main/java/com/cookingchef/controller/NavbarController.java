@@ -17,4 +17,8 @@ public class NavbarController {
 	public void onClickButtonHome() throws IOException {
 		Main.redirect("home");
 	}
+
+	public void onClickButtonUserManagement() throws IOException {
+		Main.redirect("user-management");
+	}
 }
