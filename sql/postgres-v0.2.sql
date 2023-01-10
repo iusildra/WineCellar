@@ -173,7 +173,6 @@ CREATE TABLE "public"."recipe" (
     "summary" varchar(500) NOT NULL,
     "src" bytea NOT NULL,
     "servings" int4 NOT NULL,
-    "rating" float4 NOT NULL,
     PRIMARY KEY ("id")
 );
 
