@@ -3,10 +3,12 @@ package com.cookingchef.dao.Postgres;
 import com.cookingchef.dao.CategoryDAO;
 import com.cookingchef.dbutils.ConnectionManager;
 import com.cookingchef.model.Category;
+import com.cookingchef.model.CategoryDb;
 import com.cookingchef.model.CategoryDbFields;
 import javafx.util.Pair;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -22,68 +24,66 @@ public class PostgresCategoryDAO implements CategoryDAO {
     }
 
     @Override
-    public ArrayList<Pair<String, Category>> getAllCategories() throws SQLException {
-        var query = "SELECT 'Ingredient' as source, * FROM ingredient_category UNION (SELECT 'Recette' as source, * FROM recipe_category) UNION (SELECT 'Suggestion' as source, * FROM suggestion_category)";
+    public List<Pair<CategoryDb, Category>> getAllCategories() throws SQLException {
+        var query = "SELECT 'INGREDIENT' as source, * FROM ingredient_category UNION (SELECT 'RECIPE' as source, * FROM recipe_category) UNION (SELECT 'SUGGESTION' as source, * FROM suggestion_category)";
         var conn = ConnectionManager.getConnection();
 
-        ArrayList<Pair<String, Category>> categories;
         try (var stmt = conn.prepareStatement(query)) {
 
             var rs = stmt.executeQuery();
-
-            categories = new ArrayList<Pair<String, Category>>();
+            ArrayList<Pair<CategoryDb, Category>> categories = new ArrayList<>();
 
             while (rs.next()) {
-                categories.add(new Pair<>(rs.getString("source"),
+                categories.add(new Pair<>(
+                        CategoryDb.valueOf(rs.getString("source")),
                         new Category(
-                        rs.getInt(CategoryDbFields.ID.value),
-                        rs.getString(CategoryDbFields.NAME.value))));
+                                rs.getInt(CategoryDbFields.ID.value),
+                                rs.getString(CategoryDbFields.NAME.value))));
             }
+            return categories;
         }
-        return categories;
     }
 
     @Override
-    public boolean createCategory(String tableCategory, String nameCategory) throws SQLException {
+    public boolean createCategory(CategoryDb tableCategory, String nameCategory)
+            throws SQLException, IllegalArgumentException {
         if (this.isAlreadyExist(tableCategory, nameCategory)) {
-            return false;
-        } else {
-            var query = "INSERT INTO ? (name) VALUES (?)";
-            var conn = ConnectionManager.getConnection();
-
-            try (var stmt = conn.prepareStatement(query)) {
-                stmt.setString(1, tableCategory);
-                stmt.setString(2, nameCategory);
-                stmt.executeUpdate();
-                return true;
-            }
+            throw new IllegalArgumentException("Category name already exist");
         }
-    }
 
-    @Override
-    public void deleteCategory(String tableCategory, int idCategory) throws SQLException {
-        var query = "DELETE FROM ? WHERE id = ?";
+        var query = "INSERT INTO " + tableCategory.value + " (name) VALUES (?)";
         var conn = ConnectionManager.getConnection();
 
         try (var stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, tableCategory);
-            stmt.setInt(2, idCategory);
+            stmt.setString(1, nameCategory);
+            stmt.executeUpdate();
+            return true;
+        }
+    }
+
+    @Override
+    public void deleteCategory(CategoryDb tableCategory, int idCategory) throws SQLException {
+        var query = "DELETE FROM " + tableCategory.value + " WHERE id = ?";
+        var conn = ConnectionManager.getConnection();
+
+        try (var stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, idCategory);
             stmt.executeUpdate();
         }
     }
 
     @Override
-    public boolean updateCategory(String tableCategory, int idCategory, String nameCategory) throws SQLException {
+    public boolean updateCategory(CategoryDb tableCategory, int idCategory, String nameCategory) throws SQLException {
         if (this.isAlreadyExist(tableCategory, nameCategory)) {
             return false;
         } else {
-            var query = "UPDATE ? SET name = ? WHERE id = ?";
+            var query = "UPDATE " + tableCategory.value + " SET name = ? WHERE id = ?";
             var conn = ConnectionManager.getConnection();
 
             try (var stmt = conn.prepareStatement(query)) {
-                stmt.setString(1, tableCategory);
-                stmt.setString(2, nameCategory);
-                stmt.setInt(3, idCategory);
+                stmt.setString(1, nameCategory);
+                stmt.setInt(2, idCategory);
+                System.out.println(stmt.toString());
                 stmt.executeUpdate();
                 return true;
             }
@@ -91,13 +91,12 @@ public class PostgresCategoryDAO implements CategoryDAO {
     }
 
     @Override
-    public boolean isAlreadyExist(String tableCategory, String nameCategory) throws SQLException {
-        var query = "SELECT * FROM ? WHERE name = ?";
+    public boolean isAlreadyExist(CategoryDb tableCategory, String nameCategory) throws SQLException {
+        var query = "SELECT * FROM " + tableCategory.value + " WHERE name = ?";
         var conn = ConnectionManager.getConnection();
 
         try (var stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, tableCategory);
-            stmt.setString(2, nameCategory);
+            stmt.setString(1, nameCategory);
             var rs = stmt.executeQuery();
             return rs.next();
         }

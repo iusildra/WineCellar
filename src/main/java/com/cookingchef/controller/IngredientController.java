@@ -33,29 +33,28 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-
 public class IngredientController implements Initializable {
 
     @FXML
     private Text showText;
 
-   @FXML
-   private TextField nameIngredient;
+    @FXML
+    private TextField nameIngredient;
 
-   @FXML
-   private ImageView imageView;
+    @FXML
+    private ImageView imageView;
 
-   @FXML
-   private Button addImage;
+    @FXML
+    private Button addImage;
 
-   @FXML
-   private CheckBox checkBox;
+    @FXML
+    private CheckBox checkBox;
 
-   @FXML
-   private Button cancelButton;
+    @FXML
+    private Button cancelButton;
 
-   @FXML
-   private Button validateButton;
+    @FXML
+    private Button validateButton;
 
     @FXML
     private ListView<Ingredient> ingredientList = new ListView<>();
@@ -63,11 +62,10 @@ public class IngredientController implements Initializable {
     @FXML
     private Stage secondaryStage;
 
-
     private final IngredientFacade ingredientFacade;
 
     public IngredientController() {
-        this.ingredientFacade  = IngredientFacade.getIngredientFacade();
+        this.ingredientFacade = IngredientFacade.getIngredientFacade();
     }
 
     public ArrayList<Ingredient> showList() {
@@ -75,7 +73,7 @@ public class IngredientController implements Initializable {
         ArrayList<Ingredient> ingredients;
 
         try {
-            ingredients =  this.ingredientFacade.getAllIngredients();
+            ingredients = this.ingredientFacade.getAllIngredients();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -105,7 +103,7 @@ public class IngredientController implements Initializable {
 
     private byte[] recupImage() {
         // Récupérer l'image séléctionnée
-         PixelReader pixelReader = imageView.getImage().getPixelReader();
+        PixelReader pixelReader = imageView.getImage().getPixelReader();
         int width = (int) imageView.getImage().getWidth();
         int height = (int) imageView.getImage().getHeight();
 
@@ -146,7 +144,7 @@ public class IngredientController implements Initializable {
 
     public void deleteIngredient(int idIngredient) {
         try {
-            this.ingredientFacade.deleteIngredient(idIngredient) ;
+            this.ingredientFacade.deleteIngredient(idIngredient);
 
             int i = 0;
             while (this.ingredientList.getItems().get(i).getId() != idIngredient) {
@@ -167,7 +165,8 @@ public class IngredientController implements Initializable {
         }
     }
 
-    public boolean updateIngredient(int idIngredient, String nameIngredient, byte[] imageIngredient, Boolean isAllergen) {
+    public boolean updateIngredient(int idIngredient, String nameIngredient, byte[] imageIngredient,
+            Boolean isAllergen) {
         try {
             return this.ingredientFacade.updateIngredient(idIngredient, nameIngredient, imageIngredient, isAllergen);
         } catch (SQLException e) {
@@ -176,10 +175,9 @@ public class IngredientController implements Initializable {
                     .text("Erreur lors de la modification")
                     .showError();
             e.printStackTrace();
-            throw new RuntimeException(e);
+            return false;
         }
     }
-
 
     public void showForm() {
         // Création de la seconde fenêtre
@@ -317,7 +315,8 @@ public class IngredientController implements Initializable {
                 imageData = this.recupImage();
             }
 
-            if (this.updateIngredient(ingredientToUpdate.getId(), this.nameIngredient.getText(), imageData, this.checkBox.isSelected())) {
+            if (this.updateIngredient(ingredientToUpdate.getId(), this.nameIngredient.getText(), imageData,
+                    this.checkBox.isSelected())) {
                 this.secondaryStage.close();
                 Notifications.create()
                         .title("Sucess")
@@ -351,9 +350,12 @@ public class IngredientController implements Initializable {
                 } else {
                     VBox vBox = new VBox();
                     Label label = new Label(ingredient.getName());
-                    ImageView imageView = new ImageView(new Image(new ByteArrayInputStream(ingredient.getImage())));
-                    imageView.setFitHeight(50);
-                    imageView.setFitWidth(50);
+                    ImageView imageView = new ImageView();
+                    if (ingredient.getImage() != null) {
+                        imageView = new ImageView(new Image(new ByteArrayInputStream(ingredient.getImage())));
+                        imageView.setFitHeight(50);
+                        imageView.setFitWidth(50);
+                    }
 
                     Button deleteButton = new Button("Supprimer");
                     deleteButton.setOnAction(actionEvent -> {

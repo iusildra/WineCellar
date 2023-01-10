@@ -50,7 +50,7 @@
                </HBox>
                 </children>
             </Pane>
-         <ListView id="categoriesList" prefHeight="200.0" prefWidth="200.0" />
+         <ListView fx:id="categoriesList" prefHeight="200.0" prefWidth="200.0" />
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
