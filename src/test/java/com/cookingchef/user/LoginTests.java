@@ -25,7 +25,7 @@ public class LoginTests {
   @Test
   void validateLogin() throws SQLException {
     var user = new User("abc", "abc", "$2y$10$QdCYs/d73sagv5Lm13ZJ8.lRAS0lT51fS9TsRa9zO6Kw5QOEIlNe6", "abc",
-        Date.from(Instant.now()), "none", "none", false);
+        Date.from(Instant.now()), "none", "none");
 
     userDAO.registerUserInDb(user);
 
@@ -34,6 +34,6 @@ public class LoginTests {
 
     userDAO.removeUserFromDb(user);
 
-    assert abc.get() != null;
+    assert abc.isPresent();
   }
 }

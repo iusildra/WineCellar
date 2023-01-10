@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.UserManagementController">
+    <top>
+        <fx:include source="../navbar-view.fxml" />
+    </top>
+   <center>
+      <TableView fx:id="table" maxHeight="940.0" maxWidth="1200.0" prefHeight="940.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+         <columns>
+            <TableColumn fx:id="id" prefWidth="75.0" text="id" />
+            <TableColumn fx:id="name" prefWidth="75.0" text="name" />
+            <TableColumn fx:id="email" prefWidth="75.0" text="email" />
+            <TableColumn fx:id="phone" prefWidth="75.0" text="phone" />
+            <TableColumn fx:id="birthdate" prefWidth="75.0" text="birthdate" />
+            <TableColumn fx:id="isAdmin" prefWidth="75.0" text="isAdmin" />
+            <TableColumn fx:id="edit" prefWidth="75.0" text="edit" />
+            <TableColumn fx:id="delete" prefWidth="75.0" text="delete" />
+         </columns>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin></TableView>
+   </center>
+
+</BorderPane>

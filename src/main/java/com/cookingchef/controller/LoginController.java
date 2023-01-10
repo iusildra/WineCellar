@@ -39,9 +39,17 @@ public class LoginController {
 
 		if (user.isPresent()) {
 			showText.setText("Welcome " + user.get().getName());
+			Main.setUser(user.get());
 			Main.redirect("home");
 		} else {
 			showText.setText("Wrong email or password");
 		}
 	}
+
+	@FXML
+	protected void onClickButtonRegister() throws IOException {
+		Main.redirect("register");
+	}
+
+
 }
