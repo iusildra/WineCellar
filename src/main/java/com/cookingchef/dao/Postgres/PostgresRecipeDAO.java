@@ -89,7 +89,7 @@ public class PostgresRecipeDAO implements RecipeDAO {
             stmt.setString(2, recipe.getSummary());
             stmt.setArray(3, recipe.getListofCategories());
             stmt.setArray(4, recipe.getListOfIngredients());
-            stmt.setBoolean(5, recipe.isAllergens());
+            stmt.setInt(5, recipe.getId().get());
             stmt.executeUpdate();
         }
     }
@@ -120,10 +120,12 @@ public class PostgresRecipeDAO implements RecipeDAO {
                         new Recipe(
                                 rs.getInt(RecipeDbFields.ID.value),
                                 rs.getString(RecipeDbFields.NAME.value),
+                                rs.getString(RecipeDbFields.DESCRIPTION.value),
                                 rs.getString(RecipeDbFields.SUMMARY.value),
+                                rs.getBytes(RecipeDbFields.SRC.value),
+                                rs.getInt(RecipeDbFields.SERVINGS.value),
                                 rs.getArray(RecipeDbFields.LISTOFINGREDIENTS.value),
-                                rs.getArray(RecipeDbFields.LISTOFCATEGORIES.value),
-                                rs.getBoolean(RecipeDbFields.ALLERGENS.value)));
+                                rs.getArray(RecipeDbFields.LISTOFCATEGORIES.value)));
             }
         }
 
