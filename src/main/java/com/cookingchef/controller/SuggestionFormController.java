@@ -4,6 +4,7 @@ import com.cookingchef.dao.Postgres.PostgresCategoryDAO;
 import com.cookingchef.facade.AdminSuggestionFacade;
 import com.cookingchef.model.Suggestion;
 import com.cookingchef.model.Category;
+import com.cookingchef.model.CategoryDb;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -117,7 +118,7 @@ public class SuggestionFormController implements Initializable {
     try {
       this.categories = FXCollections
           .observableArrayList(PostgresCategoryDAO.getPostgresCategoryDAO().getAllCategories().stream()
-              .filter(x -> x.getKey().equals("Suggestion")).map(x -> x.getValue()).collect(Collectors.toList()));
+              .filter(x -> x.getKey().equals(CategoryDb.SUGGESTION)).map(x -> x.getValue()).collect(Collectors.toList()));
       this.formCategory.setItems(this.categories);
     } catch (SQLException e) {
       Popups.errorPopup("Failed to load categories");
