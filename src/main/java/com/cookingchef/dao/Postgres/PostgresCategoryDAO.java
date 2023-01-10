@@ -5,12 +5,14 @@ import com.cookingchef.dbutils.ConnectionManager;
 import com.cookingchef.model.Category;
 import com.cookingchef.model.CategoryDb;
 import com.cookingchef.model.CategoryDbFields;
+import com.cookingchef.model.IngredientDbFields;
 import javafx.util.Pair;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 public class PostgresCategoryDAO implements CategoryDAO {
     private static final AtomicReference<PostgresCategoryDAO> instance = new AtomicReference<>();
@@ -102,4 +104,28 @@ public class PostgresCategoryDAO implements CategoryDAO {
         }
     }
 
+    @Override
+    public List<Integer> getCategoriesIdByNames(List<String> categoriesNames) throws SQLException {
+        var queryArgs = categoriesNames.stream()
+                .distinct()
+                .map(x -> "LOWER(name) LIKE ?")
+                .collect(Collectors.joining(" OR "));
+        var query = "SELECT id FROM recipe_category WHERE " + queryArgs;
+
+
+        var conn = ConnectionManager.getConnection();
+        List<Integer> categoriesId = new ArrayList<>();
+
+        try(var stmt = conn.prepareStatement(query)) {
+            for (int i = 0; i < categoriesNames.size(); i++) {
+                stmt.setString(i + 1, "%" + categoriesNames.get(i).toLowerCase() + "%");
+            }
+            var rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                categoriesId.add(rs.getInt(IngredientDbFields.ID.value));
+            }
+        }
+        return categoriesId;
+    }
 }

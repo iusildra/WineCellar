@@ -1,12 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.text.Text?>
-<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.HomeController">
-    <center>
-        <Text>
-            Hello there!
-        </Text>
-    </center>
-</BorderPane>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<BorderPane layoutX="28.0" layoutY="94.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="919.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.HomeController">
+   <center>
+      <VBox minHeight="600.0" minWidth="800.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label text="Recherche :" />
+                  <TextField id="searchField" />
+                  <Button id="clearButton" mnemonicParsing="false" text="X" onAction="#onClickClear" />
+                  <ComboBox id="comboBox" prefHeight="24.0" prefWidth="169.0" promptText="Type de recherche" />
+                  <Button id="searchButton" mnemonicParsing="false" text="Rechercher" onAction="#onClickSearch" />
+               </children>
+            </HBox>
+            <Label text="Liste des recettes :">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <ListView id="listeRecipe" prefHeight="18.0" prefWidth="508.0" />
+         </children>
+         <padding>
+            <Insets left="20.0" top="20.0" />
+         </padding>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </VBox>
+   </center></BorderPane>

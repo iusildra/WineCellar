@@ -6,6 +6,7 @@ import com.cookingchef.model.Ingredient;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class IngredientFacade {
     private static IngredientFacade instance;
@@ -41,5 +42,9 @@ public class IngredientFacade {
 
     public Ingredient getIngredientById(int idIngredient) throws SQLException {
         return this.ingredientDAO.getIngredientById(idIngredient);
+    }
+
+    public List<Integer> getIngredientsIdByNames(List<String> ingredients) throws SQLException {
+        return this.ingredientDAO.getIngredientsIdByNames(ingredients);
     }
 }

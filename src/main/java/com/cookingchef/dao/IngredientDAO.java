@@ -4,6 +4,7 @@ import com.cookingchef.model.Ingredient;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface IngredientDAO {
 
@@ -17,5 +18,9 @@ public interface IngredientDAO {
 
     Ingredient getIngredientById(int idIngredient) throws SQLException;
 
+    Ingredient getIngredientByName(String nameIngredient) throws SQLException;
+
     boolean ingredientAlreadyExist(String name) throws SQLException;
+
+    List<Integer> getIngredientsIdByNames(List<String> ingredientsNames) throws SQLException;
 }

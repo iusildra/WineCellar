@@ -16,7 +16,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -34,27 +33,23 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class IngredientController implements Initializable {
-
-    @FXML
-    private Text showText;
-
     @FXML
     private TextField nameIngredient;
 
-    @FXML
-    private ImageView imageView;
+   @FXML
+   private ImageView imageView;
 
-    @FXML
-    private Button addImage;
+   @FXML
+   private Button addImage;
 
-    @FXML
-    private CheckBox checkBox;
+   @FXML
+   private CheckBox checkBox;
 
-    @FXML
-    private Button cancelButton;
+   @FXML
+   private Button cancelButton;
 
-    @FXML
-    private Button validateButton;
+   @FXML
+   private Button validateButton;
 
     @FXML
     private ListView<Ingredient> ingredientList = new ListView<>();
@@ -165,8 +160,7 @@ public class IngredientController implements Initializable {
         }
     }
 
-    public boolean updateIngredient(int idIngredient, String nameIngredient, byte[] imageIngredient,
-            Boolean isAllergen) {
+    public boolean updateIngredient(int idIngredient, String nameIngredient, byte[] imageIngredient, boolean isAllergen) {
         try {
             return this.ingredientFacade.updateIngredient(idIngredient, nameIngredient, imageIngredient, isAllergen);
         } catch (SQLException e) {
@@ -315,8 +309,7 @@ public class IngredientController implements Initializable {
                 imageData = this.recupImage();
             }
 
-            if (this.updateIngredient(ingredientToUpdate.getId(), this.nameIngredient.getText(), imageData,
-                    this.checkBox.isSelected())) {
+            if (this.updateIngredient(ingredientToUpdate.getId(), this.nameIngredient.getText(), imageData, this.checkBox.isSelected())) {
                 this.secondaryStage.close();
                 Notifications.create()
                         .title("Sucess")

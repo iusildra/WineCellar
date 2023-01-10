@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class RecipeController implements Initializable {
+public class RecipeController  {
     @FXML
     private TextField name;
 
@@ -80,12 +80,12 @@ public class RecipeController implements Initializable {
     private final IngredientFacade ingredientFacade;
     private final CategoryFacade categoryFacade;
 
-    public RecipeController(){
+    public RecipeController(Recipe recipe){
         this.recipeFacade = RecipeFacade.getRecipeFacade();
         this.ingredientFacade = IngredientFacade.getIngredientFacade();
         this.categoryFacade = CategoryFacade.getCategoryFacade();
     }
-
+/*
     public List<Recipe> showList(){
         List<Recipe> recipes;
 
@@ -431,5 +431,5 @@ public class RecipeController implements Initializable {
                 }
             }
         });
-    }
+    }*/
 }

@@ -25,13 +25,10 @@ import java.util.ResourceBundle;
 public class CategoryController implements Initializable {
 
     @FXML
-    private ComboBox<CategoryDb> chocoBox = new ComboBox<>();
+    private final ComboBox<CategoryDb> chocoBox = new ComboBox<>();
 
     @FXML
     private TextField nameCategory;
-
-    @FXML
-    private Button cancelButton;
 
     @FXML
     private Button validateButton;
@@ -61,14 +58,13 @@ public class CategoryController implements Initializable {
                     .text("Erreur avec la base de donnée\nRelancer l'application")
                     .showError();
         }
-
     }
 
     public void deleteCategory(CategoryDb tableCategory, Category category) {
         try {
             this.categoryFacade.deleteCategory(tableCategory, category.getIdCategory());
 
-            this.categoriesList.getItems().remove(new Pair<CategoryDb, Category>(tableCategory, category));
+            this.categoriesList.getItems().remove(new Pair<>(tableCategory, category));
             Notifications.create()
                     .title("Succès")
                     .text("La catégorie a été supprimée avec succès")
@@ -93,10 +89,15 @@ public class CategoryController implements Initializable {
                         .title("Information")
                         .text("Veuillez remplir le nom de la catégorie")
                         .showWarning();
-                return;
+            } else {
+                this.createCategory(this.chocoBox.getValue(), this.nameCategory.getText());
             }
+        });
+    }
 
-            if (this.createCategory(this.chocoBox.getValue(), this.nameCategory.getText())) {
+    private void createCategory(CategoryDb tableCategory, String text) {
+        try {
+            if (this.categoryFacade.createCategory(tableCategory, text)) {
                 this.secondaryStage.close();
                 Notifications.create()
                         .title("Succès")
@@ -109,19 +110,12 @@ public class CategoryController implements Initializable {
                         .text("Nom déjà utilisé")
                         .showWarning();
             }
-        });
-    }
-
-    private boolean createCategory(CategoryDb tableCategory, String text) {
-        try {
-            return this.categoryFacade.createCategory(tableCategory, text);
         } catch (SQLException e) {
             Notifications.create()
                     .title(ERROR_TITLE)
                     .text("Erreur lors de la création")
                     .showError();
             e.printStackTrace();
-            return false;
         }
     }
 
@@ -139,10 +133,15 @@ public class CategoryController implements Initializable {
                         .title("Information")
                         .text("Veuillez remplir le nom de la catégorie")
                         .showWarning();
-                return;
+            } else {
+                this.updateCategory(this.chocoBox.getValue(), categoryToUpdate.getIdCategory(), this.nameCategory.getText());
             }
+        });
+    }
 
-            if (this.updateCategory(this.chocoBox.getValue(), categoryToUpdate.getIdCategory(), this.nameCategory.getText())) {
+    private void updateCategory(CategoryDb tableCategory, int idCategory, String text) {
+        try {
+            if (this.categoryFacade.updateCategory(tableCategory, idCategory, text)) {
                 this.secondaryStage.close();
                 Notifications.create()
                         .title(SUCCESS_TITLE)
@@ -155,19 +154,12 @@ public class CategoryController implements Initializable {
                         .text("Nom déjà utilisé")
                         .showWarning();
             }
-        });
-    }
-
-    private boolean updateCategory(CategoryDb tableCategory, int idCategory, String text) {
-        try {
-            return this.categoryFacade.updateCategory(tableCategory, idCategory, text);
         } catch (SQLException e) {
             Notifications.create()
                     .title(ERROR_TITLE)
                     .text("Erreur lors de la modification")
                     .showError();
             e.printStackTrace();
-            return false;
         }
     }
 
@@ -182,8 +174,8 @@ public class CategoryController implements Initializable {
         Label labelName = new Label("Entrer le nom de la catégorie :");
         this.nameCategory = new TextField();
 
-        this.cancelButton = new Button("Annuler");
-        this.cancelButton.setOnAction(actionEvent -> secondaryStage.close());
+        Button cancelButton = new Button("Annuler");
+        cancelButton.setOnAction(actionEvent -> secondaryStage.close());
         this.validateButton = new Button("Valider");
 
         HBox first = new HBox(label, chocoBox);
@@ -196,7 +188,7 @@ public class CategoryController implements Initializable {
         second.setPadding(new Insets(10));
         second.setAlignment(Pos.CENTER);
 
-        HBox third = new HBox(this.cancelButton, this.validateButton);
+        HBox third = new HBox(cancelButton, this.validateButton);
         third.setSpacing(10);
         third.setPadding(new Insets(10));
         third.setAlignment(Pos.CENTER);
@@ -218,7 +210,7 @@ public class CategoryController implements Initializable {
     }
 
     public ListCell<Pair<CategoryDb, Category>> cellFactory() {
-        return new ListCell<Pair<CategoryDb, Category>>() {
+        return new ListCell<>() {
 
             @Override
             protected void updateItem(Pair<CategoryDb, Category> category, boolean empty) {

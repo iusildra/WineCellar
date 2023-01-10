@@ -4,7 +4,6 @@ import com.cookingchef.dao.CategoryDAO;
 import com.cookingchef.factory.PostgresFactory;
 import com.cookingchef.model.Category;
 import com.cookingchef.model.CategoryDb;
-
 import javafx.util.Pair;
 
 import java.sql.SQLException;
@@ -12,7 +11,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class CategoryFacade {
-    private static AtomicReference<CategoryFacade> instance = new AtomicReference<>();
+    private static final AtomicReference<CategoryFacade> instance = new AtomicReference<>();
     private final CategoryDAO categoryDAO;
 
     private CategoryFacade() {
@@ -41,4 +40,7 @@ public class CategoryFacade {
         return this.categoryDAO.updateCategory(tableCategory, idCategory, nameCategory);
     }
 
+    public List<Integer> getCategoriesIdByNames(List<String> categories) throws SQLException{
+        return this.categoryDAO.getCategoriesIdByNames(categories);
+    }
 }
