@@ -38,7 +38,7 @@ CREATE SEQUENCE IF NOT EXISTS meal_category_id_seq;
 -- Table Definition
 CREATE TABLE "public"."meal_category" (
     "id" int4 NOT NULL DEFAULT nextval('meal_category_id_seq'::regclass),
-    "ingredient_category_id" int4 NOT NULL,
+    "name" varchar(255) NOT NULL,
     PRIMARY KEY ("id")
 );
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
