@@ -4,12 +4,9 @@ import com.cookingchef.dao.AdDAO;
 import com.cookingchef.dbutils.ConnectionManager;
 import com.cookingchef.model.Ad;
 import com.cookingchef.model.AdDbFields;
-import com.cookingchef.model.Partner;
-import com.cookingchef.model.PartnerDbFields;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 

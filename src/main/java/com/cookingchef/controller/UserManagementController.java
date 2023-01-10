@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
 
 public class UserManagementController implements Initializable {
 	@FXML
-	private TableView table = new TableView<User>();
+	private TableView<User> table = new TableView<>();
 	private ObservableList<User> userList = FXCollections.observableArrayList();
 	@FXML
 	private TableColumn<User, Integer> id = new TableColumn<>("ID");
@@ -38,7 +38,7 @@ public class UserManagementController implements Initializable {
 	@FXML
 	private TableColumn<User, String> phone = new TableColumn<>("Phone");
 	@FXML
-	private TableColumn<User, String> birthdate = new TableColumn<User, String>("birthdate");
+	private TableColumn<User, String> birthdate = new TableColumn<>("birthdate");
 	@FXML
 	private TableColumn<User, Boolean> isAdmin = new TableColumn<>("isAdmin");
 	@FXML
@@ -110,7 +110,6 @@ public class UserManagementController implements Initializable {
 		this.delete.setCellFactory(param -> removeButtonFactory(Optional.empty()));
 
 		fetchUsers();
-		System.out.println(table.getItems());
 	}
 
 	public TableCell<User, User> editButtonFactory(Optional<Runnable> callback) {

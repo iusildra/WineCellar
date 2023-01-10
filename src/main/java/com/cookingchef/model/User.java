@@ -1,7 +1,6 @@
 package com.cookingchef.model;
 
 import javafx.beans.property.*;
-import javafx.beans.value.ObservableValue;
 
 import java.util.Date;
 import java.util.Optional;
