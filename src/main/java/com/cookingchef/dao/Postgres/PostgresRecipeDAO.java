@@ -286,7 +286,7 @@ public class PostgresRecipeDAO implements RecipeDAO {
     }
 
     @Override
-    public List<Recipe> getRecipesByCategories(ArrayList<int> categories) throws SQLException {
+    public List<Recipe> getRecipesByCategories(List<Integer> categories) throws SQLException {
         List<Recipe> recipes = new ArrayList<Recipe>();
 
         //Pour chaque category
@@ -327,7 +327,7 @@ public class PostgresRecipeDAO implements RecipeDAO {
     }
 
     @Override
-    public List<Recipe> getRecipesByIngredients(ArrayList<int> ingredients) throws SQLException{
+    public List<Recipe> getRecipesByIngredients(List<Integer> ingredients) throws SQLException{
         List<Recipe> recipes = new ArrayList<Recipe>();
 
         //Pour chaque ingredient
