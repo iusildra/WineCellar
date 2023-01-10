@@ -63,4 +63,6 @@ public interface AbstractFactory {
    * @return La publicité DAO
    */
   AdDAO getAdDAO();
+
+  CalendarDAO getCalendarDAO();
 }
