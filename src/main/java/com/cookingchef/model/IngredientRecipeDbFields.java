@@ -1,7 +1,8 @@
 package com.cookingchef.model;
 
 public enum IngredientRecipeDbFields {
-    INGREDIENT("ingredient"),
+    RECIPE_ID("recipe_id"),
+    INGREDIENT_ID("ingredient_id"),
     QUANTITY("quantity"),
     UNIT("unit");
 

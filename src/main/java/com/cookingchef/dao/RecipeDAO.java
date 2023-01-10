@@ -3,6 +3,7 @@ package com.cookingchef.dao;
 import com.cookingchef.model.Recipe;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,5 +56,21 @@ public interface RecipeDAO {
     public default List<Recipe> getRecipes() throws SQLException {
         return getRecipesByName("");
     }
+
+    /**
+     * Returns a list of recipes whose category matches the given category.
+     * @param categories
+     * @return
+     * @throws SQLException
+     */
+    public List<Recipe> getRecipesByCategories(ArrayList<int> categories) throws SQLException;
+
+    /**
+     * Returns a list of recipes whose ingredient matches the given ingredient.
+     * @param ingredients
+     * @return
+     * @throws SQLException
+     */
+    public List<Recipe> getRecipesByIngredients(ArrayList<int> ingredients) throws SQLException;
 
 }

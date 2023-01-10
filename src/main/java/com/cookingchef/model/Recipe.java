@@ -1,6 +1,7 @@
 package com.cookingchef.model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class Recipe {
@@ -11,9 +12,9 @@ public class Recipe {
     private byte[] src;
     private int servings;
     private ArrayList<IngredientRecipe> listOfIngredients;
-    private ArrayList<Category> listofCategories;
+    private ArrayList<CategoryRecipe> listofCategories;
 
-    public Recipe(int id, String name, String description, String summary, byte[] src, int servings, ArrayList<IngredientRecipe> listOfIngredients, ArrayList<Category> listofCategories) {
+    public Recipe(int id, String name, String description, String summary, byte[] src, int servings, ArrayList<IngredientRecipe> listOfIngredients, ArrayList<CategoryRecipe> listofCategories) {
         this.id = Optional.of(id);
         this.name = name;
         this.description = description;
@@ -24,7 +25,7 @@ public class Recipe {
         this.listofCategories = listofCategories;
     }
 
-    public Recipe(String name, String description, String summary, byte[] src, int servings, ArrayList<IngredientRecipe> listOfIngredients, ArrayList<Category> listofCategories) {
+    public Recipe(String name, String description, String summary, byte[] src, int servings, ArrayList<IngredientRecipe> listOfIngredients, ArrayList<CategoryRecipe> listofCategories) {
         this.name = name;
         this.description = description;
         this.summary = summary;
@@ -91,11 +92,11 @@ public class Recipe {
         this.listOfIngredients = listOfIngredients;
     }
 
-    public ArrayList<Category> getListofCategories() {
+    public ArrayList<CategoryRecipe> getListofCategories() {
         return listofCategories;
     }
 
-    public void setListofCategories(ArrayList<Category> listofCategories) {
+    public void setListofCategories(ArrayList<CategoryRecipe> listofCategories) {
         this.listofCategories = listofCategories;
     }
 
@@ -106,5 +107,10 @@ public class Recipe {
             return this.hashCode() == other.hashCode();
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

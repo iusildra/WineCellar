@@ -6,10 +6,7 @@ public enum RecipeDbFields {
     DESCRIPTION("description"),
     SUMMARY("summary"),
     SRC("src"),
-    SERVINGS("servings"),
-    LISTOFINGREDIENTS("listOfIngredients"),
-    LISTOFCATEGORIES("listofCategories");
-
+    SERVINGS("servings");
 
     public final String value;
 

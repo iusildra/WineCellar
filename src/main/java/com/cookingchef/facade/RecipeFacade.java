@@ -5,6 +5,7 @@ import com.cookingchef.factory.PostgresFactory;
 import com.cookingchef.model.Recipe;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
@@ -50,5 +51,13 @@ public class RecipeFacade {
 
     public List<Recipe> getAllRecipes() throws SQLException {
         return recipeDAO.getRecipes();
+    }
+
+    public List<Recipe> getRecipesByCategories(ArrayList<int> categoryId) throws SQLException {
+        return recipeDAO.getRecipesByCategories(categoryId);
+    }
+
+    public List<Recipe> getRecipesByIngredients(ArrayList<int> ingredientId) throws SQLException {
+        return recipeDAO.getRecipesByIngredients(ingredientId);
     }
 }
