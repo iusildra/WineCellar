@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.Notifications;
+
 import com.cookingchef.dao.PartnerDAO;
 import com.cookingchef.factory.PostgresFactory;
 import com.cookingchef.model.Partner;
@@ -45,7 +47,7 @@ public class PartnerController implements Initializable {
 
   private PartnerDAO dao;
   private ObservableList<Partner> partnerList = FXCollections.observableArrayList();
-  private PartnerFormController formController;
+  private static final String ERROR_TITLE = "Error";
 
   public PartnerController() {
     var factory = new PostgresFactory();
@@ -53,34 +55,35 @@ public class PartnerController implements Initializable {
   }
 
   public void onCreatePartner() {
-    this.openForm(Optional.empty(), () -> fetchPartners());
+    this.openForm(Optional.empty(), this::fetchPartners);
   }
 
   public void onUpdatePartner(Partner partner) {
-    this.openForm(Optional.of(partner), () -> fetchPartners());
+    this.openForm(Optional.of(partner), this::fetchPartners);
   }
 
   public void openForm(Optional<Partner> partner, Runnable callback) {
+    PartnerFormController formController;
     var loader = new FXMLLoader(Main.class.getResource("partners/form.fxml"));
     Parent form;
     try {
       form = loader.load();
-      this.formController = loader.getController();
+      formController = loader.getController();
     } catch (IOException e) {
-      Popups.errorPopup("Could not properly load form");
+      Notifications.create().title(ERROR_TITLE).text("Error while loading form").showError();
       e.printStackTrace();
       return;
     }
 
-    partner.ifPresent(part -> this.formController.fillInputs(part));
+    partner.ifPresent(part -> formController.fillInputs(part));
 
-    this.formController.setCallback(callback);
+    formController.setCallback(callback);
     VBox formPage = new VBox();
     formPage.getChildren().add(form);
     Stage stage = new Stage();
     stage.setTitle("Modifying partner");
     stage.setScene(new Scene(formPage, 450, 450));
-    stage.setOnCloseRequest(e -> this.formController.reset());
+    stage.setOnCloseRequest(e -> formController.reset());
     stage.show();
   }
 
@@ -91,7 +94,7 @@ public class PartnerController implements Initializable {
       this.partnerView.getItems().setAll(partnerList);
       this.partnerView.refresh();
     } catch (SQLException e) {
-      Popups.errorPopup("Error while fetching partners");
+      Notifications.create().title(ERROR_TITLE).text("Error while fetching partners").showError();
       e.printStackTrace();
     }
   }
@@ -112,18 +115,16 @@ public class PartnerController implements Initializable {
     fetchPartners();
   }
 
-  public void confirmDelete(Partner partner) {
-    Popups.confirmationPopup("Delete partner ?", () -> {
+  public void deletePartner(Partner partner) {
       try {
         dao.removePartnerFromDb(partner);
         this.partnerList.remove(partner);
         this.partnerView.getItems().remove(partner);
         this.partnerView.refresh();
       } catch (SQLException e) {
-        Popups.errorPopup("Error while deleting partner");
+        Notifications.create().title(ERROR_TITLE).text("Error while deleting partner").showError();
         e.printStackTrace();
       }
-    });
 
   }
 
@@ -142,7 +143,7 @@ public class PartnerController implements Initializable {
 
         setGraphic(deleteButton);
         deleteButton.setOnAction(event -> {
-          confirmDelete(partner);
+          deletePartner(partner);
           callback.ifPresent(Runnable::run);
         });
       }

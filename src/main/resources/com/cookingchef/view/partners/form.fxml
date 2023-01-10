@@ -24,7 +24,7 @@
                </font>
             </Text>
             <TextField fx:id="formName" promptText="Name" />
-            <TextField fx:id="formWebiste" promptText="Website URL" />
+            <TextField fx:id="formWebsite" promptText="Website URL" />
             <TextField fx:id="formDescription" promptText="Description" />
             <Pane prefHeight="100.0" prefWidth="200.0">
                <children>
