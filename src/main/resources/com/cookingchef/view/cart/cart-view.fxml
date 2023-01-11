@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.CartController">
+    <top>
+        <fx:include source="../navbar-view.fxml" />
+    </top>
+   <center>
+      <SplitPane dividerPositions="0.5" maxHeight="700.0" maxWidth="1000.0" prefHeight="160.0" prefWidth="996.0" BorderPane.alignment="CENTER">
+         <items>
+            <TableView fx:id="table" editable="true" prefHeight="698.0" prefWidth="500.0">
+              <columns>
+                <TableColumn fx:id="name" prefWidth="75.0" text="Ingredient" />
+                <TableColumn fx:id="qty" prefWidth="75.0" text="Quantite" />
+                  <TableColumn fx:id="unit" prefWidth="75.0" text="Unite" />
+              </columns>
+            </TableView>
+            <FlowPane fx:id="flow" alignment="TOP_CENTER" columnHalignment="CENTER" hgap="20.0" prefHeight="200.0" prefWidth="550.0" vgap="20.0" />
+         </items>
+         <opaqueInsets>
+            <Insets top="10.0" />
+         </opaqueInsets>
+      </SplitPane>
+   </center>
+
+</BorderPane>

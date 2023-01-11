@@ -72,7 +72,7 @@ public class PostgresCartDAO implements CartDAO {
 
     @Override
     public Optional<CartEntry> getCartById(int ingredientId, int userId) throws SQLException {
-        var query = "SELECT * FROM cart_user WHERE ingredient_id = ? AND user_id = ?";
+        var query = "SELECT * FROM cart_user INNER JOIN ingredient ON ingredient.id = cart_user.ingredient_id WHERE ingredient_id = ? AND user_id = ?";
         var conn = ConnectionManager.getConnection();
 
         try (var stmt = conn.prepareStatement(query)) {
@@ -84,6 +84,7 @@ public class PostgresCartDAO implements CartDAO {
                 return Optional.of(
                         new CartEntry(
                                 rs.getInt(CartEntryDbFields.INGREDIENT_ID.value),
+                                rs.getString(CartEntryDbFields.INGREDIENT_NAME.value),
                                 rs.getInt(CartEntryDbFields.USER_ID.value),
                                 rs.getDouble(CartEntryDbFields.QUANTITY.value),
                                 rs.getInt(CartEntryDbFields.UNIT.value)));
@@ -95,7 +96,7 @@ public class PostgresCartDAO implements CartDAO {
 
     @Override
     public List<CartEntry> getCartByUser(int userId) throws SQLException {
-        var query = "SELECT * FROM cart_user WHERE user_id = ?";
+        var query = "SELECT * FROM cart_user INNER JOIN ingredient on ingredient.id = cart_user.ingredient_id WHERE user_id = ?";
         var conn = ConnectionManager.getConnection();
 
         try (var stmt = conn.prepareStatement(query)) {
@@ -107,6 +108,7 @@ public class PostgresCartDAO implements CartDAO {
                 carts.add(
                         new CartEntry(
                                 rs.getInt(CartEntryDbFields.INGREDIENT_ID.value),
+                                rs.getString(CartEntryDbFields.INGREDIENT_NAME.value),
                                 rs.getInt(CartEntryDbFields.USER_ID.value),
                                 rs.getDouble(CartEntryDbFields.QUANTITY.value),
                                 rs.getInt(CartEntryDbFields.UNIT.value)));

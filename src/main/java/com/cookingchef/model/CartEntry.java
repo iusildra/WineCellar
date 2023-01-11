@@ -1,7 +1,13 @@
 package com.cookingchef.model;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.scene.control.cell.PropertyValueFactory;
+
 public class CartEntry {
     private int ingredientId;
+
+    private String ingredientName;
     private int userId;
     private double quantity;
     private int unit;
@@ -10,12 +16,14 @@ public class CartEntry {
     /**
      *
      * @param ingredientId
+     * @param ingredientName
      * @param userId
      * @param quantity
      * @param unit
      */
-    public CartEntry(int ingredientId, int userId, double quantity, int unit) {
+    public CartEntry(int ingredientId,String ingredientName, int userId, double quantity, int unit) {
         this.ingredientId = ingredientId;
+        this.ingredientName = ingredientName;
         this.userId = userId;
         this.quantity = quantity;
         this.unit = unit;
@@ -129,5 +137,16 @@ public class CartEntry {
         return unit == other.unit;
     }
 
+    public StringProperty nameProperty() {
+        return new SimpleStringProperty(ingredientName);
+    }
+
+    public StringProperty quantityProperty() {
+        return new SimpleStringProperty(String.valueOf(quantity));
+    }
+
+    public StringProperty unitProperty() {
+        return new SimpleStringProperty(String.valueOf(unit));
+    }
     
 }

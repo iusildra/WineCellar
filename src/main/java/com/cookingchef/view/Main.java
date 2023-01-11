@@ -53,6 +53,7 @@ public class Main extends Application {
 
 	public static void main(String[] args) {launch();}
 
+
 	@Override
 	public void start(Stage stage) throws IOException {
 		this.stage = stage;
@@ -66,8 +67,9 @@ public class Main extends Application {
 		addScene("suggestionView", Main.class.getResource("suggestions/suggestion-view.fxml"));
 		addScene("partnerView", Main.class.getResource("partners/partner-view.fxml"));
 		addScene("register", Main.class.getResource("register-view.fxml"));
-		addScene("profile", Main.class.getResource("profile-view.fxml"));
+		addScene("profile", Main.class.getResource("users/profile-view.fxml"));
 		addScene("user-management", Main.class.getResource("users/user-management-view.fxml"));
+		addScene("cart", Main.class.getResource("cart/cart-view.fxml"));
 		redirect("login");
 		Scene scene = new Scene(root, 1920, 1080);
 		stage.setTitle("MyChefCook");

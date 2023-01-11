@@ -21,4 +21,8 @@ public class NavbarController {
 	public void onClickButtonUserManagement() throws IOException {
 		Main.redirect("user-management");
 	}
+
+	public void onClickButtonCart() throws IOException {
+		Main.redirect("cart");
+	}
 }

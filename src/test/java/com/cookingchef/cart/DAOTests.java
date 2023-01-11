@@ -27,7 +27,7 @@ class DAOTests {
 
   @Test
   void addElementIntoCart() throws SQLException {
-    var cartEntry = new CartEntry(0, 0, 10, 0);
+    var cartEntry = new CartEntry(0, "blouge",0, 10, 0);
     var user = userDAO.getUserById(0).get();
     cartDAO.addElementIntoCartInDb(cartEntry);
 
@@ -39,7 +39,7 @@ class DAOTests {
 
   @Test
   void updateElementInCard() throws SQLException {
-    var cartEntry = new CartEntry(0, 0, 10,0);
+    var cartEntry = new CartEntry(0, "blouge",0, 10,0);
     var user = userDAO.getUserById(0).get();
     cartDAO.addElementIntoCartInDb(cartEntry);
 
@@ -55,7 +55,7 @@ class DAOTests {
 
   @Test
   void deleteCartEntry() throws SQLException {
-    var cartEntry = new CartEntry(0, 0, 10, 0);
+    var cartEntry = new CartEntry(0, "blouge",0, 10, 0);
     var user = userDAO.getUserById(0).get();
     cartDAO.addElementIntoCartInDb(cartEntry);
 
@@ -70,9 +70,9 @@ class DAOTests {
   @Test
   void getCartByUser() throws SQLException {
     var entries = new ArrayList<CartEntry>();
-    entries.add(new CartEntry(0, 0, 10, 0));
-    entries.add(new CartEntry(1, 0, 20, 0));
-    entries.add(new CartEntry(2, 0, 30, 0));
+    entries.add(new CartEntry(0, "blouge",0, 10, 0));
+    entries.add(new CartEntry(1, "blouge",0, 20, 0));
+    entries.add(new CartEntry(2, "blouge",0, 30, 0));
 
     var user = userDAO.getUserById(0).get();
     for (var entry : entries) {
@@ -90,7 +90,7 @@ class DAOTests {
 
   @Test
   void getCartEntryById() throws SQLException {
-    var cartEntry = new CartEntry(0, 0, 10, 0);
+    var cartEntry = new CartEntry(0, "blouge",0, 10, 0);
     cartDAO.addElementIntoCartInDb(cartEntry);
 
     var newCartEntry = cartDAO.getCartById(cartEntry.getIngredientId(), cartEntry.getUserId()).get();
