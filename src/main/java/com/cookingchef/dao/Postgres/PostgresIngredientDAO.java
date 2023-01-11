@@ -44,6 +44,19 @@ public class PostgresIngredientDAO implements IngredientDAO {
         }
     }
 
+    private boolean ingredientAlreadyExist(int id, String name) throws SQLException {
+        var query = "SELECT * FROM ingredient WHERE name = ? AND id != ?";
+        var conn = ConnectionManager.getConnection();
+
+        try (var stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, name);
+            stmt.setInt(2, id);
+            var rs = stmt.executeQuery();
+
+            return rs.next();
+        }
+    }
+
     @Override
     public ArrayList<Ingredient> getAllIngredients() throws SQLException {
         var query = "SELECT * FROM ingredient";
@@ -98,7 +111,7 @@ public class PostgresIngredientDAO implements IngredientDAO {
 
     @Override
     public boolean updateIngredient(int idIngredient, String nameIngredient, byte[] imageIngredient, Boolean allergenIngredient) throws SQLException {
-        if (this.ingredientAlreadyExist(nameIngredient)) {
+        if (this.ingredientAlreadyExist(idIngredient, nameIngredient)) {
             return false;
         } else {
             var query = "UPDATE ingredient SET name = ?, src = ?, allergen = ? WHERE id = ?";
