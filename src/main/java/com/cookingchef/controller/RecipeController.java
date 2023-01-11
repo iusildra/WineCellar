@@ -2,29 +2,29 @@ package com.cookingchef.controller;
 
 import com.cookingchef.facade.CategoryFacade;
 import com.cookingchef.facade.IngredientFacade;
-import com.cookingchef.facade.RecipeFacade;
 import com.cookingchef.model.*;
+import com.cookingchef.view.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-import javax.swing.text.View;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
+
+import org.controlsfx.control.Notifications;
 
 public class RecipeController implements Initializable {
     @FXML
@@ -43,33 +43,58 @@ public class RecipeController implements Initializable {
     private Text recipeServings;
 
     @FXML
-    private ListView<Ingredient> ingredientListView = new ListView<Ingredient>();
+    private ListView<Ingredient> ingredientListView = new ListView<>();
 
     @FXML
-    private ListView<Category> categoryListView = new ListView<Category>();
+    private ListView<Category> categoryListView = new ListView<>();
 
     @FXML
     private Button retourButton;
     private final IngredientFacade ingredientFacade;
     private final CategoryFacade categoryFacade;
 
-    private final Recipe recipe;
+    private Optional<Recipe> recipe;
 
-    public RecipeController(Recipe recipe){
-        this.recipe = recipe;
+    public RecipeController() {
         this.ingredientFacade = IngredientFacade.getIngredientFacade();
         this.categoryFacade = CategoryFacade.getCategoryFacade();
+        this.recipe = Optional.empty();
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = Optional.of(recipe);
+    }
+
+    @FXML
+    public void goBack() {
+        try {
+            Main.redirect(Page.HOME.value);
+        } catch (IOException e) {
+            Notifications.create()
+                    .title("Error")
+                    .text("Erreur lors du chargement de la page")
+                    .showError();
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.recipeName = new Label(recipe.getName());
-        this.recipeDescription = new Text(recipe.getDescription());
-        this.recipeSummary = new Text(recipe.getSummary());
-        this.recipeServings = new Text(String.valueOf(recipe.getServings()));
+        if (this.recipe.isEmpty()) {
+            Notifications.create()
+                    .title("Error")
+                    .text("You must chose a recipe first !")
+                    .showError();
+            return;
+        }
+
+        this.recipeName = new Label(recipe.get().getName());
+        this.recipeDescription = new Text(recipe.get().getDescription());
+        this.recipeSummary = new Text(recipe.get().getSummary());
+        this.recipeServings = new Text(String.valueOf(recipe.get().getServings()));
 
 
-        List<IngredientRecipe> ingredientsId = this.recipe.getListOfIngredients();
+        List<IngredientRecipe> ingredientsId = this.recipe.get().getListOfIngredients();
         List<Ingredient> ingredients = new ArrayList<Ingredient>();
         for (IngredientRecipe ingredientId : ingredientsId) {
             try {
@@ -80,7 +105,7 @@ public class RecipeController implements Initializable {
         }
         this.ingredientListView.getItems().addAll(ingredients);
 
-        List<CategoryRecipe> categoryRecipes = this.recipe.getListofCategories();
+        List<CategoryRecipe> categoryRecipes = this.recipe.get().getListofCategories();
         List<Category> categories = new ArrayList<Category>();
         for (CategoryRecipe categoryRecipe : categoryRecipes) {
             try {
@@ -91,7 +116,7 @@ public class RecipeController implements Initializable {
         }
         this.categoryListView.getItems().addAll(categories);
 
-        this.imageView = new ImageView(new Image(new ByteArrayInputStream(recipe.getSrc())));
+        this.imageView = new ImageView(new Image(new ByteArrayInputStream(recipe.get().getSrc())));
 
         categoryListView.setCellFactory(param -> this.listCellFactoryCategory());
         ingredientListView.setCellFactory(param -> this.listCellFactoryIngredient());

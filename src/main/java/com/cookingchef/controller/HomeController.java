@@ -157,16 +157,18 @@ public class HomeController implements Initializable {
      */
     public void redirectTo(Recipe recetteToGo) {
         // code de redirection vers la recette
-        RecipeController controleur = new RecipeController(recetteToGo);
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("recipe-view.fxml"));
-        loader.setController(controleur);
         try {
             loader.load();
+            RecipeController controleur = loader.getController();
+            controleur.setRecipe(recetteToGo);
         } catch (IOException e) {
             e.printStackTrace();
+            return;
         }
-        Main.addScene("recette", loader.getLocation());
+        
         try {
+            Main.addScene("recette", loader.getLocation());
             Main.redirect("recette");
         } catch (IOException e) {
             e.printStackTrace();

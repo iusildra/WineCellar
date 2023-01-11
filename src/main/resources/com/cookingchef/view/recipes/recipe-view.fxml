@@ -37,7 +37,7 @@
                      <Insets left="80.0" right="80.0" top="40.0" />
                  </VBox.margin>
              </ScrollPane>
-            <Button fx:id="retourButton" mnemonicParsing="false" text="Retour" />
+            <Button fx:id="retourButton" onAction="#goBack" mnemonicParsing="false" text="Retour" />
          </children>
       </VBox>
    </center>

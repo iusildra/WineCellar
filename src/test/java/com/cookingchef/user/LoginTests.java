@@ -29,7 +29,7 @@ public class LoginTests {
     // userDAO.registerUserInDb(user);
 
     UserFacade userFacade = UserFacade.getUserFacade();
-    var abc = userFacade.login("lucas.nouguier@protonmail.com", "abc");
+    var abc = userFacade.login("lu.cas@nou.com", "abc");
 
     // userDAO.removeUserFromDb(user);
 

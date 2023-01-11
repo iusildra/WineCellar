@@ -14,6 +14,13 @@ public class Recipe {
     private ArrayList<IngredientRecipe> listOfIngredients;
     private ArrayList<CategoryRecipe> listofCategories;
 
+    public Recipe(String name, String description, String summary, int servings) {
+        this.name = name;
+        this.description = description;
+        this.summary = summary;
+        this.servings = servings;
+    }
+
     public Recipe(int id, String name, String description, String summary, byte[] src, int servings, ArrayList<IngredientRecipe> listOfIngredients, ArrayList<CategoryRecipe> listofCategories) {
         this.id = Optional.of(id);
         this.name = name;

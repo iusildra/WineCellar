@@ -10,6 +10,9 @@ public enum Page {
 	PARTNER("partner"),
 	PROFILE("profile"),
 	REGISTER("register"),
+	RECIPE("recipe"),
+	RECIPE_ADMIN("recipeAdmin"),
+	RECIPE_LIST("recipe-list"),
 	SUGGESTION("suggestion"),
 	USER_MANAGEMENT("user-management");
 

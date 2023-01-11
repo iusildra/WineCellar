@@ -78,9 +78,12 @@ public class NavbarController implements Initializable {
 		partner.setOnAction(event -> pageChange(Page.PARTNER));
 		var suggestions = new MenuItem("Suggestions");
 		suggestions.setOnAction(event -> pageChange(Page.SUGGESTION));
+		var recipeList = new MenuItem("Recipe List");
+		recipeList.setOnAction(event -> pageChange(Page.RECIPE_LIST));
 		
 		list.add(partner);
 		list.add(suggestions);
+		list.add(recipeList);
 
 		return list;
 	}
@@ -96,6 +99,8 @@ public class NavbarController implements Initializable {
 		ingredient.setOnAction(event -> pageChange(Page.INGREDIENT));
 		var userManagement = new MenuItem("User Management");
 		userManagement.setOnAction(event -> pageChange(Page.USER_MANAGEMENT));
+		var recipeAdmin = new MenuItem("Recipe Admin");
+		recipeAdmin.setOnAction(event -> pageChange(Page.RECIPE_ADMIN));
 		
 		list.add(ad);
 		list.add(category);

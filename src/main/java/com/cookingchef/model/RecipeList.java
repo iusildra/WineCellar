@@ -6,7 +6,7 @@ import java.util.Optional;
 public class RecipeList {
     private Optional<Integer> id = Optional.empty();
     private String name;
-    private ArrayList<Recipe> recipeList;
+    private ArrayList<Recipe> recipeList = new ArrayList<>();
     private boolean isFav = false;
 
     /**
@@ -15,7 +15,7 @@ public class RecipeList {
      */
     public RecipeList(String name) {
         this.name = name;
-        this.recipeList = new ArrayList<Recipe>();
+        this.recipeList = new ArrayList<>();
     }
 
     /**
@@ -132,15 +132,33 @@ public class RecipeList {
 
     @Override
     public int hashCode() {
-        return this.id.hashCode() + this.name.hashCode() + this.recipeList.hashCode() /*+ this.isFav.hashCode()*/; //TODO: idk if an hashCode exist for a boolean
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id.isEmpty()) ? 0 : id.hashCode());
+        result = prime * result + name.hashCode();
+        result = prime * result + recipeList.hashCode();
+        result = prime * result + (isFav ? 1231 : 1237);
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof RecipeList) {
-            var other = (RecipeList) obj;
-            return this.hashCode() == other.hashCode();
-        }
-        return false;
-    }
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+
+        RecipeList other = (RecipeList) obj;
+        if (id.isPresent() && other.id.isPresent() && id.get() != other.id.get())
+            return false;
+
+        if (!name.equals(other.name))
+            return false;
+        if (!name.equals(other.name))
+            return false;
+        if (!recipeList.equals(other.recipeList))
+            return false;
+
+        return isFav == other.isFav;
+    }   
 }

@@ -60,7 +60,9 @@ public class Main extends Application {
 		root.getChildren().add(FXMLLoader.load(scenes.get(scene)));
 	}
 
-	public static void main(String[] args) {launch();}
+	public static void main(String[] args) {
+		launch();
+	}
 
 	@Override
 	public void start(Stage stage) throws IOException {
@@ -75,8 +77,9 @@ public class Main extends Application {
 		addScene("navbar", Main.class.getResource("navbar-view.fxml"));
 		addScene("partner", Main.class.getResource("partners/partner-view.fxml"));
 		addScene("profile", Main.class.getResource("users/profile-view.fxml"));
-		addScene("recipeAdmin", Main.class.getResource("recipe/recipe-admin-view.fxml"));
-		addScene("recipe", Main.class.getResource("recipe/recipe-view.fxml"));
+		addScene("recipeAdmin", Main.class.getResource("recipes/recipe-admin-view.fxml"));
+		addScene("recipe", Main.class.getResource("recipes/recipe-view.fxml"));
+		addScene("recipe-list", Main.class.getResource("recipelist/form.fxml"));
 		addScene("register", Main.class.getResource("users/register-view.fxml"));
 		addScene("suggestion", Main.class.getResource("suggestions/suggestion-view.fxml"));
 		addScene("user-management", Main.class.getResource("users/user-management-view.fxml"));
