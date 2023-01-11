@@ -26,6 +26,9 @@ public class PostgresFactory implements AbstractFactory {
   }
 
   @Override
+  public RecipeListDAO getRecipeListDAO() {
+    return PostgresRecipeListDAO.getPostgresRecipeListDAO();
+
   public RecipeDAO getRecipeDAO() {
     return PostgresRecipeDAO.getPostgresRecipeDAO();
   }

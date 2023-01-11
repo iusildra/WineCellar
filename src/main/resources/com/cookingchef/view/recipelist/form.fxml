@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="onClose" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.RecipeListFormController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    <center>
+        <VBox maxHeight="423.0" maxWidth="390.0" prefHeight="423.0" prefWidth="390.0" spacing="20.0" BorderPane.alignment="CENTER">
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New Recipe List">
+                    <font>
+                        <Font size="40.0" />
+                    </font>
+                </Text>
+                <TextField fx:id="formName" promptText="Recipe List Name..." />
+                <Pane prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Button fx:id="closeButton" accessibleText="Recipe list form" blendMode="DARKEN" cache="true" cacheHint="SCALE" layoutX="-325.0" mnemonicParsing="false" onAction="#onClose" prefHeight="31.0" prefWidth="82.0" style="-fx-translate-x: 325;" text="Close" textAlignment="CENTER" />
+                        <Button fx:id="validateButton1" accessibleText="Recipe list form" alignment="CENTER" blendMode="DARKEN" cache="true" cacheHint="SCALE" contentDisplay="RIGHT" layoutX="-17.0" mnemonicParsing="false" onAction="#onClickValidateButton" prefHeight="31.0" prefWidth="82.0" style="-fx-translate-x: 325;" text="Validate" textAlignment="CENTER" />
+                    </children>
+                </Pane>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

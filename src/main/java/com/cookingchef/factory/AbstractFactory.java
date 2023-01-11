@@ -12,6 +12,8 @@ public interface AbstractFactory {
 
   PartnerDAO getPartnerDAO();
 
+  RecipeListDAO getRecipeListDAO();
+
   RecipeDAO getRecipeDAO();
 
   IngredientDAO getIngredientDAO();
