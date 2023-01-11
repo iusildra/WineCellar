@@ -296,7 +296,7 @@ public class RecipeAdminController implements Initializable {
         // Création de la seconde fenêtre
         this.secondaryStage = new Stage();
         secondaryStage.initModality(Modality.WINDOW_MODAL);
-        secondaryStage.initOwner(Main.stage);
+        secondaryStage.initOwner(Main.getStage());
 
         Label labelName = new Label("Nom de la recette");
         this.name = new TextField();
@@ -396,8 +396,6 @@ public class RecipeAdminController implements Initializable {
     }
 
     public ListCell<Recipe> listCellFactory() {
-        IngredientFacade ingredientFacade1 = IngredientFacade.getIngredientFacade();
-        CategoryFacade categoryFacade1 = CategoryFacade.getCategoryFacade();
         return new ListCell<Recipe>() {
 
             @Override
@@ -414,7 +412,7 @@ public class RecipeAdminController implements Initializable {
                     List<CategoryRecipe> categoryIds = recipe.getListofCategories();
                     String categories = "";
                     for (CategoryRecipe categoryRecipe : categoryIds) {
-                        Category category = categoryFacade1.getCategoryRecipeById(categoryRecipe.getCategoryId());
+                        Category category = categoryFacade.getCategoryRecipeById(categoryRecipe.getCategoryId());
                         categories += category.getNameCategory() + " ";
                     }
                     Label categoryLabel = new Label(categories);

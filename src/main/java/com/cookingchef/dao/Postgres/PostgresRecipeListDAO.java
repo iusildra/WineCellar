@@ -2,6 +2,7 @@ package com.cookingchef.dao.Postgres;
 
 import com.cookingchef.dao.RecipeListDAO;
 import com.cookingchef.dbutils.ConnectionManager;
+import com.cookingchef.model.Recipe;
 import com.cookingchef.model.RecipeList;
 import com.cookingchef.model.RecipeListDbFields;
 
@@ -10,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+
+import org.controlsfx.control.Notifications;
 
 public class PostgresRecipeListDAO implements RecipeListDAO {
     private static AtomicReference<PostgresRecipeListDAO> instance = new AtomicReference<>();
@@ -54,7 +57,17 @@ public class PostgresRecipeListDAO implements RecipeListDAO {
 
             // Inserting dependencies
             for (Recipe recipe : recipeList.getRecipeList()) {
-                createRecipeListLinkRecipeInDb(recipe.getId(), newId);
+                recipe.getId().ifPresent(id -> {
+                    try {
+                        createRecipeListLinkRecipeInDb(id, newId);
+                    } catch (SQLException e) {
+                        Notifications.create()
+                                .title("Creation failed")
+                                .text("Filling recipe list failed, please refer to an admin.")
+                                .showError();
+                        e.printStackTrace();
+                    }
+                });
             }
             return Optional.of(newId);
         }
@@ -149,12 +162,16 @@ public class PostgresRecipeListDAO implements RecipeListDAO {
                         new RecipeList(
                                 rs.getInt(RecipeListDbFields.ID.value),
                                 rs.getString(RecipeListDbFields.NAME.value),
-                                PostgresRecipeDAO.getPostgresRecipeDAO.getRecipebyId(rs.getInt(RecipeDbFields.ID.value)),
+                                getRecipesForList(rs.getInt(RecipeListDbFields.ID.value)),
                                 // returns an ArrayList<Recipe> object for a recipeID (int) given.
                                 rs.getBoolean(RecipeListDbFields.IS_FAV.value)));
             }
             return Optional.empty();
         }
+    }
+
+    private ArrayList<Recipe> getRecipesForList(int listId) {
+        return null;
     }
 
     /**

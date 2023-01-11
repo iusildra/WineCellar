@@ -2,6 +2,8 @@ package com.cookingchef.controller;
 
 import com.cookingchef.facade.RecipeListFacade;
 import com.cookingchef.model.RecipeList;
+import com.cookingchef.view.Main;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -26,10 +28,14 @@ public class RecipeListFormController {
     protected void onClickValidateButton() {
         RecipeListFacade recipeListFacade = RecipeListFacade.getRecipeListFacade();
         var recipeList = new RecipeList(this.recipeListId.get(), this.formName.getText());
+        if (Main.getUser() == null) {
+            Notifications.create().title("Error").text("You must be logged in to create a recipe list.").showError();
+            return;
+        }
 
         if (recipeList.getId().isEmpty()) {
             try {
-                recipeListFacade.addRecipeList(getUserId(), recipeList);
+                recipeListFacade.addRecipeList(Main.getUser().getId().get(), recipeList);
             } catch (SQLException e) {
                 Notifications.create()
                         .title("Creation failed")

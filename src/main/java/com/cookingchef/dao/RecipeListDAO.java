@@ -1,10 +1,8 @@
 package com.cookingchef.dao;
 
 import com.cookingchef.model.RecipeList;
-import com.cookingchef.model.Suggestion;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
