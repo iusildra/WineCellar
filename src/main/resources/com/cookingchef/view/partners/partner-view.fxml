@@ -11,6 +11,7 @@
 
 <BorderPane prefHeight="1080.0" prefWidth="1920.0"
    xmlns="http://javafx.com/javafx/19"
+            stylesheets="@../main.css"
    xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.PartnerController">
    <top>
       <fx:include fx:id="navbar" source="../navbar-view.fxml" />

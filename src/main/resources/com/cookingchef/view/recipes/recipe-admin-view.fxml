@@ -11,7 +11,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.RecipeAdminController">
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+            stylesheets="@../main.css" fx:controller="com.cookingchef.controller.RecipeAdminController">
+    <top>
+        <fx:include source="../navbar-view.fxml" />
+    </top>
     <center>
         <VBox>
          <HBox prefHeight="100.0" prefWidth="200.0">

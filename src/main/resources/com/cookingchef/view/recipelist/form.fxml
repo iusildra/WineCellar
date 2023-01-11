@@ -5,10 +5,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="onClose" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.RecipeListFormController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
+<BorderPane fx:id="onClose" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../main.css" fx:controller="com.cookingchef.controller.RecipeListFormController">
+    <top>
+        <fx:include source="../navbar-view.fxml" />
+    </top>
     <center>
         <VBox maxHeight="423.0" maxWidth="390.0" prefHeight="423.0" prefWidth="390.0" spacing="20.0" BorderPane.alignment="CENTER">
             <children>
