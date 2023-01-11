@@ -103,6 +103,10 @@ public class IngredientController implements Initializable {
         int width = (int) imageView.getImage().getWidth();
         int height = (int) imageView.getImage().getHeight();
 
+        if (width == 0 || height == 0) {
+            return new byte[0];
+        }
+
         BufferedImage bImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {

@@ -7,6 +7,7 @@ import com.cookingchef.model.CategorySearch;
 import com.cookingchef.model.Recipe;
 import com.cookingchef.view.Main;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -21,6 +22,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * The type Home controller.
@@ -144,25 +146,6 @@ public class HomeController implements Initializable {
                     .text("Erreur avec la redirection\nRelancer l'application")
                     .showError();
         }
-        /*// code de redirection vers la recette
-        RecipeController controller;
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource("recipes/recipe-view.fxml"));
-        try {
-            loader.load();
-            controller = loader.getController();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-        
-        if (recetteToGo != null)
-            controller.setRecipe(recetteToGo);
-
-        try {
-            Main.redirect("recipe");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
     @Override
@@ -211,7 +194,7 @@ public class HomeController implements Initializable {
                 hBox.setAlignment(Pos.CENTER);
 
                 // Si implémenter ajouter imageView dans les paramètres à addAll()
-                vBox.getChildren().addAll(hBox);
+                vBox.getChildren().setAll(hBox);
                 setGraphic(vBox);
             }
         };

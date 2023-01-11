@@ -1,6 +1,5 @@
 package com.cookingchef.dao.Postgres;
 
-
 import com.cookingchef.dao.IngredientDAO;
 import com.cookingchef.dbutils.ConnectionManager;
 import com.cookingchef.model.Ingredient;
@@ -32,7 +31,7 @@ public class PostgresIngredientDAO implements IngredientDAO {
     }
 
     @Override
-    public boolean ingredientAlreadyExist(String name) throws SQLException{
+    public boolean ingredientAlreadyExist(String name) throws SQLException {
         var query = "SELECT * FROM ingredient WHERE name = ?";
         var conn = ConnectionManager.getConnection();
 
@@ -67,7 +66,7 @@ public class PostgresIngredientDAO implements IngredientDAO {
 
             var rs = stmt.executeQuery();
 
-            ingredients = new ArrayList<Ingredient>();
+            ingredients = new ArrayList<>();
 
             while (rs.next()) {
                 ingredients.add(new Ingredient(
@@ -81,7 +80,8 @@ public class PostgresIngredientDAO implements IngredientDAO {
     }
 
     @Override
-    public boolean createIngredient(String name, byte[] img, Boolean allergen) throws SQLException, IllegalArgumentException {
+    public boolean createIngredient(String name, byte[] img, Boolean allergen)
+            throws SQLException, IllegalArgumentException {
         if (this.ingredientAlreadyExist(name)) {
             throw new IllegalArgumentException("Ingredient already exist");
         } else {
@@ -110,7 +110,8 @@ public class PostgresIngredientDAO implements IngredientDAO {
     }
 
     @Override
-    public boolean updateIngredient(int idIngredient, String nameIngredient, byte[] imageIngredient, Boolean allergenIngredient) throws SQLException {
+    public boolean updateIngredient(int idIngredient, String nameIngredient, byte[] imageIngredient,
+            Boolean allergenIngredient) throws SQLException {
         if (this.ingredientAlreadyExist(idIngredient, nameIngredient)) {
             return false;
         } else {
@@ -134,7 +135,7 @@ public class PostgresIngredientDAO implements IngredientDAO {
         var query = "SELECT * FROM ingredient WHERE id = ?";
         var conn = ConnectionManager.getConnection();
 
-        try(var stmt = conn.prepareStatement(query)) {
+        try (var stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, idIngredient);
             var rs = stmt.executeQuery();
 
@@ -143,8 +144,7 @@ public class PostgresIngredientDAO implements IngredientDAO {
                         rs.getInt(IngredientDbFields.ID.value),
                         rs.getString(IngredientDbFields.NAME.value),
                         rs.getBytes(IngredientDbFields.IMAGE.value),
-                        rs.getBoolean(IngredientDbFields.ALLERGEN.value)
-                );
+                        rs.getBoolean(IngredientDbFields.ALLERGEN.value));
             } else {
                 return null;
             }
@@ -156,7 +156,7 @@ public class PostgresIngredientDAO implements IngredientDAO {
         var query = "SELECT * FROM ingredient WHERE name = ?";
         var conn = ConnectionManager.getConnection();
 
-        try(var stmt = conn.prepareStatement(query)) {
+        try (var stmt = conn.prepareStatement(query)) {
             stmt.setString(1, nameIngredient);
             var rs = stmt.executeQuery();
 
@@ -165,8 +165,7 @@ public class PostgresIngredientDAO implements IngredientDAO {
                         rs.getInt(IngredientDbFields.ID.value),
                         rs.getString(IngredientDbFields.NAME.value),
                         rs.getBytes(IngredientDbFields.IMAGE.value),
-                        rs.getBoolean(IngredientDbFields.ALLERGEN.value)
-                );
+                        rs.getBoolean(IngredientDbFields.ALLERGEN.value));
             } else {
                 return null;
             }
@@ -181,11 +180,10 @@ public class PostgresIngredientDAO implements IngredientDAO {
                 .collect(Collectors.joining(" OR "));
         var query = "SELECT id FROM ingredient WHERE " + queryArgs;
 
-
         var conn = ConnectionManager.getConnection();
         List<Integer> ingredientsId = new ArrayList<>();
 
-        try(var stmt = conn.prepareStatement(query)) {
+        try (var stmt = conn.prepareStatement(query)) {
             for (int i = 0; i < ingredientsNames.size(); i++) {
                 stmt.setString(i + 1, "%" + ingredientsNames.get(i).toLowerCase() + "%");
             }
