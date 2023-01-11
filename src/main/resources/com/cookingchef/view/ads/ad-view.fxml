@@ -46,7 +46,7 @@
          </HBox>
             <ScrollPane>
                 <content>
-                    <ListView fx:id="adListView" prefHeight="304.0" prefWidth="348.0" />
+                    <ListView fx:id="adListView" prefHeight="304.0" prefWidth="600.0" />
 
                 </content>
                 <VBox.margin>

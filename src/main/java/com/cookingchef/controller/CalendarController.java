@@ -2,18 +2,15 @@ package com.cookingchef.controller;
 
 import com.cookingchef.facade.CalendarFacade;
 import com.cookingchef.facade.MealCategoryFacade;
+import com.cookingchef.facade.RecipeFacade;
 import com.cookingchef.model.Calendar;
-import com.cookingchef.model.Ingredient;
 import com.cookingchef.view.Main;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import org.controlsfx.control.Notifications;
 
 import java.net.URL;

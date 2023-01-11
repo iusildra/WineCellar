@@ -48,21 +48,60 @@ public class RecipeController implements Initializable {
     @FXML
     private ListView<Category> categoryListView = new ListView<>();
 
+    private Optional<Recipe> recipe = Optional.empty();
+
     @FXML
     private Button retourButton;
-    private final IngredientFacade ingredientFacade;
-    private final CategoryFacade categoryFacade;
-
-    private Optional<Recipe> recipe;
+    private final IngredientFacade ingredientFacade = IngredientFacade.getIngredientFacade();
+    private final CategoryFacade categoryFacade = CategoryFacade.getCategoryFacade();
 
     public RecipeController() {
-        this.ingredientFacade = IngredientFacade.getIngredientFacade();
-        this.categoryFacade = CategoryFacade.getCategoryFacade();
-        this.recipe = Optional.empty();
     }
 
     public void setRecipe(Recipe recipe) {
         this.recipe = Optional.of(recipe);
+        this.recipeName = new Label(recipe.getName());
+        this.recipeDescription = new Text(recipe.getDescription());
+        this.recipeSummary = new Text(recipe.getSummary());
+        this.recipeServings = new Text(String.valueOf(recipe.getServings()));
+
+        if (recipe.getSrc() != null)
+            this.imageView = new ImageView(new Image(new ByteArrayInputStream(recipe.getSrc())));
+    }
+
+    public void reset() {
+        this.recipe = Optional.empty();
+        this.recipeName.setText("");
+        this.recipeDescription.setText("");
+        this.recipeSummary.setText("");
+        this.recipeServings.setText("");
+        this.imageView.setImage(null);
+    }
+
+    private void fetchData() {
+        List<IngredientRecipe> ingredientsId = this.recipe.get().getListOfIngredients();
+        List<Ingredient> ingredients = new ArrayList<Ingredient>();
+        for (IngredientRecipe ingredientId : ingredientsId) {
+            try {
+                ingredients.add(this.ingredientFacade.getIngredientById(ingredientId.getIngredient()));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        this.ingredientListView.getItems().setAll(ingredients);
+        this.ingredientListView.refresh();
+
+        List<CategoryRecipe> categoryRecipes = this.recipe.get().getListofCategories();
+        List<Category> categories = new ArrayList<Category>();
+        for (CategoryRecipe categoryRecipe : categoryRecipes) {
+            try {
+                categories.add(this.categoryFacade.getCategoryRecipeById(categoryRecipe.getCategoryId()));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        this.categoryListView.getItems().setAll(categories);
+        this.categoryListView.refresh();
     }
 
     @FXML
@@ -80,46 +119,10 @@ public class RecipeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if (this.recipe.isEmpty()) {
-            Notifications.create()
-                    .title("Error")
-                    .text("You must chose a recipe first !")
-                    .showError();
-            return;
-        }
-
-        this.recipeName = new Label(recipe.get().getName());
-        this.recipeDescription = new Text(recipe.get().getDescription());
-        this.recipeSummary = new Text(recipe.get().getSummary());
-        this.recipeServings = new Text(String.valueOf(recipe.get().getServings()));
-
-
-        List<IngredientRecipe> ingredientsId = this.recipe.get().getListOfIngredients();
-        List<Ingredient> ingredients = new ArrayList<Ingredient>();
-        for (IngredientRecipe ingredientId : ingredientsId) {
-            try {
-                ingredients.add(this.ingredientFacade.getIngredientById(ingredientId.getIngredient()));
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        this.ingredientListView.getItems().addAll(ingredients);
-
-        List<CategoryRecipe> categoryRecipes = this.recipe.get().getListofCategories();
-        List<Category> categories = new ArrayList<Category>();
-        for (CategoryRecipe categoryRecipe : categoryRecipes) {
-            try {
-                categories.add(this.categoryFacade.getCategoryRecipeById(categoryRecipe.getCategoryId()));
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        this.categoryListView.getItems().addAll(categories);
-
-        this.imageView = new ImageView(new Image(new ByteArrayInputStream(recipe.get().getSrc())));
-
         categoryListView.setCellFactory(param -> this.listCellFactoryCategory());
         ingredientListView.setCellFactory(param -> this.listCellFactoryIngredient());
+
+        this.recipe.ifPresent(rec -> fetchData());
     }
 
     public ListCell<Category> listCellFactoryCategory() {

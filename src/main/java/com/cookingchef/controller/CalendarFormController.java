@@ -4,6 +4,7 @@ import com.cookingchef.facade.CalendarFacade;
 import com.cookingchef.facade.MealCategoryFacade;
 import com.cookingchef.model.Calendar;
 import com.cookingchef.model.MealCategory;
+import com.cookingchef.model.Recipe;
 import com.cookingchef.view.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,7 +35,7 @@ public class CalendarFormController implements Initializable {
     private Optional<Integer> userId = Optional.empty();
     private Optional<Integer> mealCategoryId = Optional.empty();
 
-    private CalendarFacade calendarFacade;
+    private CalendarFacade calendarFacade = CalendarFacade.getCalendarFacade();
     private MealCategoryFacade mealCategoryFacade;
 
     public CalendarFormController() {
@@ -44,7 +45,6 @@ public class CalendarFormController implements Initializable {
 
     @FXML
     protected void onClickValidateButton() {
-        CalendarFacade calendarFacade = CalendarFacade.getCalendarFacade();
         try {
             this.mealCategoryId = Optional.of((this.mealCategoryFacade.getMealCategoryByName(this.comboBox.getValue())).get().getId());
         } catch (SQLException e) {
@@ -53,10 +53,6 @@ public class CalendarFormController implements Initializable {
                     .text("Connection to database failed\nPlease try again")
                     .showError();
         }
-
-        this.userId = Main.getUser().getId();
-        // get the ID of the recipe from where the user clicks.
-        this.recipeId = getRecipeId();
 
         var calendar = new Calendar(
                 this.userId.get(),
@@ -81,9 +77,9 @@ public class CalendarFormController implements Initializable {
         this.datePicker.setValue(LocalDate.now());
     }
 
-    public void fillInputs(Calendar calendar) {
-        this.recipeId = Optional.of(calendar.getRecipeId());
-        this.userId = Optional.of(calendar.getUserId());
+    public void fillInputs(Recipe recipe) {
+        this.recipeId = recipe.getId();
+        this.userId = Main.getUser().getId();
     }
 
     @FXML

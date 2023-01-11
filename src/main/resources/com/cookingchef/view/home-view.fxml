@@ -30,7 +30,7 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <ListView fx:id="listeRecipe" prefHeight="18.0" prefWidth="508.0" />
+            <ListView fx:id="listeRecipe" prefHeight="800.0" prefWidth="508.0" />
          </children>
          <padding>
             <Insets left="20.0" top="20.0" />

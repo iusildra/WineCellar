@@ -6,6 +6,7 @@ import com.cookingchef.facade.RecipeFacade;
 import com.cookingchef.model.CategorySearch;
 import com.cookingchef.model.Recipe;
 import com.cookingchef.view.Main;
+
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +16,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
 import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
@@ -137,19 +139,21 @@ public class HomeController implements Initializable {
      */
     public void redirectTo(Recipe recetteToGo) {
         // code de redirection vers la recette
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource("recipe-view.fxml"));
+        RecipeController controller;
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("recipes/recipe-view.fxml"));
         try {
             loader.load();
-            RecipeController controleur = loader.getController();
-            controleur.setRecipe(recetteToGo);
+            controller = loader.getController();
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
+        
+        if (recetteToGo != null)
+            controller.setRecipe(recetteToGo);
 
         try {
-            Main.addScene("recette", loader.getLocation());
-            Main.redirect("recette");
+            Main.redirect("recipe");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -157,10 +161,15 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.listeRecipe.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getClickCount() == 2) {
+                this.redirectTo(this.listeRecipe.getSelectionModel().getSelectedItem());
+            }
+        });
         this.listeRecipe.setCellFactory(param -> cellFactory());
-        this.getRecettes();
         this.comboBox.getItems().setAll(CategorySearch.INGREDIENT, CategorySearch.RECIPE, CategorySearch.CATEGORY);
         this.comboBox.setValue(CategorySearch.RECIPE);
+        this.getRecettes();
     }
 
     /**
@@ -193,11 +202,7 @@ public class HomeController implements Initializable {
                  */
 
                 Button checkButton = new Button("Voir");
-                checkButton.setOnAction(actionEvent -> {
-                    Recipe recetteToGo = getItem();
-                    // code de redirection vers la recette
-                    redirectTo(recetteToGo);
-                });
+                checkButton.setOnAction(actionEvent -> redirectTo(getItem()));
 
                 HBox hBox = new HBox(label, checkButton);
                 hBox.setSpacing(10);

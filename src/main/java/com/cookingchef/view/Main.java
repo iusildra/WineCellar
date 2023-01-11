@@ -71,6 +71,8 @@ public class Main extends Application {
 		var defaultVal = "postgres";
 		ConnectionManager.openConnectionPool(defaultVal, defaultVal, defaultVal, 5432);
 		addScene("ad", Main.class.getResource("ads/ad-view.fxml"));
+		addScene("calendar", Main.class.getResource("calendar/calendar-view.fxml"));
+		addScene("cart", Main.class.getResource("cart/cart-view.fxml"));
 		addScene("category", Main.class.getResource("category/category-view.fxml"));
 		addScene("home", Main.class.getResource("home-view.fxml"));
 		addScene("ingredient", Main.class.getResource("ingredient/ingredient-view.fxml"));
@@ -84,7 +86,6 @@ public class Main extends Application {
 		addScene("register", Main.class.getResource("users/register-view.fxml"));
 		addScene("suggestion", Main.class.getResource("suggestions/suggestion-view.fxml"));
 		addScene("user-management", Main.class.getResource("users/user-management-view.fxml"));
-		addScene("cart", Main.class.getResource("cart/cart-view.fxml"));
 		redirect("login");
 		Scene scene = new Scene(root, 1920, 1080);
 		stage.setTitle("MyChefCook");
