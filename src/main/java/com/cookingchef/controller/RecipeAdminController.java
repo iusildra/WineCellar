@@ -507,7 +507,12 @@ public class RecipeAdminController implements Initializable {
         five2.setPadding(new Insets(10));
         five2.setAlignment(Pos.CENTER);
 
-        HBox five = new HBox(five2, this.ingredientHBox);
+        this.ingredientHBox = new HBox(five2);
+        ingredientHBox.setSpacing(10);
+        ingredientHBox.setPadding(new Insets(10));
+        ingredientHBox.setAlignment(Pos.CENTER);
+
+        HBox five = new HBox(this.ingredientHBox);
         five.setSpacing(10);
         five.setPadding(new Insets(10));
         five.setAlignment(Pos.CENTER);
