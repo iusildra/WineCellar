@@ -23,6 +23,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * The type Home controller.
+ */
 public class HomeController implements Initializable {
 
     @FXML
@@ -55,15 +58,28 @@ public class HomeController implements Initializable {
         }
     }
 
+    /**
+     * On click button logout.
+     *
+     * @throws IOException the io exception
+     */
     public void onClickButtonLogout() throws IOException {
         Main.setUser(null);
         Main.redirect("login");
     }
 
+    /**
+     * On click button profile.
+     *
+     * @throws IOException the io exception
+     */
     public void onClickButtonProfile() throws IOException {
         Main.redirect("profile");
     }
 
+    /**
+     * On click search.
+     */
     public void onClickSearch() {
         String search = searchField.getText();
         CategorySearch category = comboBox.getValue();
@@ -125,12 +141,20 @@ public class HomeController implements Initializable {
         this.listeRecipe.refresh();
     }
 
+    /**
+     * On click clear.
+     */
     public void onClickClear() {
         this.searchField.clear();
         this.getRecettes();
     }
 
 
+    /**
+     * Redirect to.
+     *
+     * @param recetteToGo the recette to go
+     */
     public void redirectTo(Recipe recetteToGo) {
         // code de redirection vers la recette
         RecipeController controleur = new RecipeController(recetteToGo);
@@ -159,6 +183,11 @@ public class HomeController implements Initializable {
 
     }
 
+    /**
+     * Cell factory list cell.
+     *
+     * @return the list cell
+     */
     public ListCell<Recipe> cellFactory() {
         return new ListCell<>() {
 

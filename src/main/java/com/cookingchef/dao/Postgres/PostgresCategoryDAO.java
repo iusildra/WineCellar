@@ -14,12 +14,20 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
+/**
+ * The type Postgres category dao.
+ */
 public class PostgresCategoryDAO implements CategoryDAO {
     private static final AtomicReference<PostgresCategoryDAO> instance = new AtomicReference<>();
 
     private PostgresCategoryDAO() {
     }
 
+    /**
+     * Gets postgres category dao.
+     *
+     * @return the postgres category dao
+     */
     public static CategoryDAO getPostgresCategoryDAO() {
         instance.compareAndSet(null, new PostgresCategoryDAO());
         return instance.get();

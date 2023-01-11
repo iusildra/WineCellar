@@ -12,12 +12,20 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
+/**
+ * The type Postgres ingredient dao.
+ */
 public class PostgresIngredientDAO implements IngredientDAO {
     private static final AtomicReference<PostgresIngredientDAO> instance = new AtomicReference<>();
 
     private PostgresIngredientDAO() {
     }
 
+    /**
+     * Gets postgres ingredient dao.
+     *
+     * @return the postgres ingredient dao
+     */
     public static IngredientDAO getPostgresIngredientDAO() {
         instance.compareAndSet(null, new PostgresIngredientDAO());
         return instance.get();

@@ -30,6 +30,9 @@ import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * The type Ingredient controller.
+ */
 public class IngredientController implements Initializable {
     @FXML
     private TextField nameIngredient;
@@ -57,10 +60,16 @@ public class IngredientController implements Initializable {
 
     private final IngredientFacade ingredientFacade;
 
+    /**
+     * Instantiates a new Ingredient controller.
+     */
     public IngredientController() {
         this.ingredientFacade = IngredientFacade.getIngredientFacade();
     }
 
+    /**
+     * Fetch list.
+     */
     public void fetchList() {
         try {
             this.ingredientList.setItems(FXCollections.observableArrayList(this.ingredientFacade.getAllIngredients()));
@@ -116,6 +125,13 @@ public class IngredientController implements Initializable {
         return imageData;
     }
 
+    /**
+     * Create ingredient.
+     *
+     * @param nameIngredient  the name ingredient
+     * @param imageIngredient the image ingredient
+     * @param isAllergen      the is allergen
+     */
     public void createIngredient(String nameIngredient, byte[] imageIngredient, Boolean isAllergen) {
         try {
             if (this.ingredientFacade.createIngredient(nameIngredient, imageIngredient, isAllergen)) {
@@ -140,6 +156,11 @@ public class IngredientController implements Initializable {
         }
     }
 
+    /**
+     * Delete ingredient.
+     *
+     * @param idIngredient the id ingredient
+     */
     public void deleteIngredient(int idIngredient) {
         try {
             this.ingredientFacade.deleteIngredient(idIngredient);
@@ -162,6 +183,14 @@ public class IngredientController implements Initializable {
         }
     }
 
+    /**
+     * Update ingredient.
+     *
+     * @param idIngredient    the id ingredient
+     * @param nameIngredient  the name ingredient
+     * @param imageIngredient the image ingredient
+     * @param isAllergen      the is allergen
+     */
     public void updateIngredient(int idIngredient, String nameIngredient, byte[] imageIngredient, boolean isAllergen) {
         try {
             if (this.ingredientFacade.updateIngredient(idIngredient, nameIngredient, imageIngredient, isAllergen)) {
@@ -186,6 +215,9 @@ public class IngredientController implements Initializable {
         }
     }
 
+    /**
+     * Show form.
+     */
     public void showForm() {
         // Création de la seconde fenêtre
         this.secondaryStage = new Stage();
@@ -250,6 +282,9 @@ public class IngredientController implements Initializable {
         this.secondaryStage.show();
     }
 
+    /**
+     * Show form create.
+     */
     public void showFormCreate() {
         // Afficher le formulaire général de create Ingredient
         this.showForm();
@@ -280,6 +315,11 @@ public class IngredientController implements Initializable {
         });
     }
 
+    /**
+     * Show form update.
+     *
+     * @param ingredientToUpdate the ingredient to update
+     */
     public void showFormUpdate(Ingredient ingredientToUpdate) {
         // Afficher le formulaire général du update form
         this.showForm();

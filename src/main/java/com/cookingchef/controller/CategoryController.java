@@ -22,6 +22,9 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * The type Category controller.
+ */
 public class CategoryController implements Initializable {
 
     @FXML
@@ -43,10 +46,16 @@ public class CategoryController implements Initializable {
     private static final String ERROR_TITLE = "Erreur";
     private static final String SUCCESS_TITLE = "Success";
 
+    /**
+     * Instantiates a new Category controller.
+     */
     public CategoryController() {
         this.categoryFacade = CategoryFacade.getCategoryFacade();
     }
 
+    /**
+     * Fetch list.
+     */
     public void fetchList() {
         try {
             this.categoriesList.setItems(FXCollections.observableArrayList(this.categoryFacade.getAllCategories()));
@@ -60,6 +69,12 @@ public class CategoryController implements Initializable {
         }
     }
 
+    /**
+     * Delete category.
+     *
+     * @param tableCategory the table category
+     * @param category      the category
+     */
     public void deleteCategory(CategoryDb tableCategory, Category category) {
         try {
             this.categoryFacade.deleteCategory(tableCategory, category.getIdCategory());
@@ -78,6 +93,9 @@ public class CategoryController implements Initializable {
         }
     }
 
+    /**
+     * Show form create.
+     */
     public void showFormCreate() {
         this.chocoBox.setDisable(false);
         this.showForm();
@@ -119,6 +137,12 @@ public class CategoryController implements Initializable {
         }
     }
 
+    /**
+     * Show form update.
+     *
+     * @param tableCategory    the table category
+     * @param categoryToUpdate the category to update
+     */
     public void showFormUpdate(CategoryDb tableCategory, Category categoryToUpdate) {
         this.showForm();
 
@@ -209,6 +233,11 @@ public class CategoryController implements Initializable {
         this.chocoBox.getItems().setAll(CategoryDb.INGREDIENT, CategoryDb.RECIPE, CategoryDb.SUGGESTION);
     }
 
+    /**
+     * Cell factory list cell.
+     *
+     * @return the list cell
+     */
     public ListCell<Pair<CategoryDb, Category>> cellFactory() {
         return new ListCell<>() {
 

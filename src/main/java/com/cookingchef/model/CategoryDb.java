@@ -1,17 +1,37 @@
 package com.cookingchef.model;
 
+/**
+ * The enum Category db.
+ */
 public enum CategoryDb {
-  INGREDIENT("ingredient_category"),
-  RECIPE("recipe_category"),
-  SUGGESTION("suggestion_category");
+    /**
+     * Ingredient category db.
+     */
+    INGREDIENT("ingredient_category"),
+    /**
+     * Recipe category db.
+     */
+    RECIPE("recipe_category"),
+    /**
+     * Suggestion category db.
+     */
+    SUGGESTION("suggestion_category");
 
-  public final String value;
+    /**
+     * The Value.
+     */
+    public final String value;
 
   CategoryDb(String key) {
     this.value = key;
   }
 
-  public String categoryName() {
+    /**
+     * Category name string.
+     *
+     * @return the string
+     */
+    public String categoryName() {
     return switch (this) {
       case INGREDIENT -> "Ingredient";
       case RECIPE -> "Recipe";
