@@ -1,47 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../main.css" fx:controller="com.cookingchef.controller.RecipeController">
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.RecipeController">
     <top>
         <fx:include source="../navbar-view.fxml" />
     </top>
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <HBox maxWidth="1200.0" prefWidth="1025.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="recipeName" />
-             <VBox>
-                 <children>
-                     <Label text="Nombre de personne : " />
-                     <Text fx:id="recipeServings" />
-                 </children>
-             </VBox>
-             <VBox>
-                 <children>
-                     <ImageView fx:id="imageView" />
-                     <Label text="Résumé de la recette :" />
-                     <Text fx:id="recipeSummary" />
-                 </children>
-             </VBox>
-             <ScrollPane>
-                 <content>
-                     <Label text="Catégories de la recette :" />
-                     <ListView fx:id="categoryListView" />
-                     <Label text="Liste des ingrédients :" />
-                     <ListView fx:id="ingredientListView" />
-                     <Label text="Liste des étapes :" />
-                     <Text fx:id="recipeDescription" />
-                 </content>
-                 <VBox.margin>
-                     <Insets left="80.0" right="80.0" top="40.0" />
-                 </VBox.margin>
-             </ScrollPane>
-            <Button fx:id="retourButton" onAction="#goBack" mnemonicParsing="false" text="Retour" />
+            <VBox maxWidth="900.0" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
+               <children>
+                  <Label fx:id="recipeName" text="RecipeName">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                   <VBox>
+                       <children>
+                           <Label text="Nombre de personne : " />
+                           <Text fx:id="recipeServings" text="recipeServings">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Text>
+                       </children>
+                   </VBox>
+                  <HBox spacing="20.0">
+                     <children>
+                         <VBox maxHeight="0.0" maxWidth="600.0" prefWidth="600.0">
+                             <children>
+                                 <Label text="Résumé de la recette :" />
+                                 <Text fx:id="recipeSummary" wrappingWidth="628.0" />
+                             </children>
+                         </VBox>
+                     </children>
+                  </HBox>
+                   <Label text="Catégories de la recette :" />
+                   <ListView fx:id="categoryListView" maxWidth="450.0" prefHeight="125.0" prefWidth="450.0" translateX="89.0" />
+                   <Label text="Liste des ingrédients :" />
+                   <ListView fx:id="ingredientListView" maxWidth="450.0" prefHeight="165.0" prefWidth="450.0" translateX="89.0" />
+                  <Button fx:id="retourButton" mnemonicParsing="false" onAction="#goBack" text="Retour" />
+               </children>
+            </VBox>
+            <VBox maxWidth="300.0" prefWidth="300.0">
+               <children>
+                     <ImageView fx:id="imageView" preserveRatio="true">
+                     <viewport>
+                        <Rectangle2D height="300.0" width="300.0" />
+                     </viewport>
+                  </ImageView>
+                   <Label prefWidth="52.0" text="Liste des étapes :" />
+                   <Text fx:id="recipeDescription" wrappingWidth="300.0" />
+               </children>
+            </VBox>
          </children>
-      </VBox>
+      </HBox>
    </center>
 </BorderPane>
