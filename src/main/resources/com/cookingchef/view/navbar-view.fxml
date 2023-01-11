@@ -17,7 +17,6 @@
     xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.NavbarController">
     <children>
         <MenuButton fx:id="menuItems" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" style="-fx-background-color: WHITE;fx-border-color:WHITE" text="Menu" textAlignment="CENTER">
-
             <items>
             </items>
             <graphic>

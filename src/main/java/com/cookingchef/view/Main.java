@@ -64,6 +64,7 @@ public class Main extends Application {
 		launch();
 	}
 
+
 	@Override
 	public void start(Stage stage) throws IOException {
 		Main.stage.set(stage);
@@ -83,6 +84,7 @@ public class Main extends Application {
 		addScene("register", Main.class.getResource("users/register-view.fxml"));
 		addScene("suggestion", Main.class.getResource("suggestions/suggestion-view.fxml"));
 		addScene("user-management", Main.class.getResource("users/user-management-view.fxml"));
+		addScene("cart", Main.class.getResource("cart/cart-view.fxml"));
 		redirect("login");
 		Scene scene = new Scene(root, 1920, 1080);
 		stage.setTitle("MyChefCook");

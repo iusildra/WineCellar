@@ -109,4 +109,8 @@ public class NavbarController implements Initializable {
 
 		return list;
 	}
+
+	public void onClickButtonCart() throws IOException {
+		Main.redirect("cart");
+	}
 }
