@@ -16,6 +16,12 @@ You need to have installed [Docker](https://www.docker.com/) and [Docker Compose
   docker-compose up
 ```
 
+## How to run
+
+```zsh
+mvn clean javafx:run
+```
+
 ## SQL Migrations
 
 Keep a track of each SQL migration (create a new file) to automatically load tables on each run whithout having to do it manually. You must name that properly with a version number to ensure the order of execution
