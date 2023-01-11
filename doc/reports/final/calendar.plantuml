@@ -1,0 +1,100 @@
+@startuml calendarSequence
+skinparam responseMessageBelowArrow true
+
+actor User
+participant RecipePage
+participant CalendarPage
+participant CalendarController
+participant CalendarFacade
+participant AbstractCalendarFactory
+participant CalendarDAO
+
+=== Add a recipe ==
+activate User
+User -> RecipePage++: selectRecipe()
+User -> RecipePage: clickOnCalendarButton()
+return recipe
+CalendarController -> CalendarPage++: showPopup()
+activate CalendarController
+User -> CalendarPage: selectDate()
+User -> CalendarPage: selectCategory()
+User -> CalendarPage: validate()
+CalendarPage -> CalendarController: onValidate()
+CalendarController -> CalendarFacade++: addRecipeToCalendar()
+CalendarFacade -> AbstractCalendarFactory++: getCalendarDAO()
+return calendarDAO
+CalendarFacade -> CalendarDAO++: addRecipeToCalendar()
+alt Calendar place already taken
+CalendarDAO -> CalendarFacade: false
+CalendarFacade -> CalendarController: false
+CalendarController -> CalendarPage: false
+CalendarPage -> CalendarPage: showCalendar()
+CalendarPage -> User: display(false)
+else Calendar place free
+CalendarDAO -> CalendarFacade--: true
+CalendarFacade -> CalendarController--: true
+CalendarController -> CalendarPage--: true
+CalendarPage -> CalendarPage: showCalendar()
+CalendarPage -> User--: display(true)
+end
+=== Delete a recipe ==
+User -> CalendarPage++: selectDate()
+User -> CalendarPage: clickOnActionButton()
+User -> CalendarPage: removeRecipe()
+CalendarPage -> CalendarController++: onRemoveRecipe(): Boolean
+CalendarController -> CalendarFacade++: removeRecipeFromCalendar(): Boolean
+CalendarFacade -> AbstractCalendarFactory++: getCalendarDAO()
+return calendarDAO
+CalendarFacade -> CalendarDAO++: removeRecipeFromCalendar(): Boolean
+deactivate CalendarDAO
+deactivate CalendarFacade
+deactivate CalendarController
+alt Recipe removed
+CalendarPage -> User: display(true)
+else Recipe not removed
+CalendarPage -> User: display(false)
+end
+@enduml
+
+@startuml calendarClassDiagram
+hide empty members
+
+class CalendarController {
+  + showPopup()
+  + showCalendar()
+  + selectDate()
+  + selectCategory()
+  + onAddRecipe()
+  + onRemoveRecipe()
+  + displayResult()
+}
+
+class CalendarFacade{
+  + getCalendarDAO()
+  + addRecipeToCalendar()
+  + removeRecipeFromCalendar()
+}
+
+interface AbstractCalendarDAO {
+  + insertCalendarEntry()
+  + deleteCalendarEntry()
+}
+
+class CalendarDAO {
+}
+
+interface AbstractCalendarFactory{
+  + getCalendarDAO()
+}
+
+class CalendarFactory {
+}
+
+CalendarFactory .u.|> AbstractCalendarFactory
+CalendarDAO     .r.|> AbstractCalendarDAO
+
+CalendarController "1" -d->  "1" CalendarFacade: > uses
+CalendarFacade     "1" -l-> "1" AbstractCalendarFactory: > uses
+CalendarFactory    "1" -->  "1" CalendarDAO: > creates
+CalendarFacade     "1" --> "1" CalendarDAO: > uses
+@enduml

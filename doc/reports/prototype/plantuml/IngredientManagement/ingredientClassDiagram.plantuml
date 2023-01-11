@@ -1,18 +1,21 @@
 @startuml IngredientClassDiagram
+hide empty members
 
-class IngredientPage {
-  + display()
+class Main {
+  + main()
 }
 
 class IngredientController {
-  # onClickButtonCreate()
-  # onClickButtonDelete()
-  # onClickButtonUpdate()
+  + display()
+  + showList()
+  + showForm()
+  + onClickCreateIngredient()
+  + onClickDeleteIngredient()
+  + onClickUpdateIngredient()
 }
 
 
 class IngredientFacade {
-  - IngredientDAO: IngredientDAO
   + createIngredient()
   + updateIngredient()
   + deleteIngredient()
@@ -25,8 +28,8 @@ interface IngredientAbstractFactory {
 }
 
 
-class PostgresIngredientFactory {
-  + getPostgresIngredientFactory(): PostgresIngredientFactory
+class PostgresFactory {
+  + getPostgresFactory(): PostgresFactory
   + get IngredientDAO() : IngredientDAO
 }
 
@@ -47,27 +50,18 @@ class PostgresIngredientDAO{
 
 
 class ConnectionManager {
-  # {static} PGConnectionPoolDataSource: DataSource
+  - {static} PGConnectionPoolDataSource: DataSource
   + {static} openConnectionPool(): void
   + {static} getConnection(): Connection
   + {static} closeConnectionPool(): void
 }
 
+PostgresIngredientFactory -u-|> IngredientAbstractFactory
+PostgresIngredientDAO     -l-|> IngredientDAO
 
-database "Postgres\nDatabase" as Postgres {
-
-}
-
-class PostgresIngredientFactory extends IngredientAbstractFactory
-class PostgresIngredientDAO extends IngredientDAO
-
-IngredientPage --> IngredientController
-IngredientController --> IngredientFacade
-IngredientFacade -- IngredientAbstractFactory
-IngredientAbstractFactory -- IngredientDAO
-IngredientDAO -- ConnectionManager
-ConnectionManager --> Postgres
-
-
-
+Main            "1" -r-> "1" IngredientController: <  controls
+IngredientController      "1" -r-> "1" IngredientFacade: > interact with
+IngredientFacade          "1" --> "1" IngredientAbstractFactory: > uses
+PostgresIngredientFactory "1" --> "1" PostgresIngredientDAO: > create
+PostgresIngredientDAO     "1" --> "1" ConnectionManager:> get connection from
 @enduml

@@ -24,8 +24,11 @@ hs_err_pid*
 
 
 # Intellij
+.iml
 .idea/
 target/
 
 # VSC
 .vscode
+
+CookingChef.iml

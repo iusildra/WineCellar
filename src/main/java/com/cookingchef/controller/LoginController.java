@@ -8,6 +8,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class LoginController {
@@ -32,15 +33,23 @@ public class LoginController {
 	}
 
 	@FXML
-	protected void onClickButtonLogin() throws SQLException {
+	protected void onClickButtonLogin() throws SQLException, IOException {
 		UserFacade userFacade = UserFacade.getUserFacade();
 		var user = userFacade.login(this.getEmail(), this.getPassword());
 
 		if (user.isPresent()) {
 			showText.setText("Welcome " + user.get().getName());
+			Main.setUser(user.get());
 			Main.redirect("home");
 		} else {
 			showText.setText("Wrong email or password");
 		}
 	}
+
+	@FXML
+	protected void onClickButtonRegister() throws IOException {
+		Main.redirect("register");
+	}
+
+
 }

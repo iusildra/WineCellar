@@ -20,7 +20,7 @@ public class PostgresFactory implements AbstractFactory {
     return PostgresUserSuggestionDAO.getPostgresUserSuggestionDAO();
   }
 
-
+  @Override
   public PartnerDAO getPartnerDAO() {
     return PostgresPartnerDAO.getPostgresPartnerDAO();
   }
@@ -28,5 +28,28 @@ public class PostgresFactory implements AbstractFactory {
   @Override
   public RecipeListDAO getRecipeListDAO() {
     return PostgresRecipeListDAO.getPostgresRecipeListDAO();
+
+  public RecipeDAO getRecipeDAO() {
+    return PostgresRecipeDAO.getPostgresRecipeDAO();
+  }
+
+  @Override
+  public IngredientDAO getIngredientDAO() {
+    return PostgresIngredientDAO.getPostgresIngredientDAO();
+  }
+
+  @Override
+  public CategoryDAO getCategoryDAO() {
+    return PostgresCategoryDAO.getPostgresCategoryDAO();
+  }
+
+  @Override
+  public CartDAO getCartDAO() {
+    return PostgresCartDAO.getPostgresCartDAO();
+  }
+
+  @Override
+  public AdDAO getAdDAO() {
+    return PostgresAdDAO.getPostgresAdDAO();
   }
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.RecipeController">
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="recipeName" />
+             <VBox>
+                 <children>
+                     <Label text="Nombre de personne : " />
+                     <Text fx:id="recipeServings" />
+                 </children>
+             </VBox>
+             <VBox>
+                 <children>
+                     <ImageView fx:id="imageView" />
+                     <Label text="Résumé de la recette :" />
+                     <Text fx:id="recipeSummary" />
+                 </children>
+             </VBox>
+             <ScrollPane>
+                 <content>
+                     <Label text="Catégories de la recette :" />
+                     <ListView fx:id="categoryListView" />
+                     <Label text="Liste des ingrédients :" />
+                     <ListView fx:id="ingredientListView" />
+                     <Label text="Liste des étapes :" />
+                     <Text fx:id="recipeDescription" />
+                 </content>
+                 <VBox.margin>
+                     <Insets left="80.0" right="80.0" top="40.0" />
+                 </VBox.margin>
+             </ScrollPane>
+            <Button fx:id="retourButton" mnemonicParsing="false" text="Retour" />
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

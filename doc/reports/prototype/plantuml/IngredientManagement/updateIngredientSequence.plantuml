@@ -10,19 +10,21 @@ participant IngredientDAO
 participant DataBase
 
 activate User
-activate DataBase
 
 User -> IngredientPage++ : changeInformations
 User -> IngredientPage : clickOnUpdate
 
 IngredientPage -> IngredientController++ : updateIngredient()
 
-IngredientController -> IngredientFacade++ : updateIngredient(): True|Error
+IngredientController -> IngredientFacade++ : updateIngredient()
 
 IngredientFacade -> IngredientAbstractFactory++ : getIngredientDAO(): IngredientDAO
-IngredientFacade -> IngredientDAO++ : updateIngredient(): True|Error
+return ingredientDAO
+IngredientFacade -> IngredientDAO++ : updateIngredient()
+return
+return
 
-alt return True
+alt return no errors
   IngredientController -> IngredientPage : updateSuccessful()
 
   IngredientPage -> User : display("L'ingrédient a été mis à jour")

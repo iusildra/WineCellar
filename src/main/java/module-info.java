@@ -1,6 +1,10 @@
 module com.cookingchef {
 	requires transitive javafx.controls;
-	requires javafx.fxml;
+	requires transitive javafx.fxml;
+	requires transitive javafx.base;
+	requires transitive javafx.graphics;
+	
+
 	requires java.naming;
 
 	requires org.controlsfx.controls;
@@ -11,8 +15,9 @@ module com.cookingchef {
 	requires transitive java.sql;
 	requires transitive org.postgresql.jdbc;
 	requires spring.security.crypto;
+    requires java.desktop;
 
-	opens com.cookingchef.view to javafx.fxml;
+    opens com.cookingchef.view to javafx.fxml;
 	opens com.cookingchef.controller to javafx.fxml;
 
 	exports com.cookingchef.controller;
@@ -22,4 +27,5 @@ module com.cookingchef {
 	exports com.cookingchef.facade;
 	exports com.cookingchef.model;
 	exports com.cookingchef.view;
+    exports com.cookingchef.dao.Postgres;
 }

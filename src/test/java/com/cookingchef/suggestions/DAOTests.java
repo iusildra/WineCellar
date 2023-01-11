@@ -25,7 +25,7 @@ public class DAOTests {
 
   @Test
   void createSuggestion() throws SQLException {
-    var sugg = new Suggestion("abc", "abc", 0, 0);
+    var sugg = new Suggestion("abc", "abc", 0, "a", 0);
     userDAO.createSuggestionInDb(sugg);
 
     var newSugg = userDAO.getSuggestionById(sugg.getId().get());
@@ -36,7 +36,7 @@ public class DAOTests {
 
   @Test
   void updateSuggestion() throws SQLException {
-    var sugg = new Suggestion("abc", "abc", 0, 0);
+    var sugg = new Suggestion("abc", "abc", 0, "a", 0);
     userDAO.createSuggestionInDb(sugg);
 
     sugg.setCategoryId(1);
@@ -50,7 +50,7 @@ public class DAOTests {
 
   @Test
   void removeSuggestion() throws SQLException {
-    var sugg = new Suggestion("abc", "abc", 0, 0);
+    var sugg = new Suggestion("abc", "abc", 0, "a", 0);
     userDAO.createSuggestionInDb(sugg);
 
     adminDAO.removeSuggestionFromDb(sugg);
@@ -63,10 +63,10 @@ public class DAOTests {
   @Test
   void getSuggestionsByTitle() throws SQLException {
     var suggestions = new ArrayList<Suggestion>();
-    suggestions.add(new Suggestion("abc", "abc", 0, 0));
-    suggestions.add(new Suggestion("abc", "abc", 0, 0));
-    suggestions.add(new Suggestion("abc", "abc", 0, 0));
-    suggestions.add(new Suggestion("def", "abc", 0, 0));
+    suggestions.add(new Suggestion("abc", "abc", 0, "a", 0));
+    suggestions.add(new Suggestion("abc", "abc", 0, "a", 0));
+    suggestions.add(new Suggestion("abc", "abc", 0, "a", 0));
+    suggestions.add(new Suggestion("def", "abc", 0, "a", 0));
 
     for (var sugg : suggestions) {
       userDAO.createSuggestionInDb(sugg);
@@ -84,10 +84,10 @@ public class DAOTests {
   @Test
   void getAllSuggestions() throws SQLException {
     var suggestions = new ArrayList<Suggestion>();
-    suggestions.add(new Suggestion("abc", "abc", 0, 0));
-    suggestions.add(new Suggestion("abc", "abc", 0, 0));
-    suggestions.add(new Suggestion("abc", "abc", 0, 0));
-    suggestions.add(new Suggestion("def", "abc", 0, 0));
+    suggestions.add(new Suggestion("abc", "abc", 0, "a", 0));
+    suggestions.add(new Suggestion("abc", "abc", 0, "a", 0));
+    suggestions.add(new Suggestion("abc", "abc", 0, "a", 0));
+    suggestions.add(new Suggestion("def", "abc", 0, "a", 0));
 
     for (var sugg : suggestions) {
       userDAO.createSuggestionInDb(sugg);
