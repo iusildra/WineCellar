@@ -3,7 +3,6 @@ package com.cookingchef.model;
 import com.cookingchef.facade.RecipeFacade;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class Recipe {
@@ -15,17 +14,6 @@ public class Recipe {
     private int servings;
     private ArrayList<IngredientRecipe> listOfIngredients;
     private ArrayList<CategoryRecipe> listofCategories;
-
-    public Recipe() {
-        Recipe recipeChoixe = RecipeFacade.getRecipeFacade().getRecipeChoice();
-        this.id = recipeChoixe.getId();
-        this.name = recipeChoixe.getName();
-        this.description = recipeChoixe.getDescription();
-        this.summary = recipeChoixe.getSummary();
-        this.listofCategories = recipeChoixe.getListofCategories();
-        this.listOfIngredients = recipeChoixe.getListOfIngredients();
-
-    }
 
     public Recipe(String name, String description, String summary, int servings) {
         this.name = name;

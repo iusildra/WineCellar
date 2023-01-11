@@ -82,13 +82,13 @@ public class RecipeAdminController implements Initializable {
     private final IngredientFacade ingredientFacade;
     private final CategoryFacade categoryFacade;
 
-    public RecipeAdminController(){
+    public RecipeAdminController() {
         this.recipeFacade = RecipeFacade.getRecipeFacade();
         this.ingredientFacade = IngredientFacade.getIngredientFacade();
         this.categoryFacade = CategoryFacade.getCategoryFacade();
     }
 
-    public List<Recipe> showList(){
+    public List<Recipe> showList() {
         List<Recipe> recipes;
 
         try {
@@ -125,12 +125,13 @@ public class RecipeAdminController implements Initializable {
         }
     }
 
-    public void validateForm(){
+    public void validateForm() {
         if (this.name.getText().isEmpty()) {
             Notifications.create()
                     .title("Information")
                     .text("Veuillez remplir le nom de la recette")
                     .showWarning();
+            return;
 
         }
 
@@ -139,6 +140,7 @@ public class RecipeAdminController implements Initializable {
                     .title("Information")
                     .text("Veuillez remplir la description de la recette")
                     .showWarning();
+            return;
 
         }
 
@@ -147,25 +149,28 @@ public class RecipeAdminController implements Initializable {
                     .title("Information")
                     .text("Veuillez remplir le résumé de la recette")
                     .showWarning();
+            return;
 
         }
 
-        if (this.servings.getText().matches("[0-9]+")){
+        if (!this.servings.getText().matches("[0-9]+")) {
             Notifications.create()
                     .title("Information")
                     .text("Veuillez remplir le nombre de personnes pour la recette")
                     .showWarning();
+            return;
 
         }
 
-        if(this.quantity.getText().matches("[0-9]+")){
+        if (!this.quantity.getText().matches("[0-9]+")) {
             Notifications.create()
                     .title("Information")
                     .text("Veuillez remplir la quantité de l'ingrédient")
                     .showWarning();
+            return;
         }
 
-        if(this.unit.getText().matches("[0-9]+")){
+        if (!this.unit.getText().matches("[0-9]+")) {
             Notifications.create()
                     .title("Information")
                     .text("Veuillez remplir l'unité de l'ingrédient")
@@ -228,9 +233,10 @@ public class RecipeAdminController implements Initializable {
                     this.summary.getText(),
                     this.recupImage(),
                     Integer.parseInt(this.servings.getText()),
-                    this.transformIngredientIntoIngredientRecipe(this.ingredientRecipeCheckComboBox.getCheckModel().getCheckedItems()),
-                    this.transformCategoryIntoCategoryRecipe(this.categoryRecipeCheckComboBox.getCheckModel().getCheckedItems())
-            );
+                    this.transformIngredientIntoIngredientRecipe(
+                            this.ingredientRecipeCheckComboBox.getCheckModel().getCheckedItems()),
+                    this.transformCategoryIntoCategoryRecipe(
+                            this.categoryRecipeCheckComboBox.getCheckModel().getCheckedItems()));
 
             this.createRecipe(recipe);
         });
@@ -255,12 +261,11 @@ public class RecipeAdminController implements Initializable {
         }
     }
 
-    public ArrayList<CategoryRecipe> transformCategoryIntoCategoryRecipe(List<Category> categories){
+    public ArrayList<CategoryRecipe> transformCategoryIntoCategoryRecipe(List<Category> categories) {
         ArrayList<CategoryRecipe> categoryRecipes = new ArrayList<CategoryRecipe>();
         for (Category category : categories) {
             CategoryRecipe categoryRecipe = new CategoryRecipe(
-                    category.getIdCategory()
-            );
+                    category.getIdCategory());
             categoryRecipes.add(categoryRecipe);
         }
         return categoryRecipes;
@@ -272,8 +277,7 @@ public class RecipeAdminController implements Initializable {
             IngredientRecipe ingredientRecipe = new IngredientRecipe(
                     ingredient.getId(),
                     Integer.parseInt(this.quantity.getText()),
-                    Integer.parseInt(this.unit.getText())
-            );
+                    Integer.parseInt(this.unit.getText()));
             ingredientRecipes.add(ingredientRecipe);
         }
         return ingredientRecipes;
@@ -292,7 +296,8 @@ public class RecipeAdminController implements Initializable {
         List<IngredientRecipe> ingredientRecipes = recipe.getListOfIngredients();
         for (IngredientRecipe ingredientRecipe : ingredientRecipes) {
             try {
-                this.ingredientRecipeCheckComboBox.getCheckModel().check(ingredientFacade.getIngredientById(ingredientRecipe.getIngredient()));
+                this.ingredientRecipeCheckComboBox.getCheckModel()
+                        .check(ingredientFacade.getIngredientById(ingredientRecipe.getIngredient()));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -301,7 +306,8 @@ public class RecipeAdminController implements Initializable {
         List<CategoryRecipe> categoryRecipes = recipe.getListofCategories();
         for (CategoryRecipe categoryRecipe : categoryRecipes) {
             try {
-                this.categoryRecipeCheckComboBox.getCheckModel().check(categoryFacade.getCategoryRecipeById(categoryRecipe.getCategoryId()));
+                this.categoryRecipeCheckComboBox.getCheckModel()
+                        .check(categoryFacade.getCategoryRecipeById(categoryRecipe.getCategoryId()));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -317,9 +323,10 @@ public class RecipeAdminController implements Initializable {
                     this.summary.getText(),
                     this.recupImage(),
                     Integer.parseInt(this.servings.getText()),
-                    this.transformIngredientIntoIngredientRecipe(this.ingredientRecipeCheckComboBox.getCheckModel().getCheckedItems()),
-                    this.transformCategoryIntoCategoryRecipe(this.categoryRecipeCheckComboBox.getCheckModel().getCheckedItems())
-            );
+                    this.transformIngredientIntoIngredientRecipe(
+                            this.ingredientRecipeCheckComboBox.getCheckModel().getCheckedItems()),
+                    this.transformCategoryIntoCategoryRecipe(
+                            this.categoryRecipeCheckComboBox.getCheckModel().getCheckedItems()));
 
             this.updateCategory(recipeToUpdate);
         });
@@ -349,6 +356,7 @@ public class RecipeAdminController implements Initializable {
         this.secondaryStage = new Stage();
         secondaryStage.initModality(Modality.WINDOW_MODAL);
         secondaryStage.initOwner(Main.getStage());
+        secondaryStage.setHeight(800);
 
         Label labelName = new Label("Nom de la recette");
         this.name = new TextField();
@@ -390,12 +398,12 @@ public class RecipeAdminController implements Initializable {
         }
 
         Label labelCategory = new Label("Catégories");
-        this.categoryRecipeCheckComboBox = new CheckComboBox<Category>();
-        ArrayList<Category> categories = new ArrayList<Category>();
+        this.categoryRecipeCheckComboBox = new CheckComboBox<>();
+        ArrayList<Category> categories = new ArrayList<>();
         List<Pair<CategoryDb, Category>> categoriesDb = null;
         try {
             categoriesDb = new ArrayList<Pair<CategoryDb, Category>>(this.categoryFacade.getAllCategories());
-            for (Pair<CategoryDb, Category>  category : categoriesDb) {
+            for (Pair<CategoryDb, Category> category : categoriesDb) {
                 categories.add(category.getValue());
             }
             this.categoryRecipeCheckComboBox.getItems().addAll(categories);
@@ -476,12 +484,13 @@ public class RecipeAdminController implements Initializable {
                     VBox vBox = new VBox();
                     Label nameLabel = new Label(recipe.getName());
 
-                    //Récupération des catégories
+                    // Récupération des catégories
                     List<CategoryRecipe> categoryIds = recipe.getListofCategories();
                     String categories = "";
                     for (CategoryRecipe categoryRecipe : categoryIds) {
                         try {
-                            categories += categoryFacade.getCategoryRecipeById(categoryRecipe.getCategoryId()).getNameCategory() + " ";
+                            categories += categoryFacade.getCategoryRecipeById(categoryRecipe.getCategoryId())
+                                    .getNameCategory() + " ";
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         }

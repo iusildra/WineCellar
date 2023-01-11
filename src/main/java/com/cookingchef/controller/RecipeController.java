@@ -2,6 +2,7 @@ package com.cookingchef.controller;
 
 import com.cookingchef.facade.CategoryFacade;
 import com.cookingchef.facade.IngredientFacade;
+import com.cookingchef.facade.RecipeFacade;
 import com.cookingchef.model.*;
 import com.cookingchef.view.*;
 import javafx.fxml.FXML;
@@ -60,10 +61,10 @@ public class RecipeController implements Initializable {
 
     public void setRecipe(Recipe recipe) {
         this.recipe = Optional.of(recipe);
-        this.recipeName = new Label(recipe.getName());
-        this.recipeDescription = new Text(recipe.getDescription());
-        this.recipeSummary = new Text(recipe.getSummary());
-        this.recipeServings = new Text(String.valueOf(recipe.getServings()));
+        this.recipeName.setText(recipe.getName());
+        this.recipeDescription.setText(recipe.getDescription());
+        this.recipeSummary.setText(recipe.getSummary());
+        this.recipeServings.setText(recipe.getServings() + " personnes");
 
         if (recipe.getSrc() != null)
             this.imageView = new ImageView(new Image(new ByteArrayInputStream(recipe.getSrc())));
@@ -122,7 +123,17 @@ public class RecipeController implements Initializable {
         categoryListView.setCellFactory(param -> this.listCellFactoryCategory());
         ingredientListView.setCellFactory(param -> this.listCellFactoryIngredient());
 
-        this.recipe.ifPresent(rec -> fetchData());
+        var recipeChosen = RecipeFacade.getRecipeFacade().getRecipeChoice();
+        if (recipeChosen != null) {
+            setRecipe(recipeChosen);
+            fetchData();
+        } else {
+            try {
+                Main.redirect(Page.HOME.value);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public ListCell<Category> listCellFactoryCategory() {
