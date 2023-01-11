@@ -5,7 +5,7 @@ actor User
 participant IngredientPage
 participant IngredientController
 participant IngredientFacade
-participant IngredientAbstractFactory
+participant AbstractFactory
 participant IngredientDAO
 participant DataBase
 
@@ -18,21 +18,27 @@ IngredientPage -> IngredientController++ : updateIngredient()
 
 IngredientController -> IngredientFacade++ : updateIngredient()
 
-IngredientFacade -> IngredientAbstractFactory++ : getIngredientDAO(): IngredientDAO
+IngredientFacade -> AbstractFactory++ : getIngredientDAO(): IngredientDAO
 return ingredientDAO
 IngredientFacade -> IngredientDAO++ : updateIngredient()
-return
-return
+IngredientDAO -> IngredientDAO : ingredientAlreadyExist() : boolean
+return boolean
+return boolean
 
-alt return no errors
-  IngredientController -> IngredientPage : updateSuccessful()
+alt return True
+  IngredientController -> IngredientPage : Notification("Success")
 
   IngredientPage -> User : display("L'ingrédient a été mis à jour")
 
-else return Error
-  IngredientController -> IngredientPage : updateFailed()
+else return False
+  IngredientController -> IngredientPage : Notification("Failed")
 
-  IngredientPage -> User : display(Error)
+  IngredientPage -> User : display("L'ingrédient existe déjà")
+
+else return Error
+IngredientController -> IngredientPage : Notification("Error")
+
+IngredientPage -> User : display("Erreur")
 end
 
 @enduml

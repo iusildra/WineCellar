@@ -2,27 +2,43 @@
 hide empty members
 
 class Main {
+  - {static} User : user
+  - {static} Stage : stage
   + main()
+  + redirect()
+  + start()
 }
 
 class IngredientController {
-  + display()
-  + showList()
-  + showForm()
-  + onClickCreateIngredient()
-  + onClickDeleteIngredient()
-  + onClickUpdateIngredient()
+  - IngredientFacade : ingredientFacade
+  - ListView<Ingredient> : ingredientList
+  - Stage : secondaryStage
+  - ListCell<Ingredient> : cellFactory()
+  - addImageIngredient() : byte[]
+  - recupImage(): byte[]
+  - showForm()
+  + showFormCreate()
+  + showFormUpdate()
+  + createIngredient()
+  + deleteIngredient()
+  + updateIngredient()
+  + fetchList()
+  + initialize()
+
 }
 
 
 class IngredientFacade {
-  + createIngredient()
-  + updateIngredient()
+  - IngredientDAO : ingredientDAO
+  + createIngredient() : boolean
+  + updateIngredient() : boolean
   + deleteIngredient()
+  + getIngredientById() : Ingredient
+  + getIngredientsIdByNames() : List<Integer>
 }
 
 
-interface IngredientAbstractFactory {
+interface AbstractFactory {
   + {abstract} getIngredientDAO() : IngredientDAO
 
 }
@@ -35,17 +51,27 @@ class PostgresFactory {
 
 
 Interface IngredientDAO {
-  + {abstract} createIngredient()
-  + {abstract} updateIngredient()
+  + {abstract} getPostgresIngredientDAO() : IngredientDAO
+  + {abstract} createIngredient() : boolean
+  + {abstract} updateIngredient() : boolean
   + {abstract} deleteIngredient()
+  + {abstract} getIngredientById() : Ingredient
+  + {abstract} getIngredientByName() : Ingredient
+  + {abstract} getIngredientsIdByNames() : List<Integer>
+  + {abstract} ingredientAlreadyExist() : boolean
 }
 
 
 class PostgresIngredientDAO{
   + getPostgresIngredientDAO() : IngredientDAO
-  + createIngredient()
-  + updateIngredient()
+  + createIngredient() : boolean
+  + updateIngredient() : boolean
   + deleteIngredient()
+  + getIngredientById() : Ingredient
+  + getIngredientByName() : Ingredient
+  + getIngredientsIdByNames() : List<Integer>
+  + ingredientAlreadyExist() : boolean
+
 }
 
 
@@ -56,12 +82,12 @@ class ConnectionManager {
   + {static} closeConnectionPool(): void
 }
 
-PostgresIngredientFactory -u-|> IngredientAbstractFactory
+PostgresFactory -u-|> AbstractFactory
 PostgresIngredientDAO     -l-|> IngredientDAO
 
-Main            "1" -r-> "1" IngredientController: <  controls
+Main                      "1" -r-> "1" IngredientController: <  controls
 IngredientController      "1" -r-> "1" IngredientFacade: > interact with
-IngredientFacade          "1" --> "1" IngredientAbstractFactory: > uses
-PostgresIngredientFactory "1" --> "1" PostgresIngredientDAO: > create
+IngredientFacade          "1" --> "1" AbstractFactory: > uses
+PostgresFactory           "1" --> "1" PostgresIngredientDAO: > create
 PostgresIngredientDAO     "1" --> "1" ConnectionManager:> get connection from
 @enduml

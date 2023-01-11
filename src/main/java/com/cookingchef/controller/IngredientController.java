@@ -300,13 +300,12 @@ public class IngredientController implements Initializable {
                 return;
             }
 
-            byte[] imageData;
+            byte[] imageData = new byte[0];
             if (this.imageView.getImage() == null) {
                 Notifications.create()
                         .title("Information")
-                        .text("Veuillez choisir une image pour l'ingrédient")
-                        .showWarning();
-                return;
+                        .text("Il est recommandé de mettre une image pour l'ingrédient")
+                        .showInformation();
             } else {
                 imageData = this.recupImage();
             }
@@ -341,13 +340,12 @@ public class IngredientController implements Initializable {
                         .showWarning();
                 return;
             }
-            byte[] imageData;
+            byte[] imageData = new byte[0];
             if (this.imageView.getImage() == null) {
                 Notifications.create()
                         .title("Information")
-                        .text("Veuillez choisir une image pour l'ingrédient")
-                        .showWarning();
-                return;
+                        .text("Il est recommandé de choisir une image pour l'ingrédient")
+                        .showInformation();
             } else {
                 imageData = this.recupImage();
             }

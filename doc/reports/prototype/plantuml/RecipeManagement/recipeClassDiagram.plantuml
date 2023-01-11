@@ -1,50 +1,76 @@
 @startuml recipeClassDiagram
 hide empty members
 
-class RecipePage {
-  + display()
+class Main {
+  - {static} User : user
+  - {static} Stage : stage
+  + main()
+  + redirect()
+  + start()
 }
 
-class RecipeController {
-  + showList()
-  + showForm()
-  + onClickCreateRecipe()
-  + onClickDeleteRecipe()
-  + onClickUpdateRecipe()
+class RecipeAdminController {
+  - CategoryFacade : categoryFacade
+  - IngredientFacade : ingredientFacade
+  - RecipeFacade : recipeFacade
+  - ListView<Recipe> : recipeListView
+  - addImageRecipe() : byte[]
+  - recupImage() : byte[]
+  - showForm()
+  + showFormCreate()
+  + showFormUpdate()
+  + validateForm()
+  + showList() : List<Recipe>
+  - createRecipe()
+  + deleteRecipe()
+  - updateCategory()
+  + initialize()
+  + listCellFactoryCategory() : ListCell<Recipe>
+
 }
 
 
 class RecipeFacade {
-  + createRecipe()
+  + addRecipe() : Optional<Recipe>
   + updateRecipe()
   + deleteRecipe()
+  + getRecipeById() : Optional<Recipe>
+  + getRecipiesByCategories() : List<Recipe>
+  + getRecipiesByIngredients() : List<Recipe>
+  + getRecipiesByName() : List<Recipe>
 }
 
 
-interface RecipeAbstractFactory {
+interface AbstractFactory {
   + {abstract} getRecipeDAO() : RecipeDAO
 
 }
 
 
-class PostgresRecipeFactory {
-  + getPostgresRecipeFactory(): PostgresRecipeFactory
+class PostgresFactory {
   + get RecipeDAO() : RecipeDAO
 }
 
 
 Interface RecipeDAO {
-  + {abstract} createRecipe()
+  + {abstract} addRecipe()
   + {abstract} updateRecipe()
   + {abstract} deleteRecipe()
+  + {abstract} getRecipeById() : Optional<Recipe>
+  + {abstract} getRecipesByCategories() : List<Recipe>
+  + {abstract} getRecipesByIngredients() : List<Recipe>
+  + {abstract} getRecipiesByName() : List<Recipe>
 }
 
 
 class PostgresRecipeDAO{
-  + getPostgresRecipeDAO() : RecipeDAO
-  + createRecipe()
+  + addRecipe()
   + updateRecipe()
   + deleteRecipe()
+  + getRecipeById() : Optional<Recipe>
+  + getRecipesByCategories() : List<Recipe>
+  + getRecipesByIngredients() : List<Recipe>
+  + getRecipiesByName() : List<Recipe>
 }
 
 
@@ -56,13 +82,13 @@ class ConnectionManager {
 }
 
 
-PostgresRecipeFactory -u-|> RecipeAbstractFactory
+PostgresFactory       -u-|> AbstractFactory
 PostgresRecipeDAO     -l-|> RecipeDAO
 
-RecipePage            -r-> RecipeController: <  controls
-RecipeController      -r-> RecipeFacade: > interact with
-RecipeFacade          --> RecipeAbstractFactory: > uses
-PostgresRecipeFactory --> PostgresRecipeDAO: > create
+Main                  -r-> RecipeAdminController: <  controls
+RecipeAdminController -r-> RecipeFacade: > interact with
+RecipeFacade          --> AbstractFactory: > uses
+PostgresFactory       --> PostgresRecipeDAO: > create
 PostgresRecipeDAO     --> ConnectionManager: > get connection from
 
 
