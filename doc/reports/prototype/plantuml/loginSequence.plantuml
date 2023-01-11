@@ -2,7 +2,7 @@
 skinparam responseMessageBelowArrow true
 
 actor User
-participant Main
+participant LoginPage
 participant LoginController
 participant UserFacade
 participant AbstractFactory
@@ -12,20 +12,25 @@ participant DataBase
 activate User
 ' activate DataBase
 
-User -> Main++: enterUsername
-User -> Main: enterPassword
-User -> Main: clickOnLogin
-Main -> LoginController++: onClickButtonLogin()
-LoginController -> UserFacade++: login():User|Null
-UserFacade -> AbstractFactory++: getUserDAO():UserDAO
-UserFacade -> UserDAO++: getUserbyIDPwd():User|Null
+User -> LoginPage++: enterUsername
+User -> LoginPage: enterPassword
+User -> LoginPage: clickOnLogin
+LoginPage -> LoginController++: onClickButtonLogin()
+LoginController -> UserFacade++: getUserFacade()
+UserFacade -> AbstractFactory++: getUserDAO():
+return UserDAO
+return UserFacade
+LoginController -> UserFacade++ : login():
+UserFacade -> UserDAO++: getUserbyIDPwd():
+return Optional<User>
+return Optional<User>
 
 alt User is notNull
-    LoginController --> Main: setScene("home")
-    Main --> User--: display(homeWindow)
+    LoginController --> LoginPage: setScene("home")
+    LoginPage --> User--: display(homeWindow)
 else User is Null
-    LoginController -> Main: setText("Wrong username or password")
-    Main --> User--: display(invalid)
+    LoginController -> LoginPage: setText("Wrong username or password")
+    LoginPage --> User--: display(invalid)
 end
 
 @enduml

@@ -3,7 +3,7 @@ skinparam responseMessageBelowArrow true
 
 actor User
 participant RecipePage
-participant RecipeController
+participant RecipeAdminController
 participant RecipeFacade
 participant RecipeAbstractFactory
 participant RecipeDAO
@@ -14,9 +14,9 @@ activate User
 User -> RecipePage++ : changeInformations
 User -> RecipePage : clickOnUpdate
 
-RecipePage -> RecipeController++ : updateRecipe()
+RecipePage -> RecipeAdminController++ : updateRecipe()
 
-RecipeController -> RecipeFacade++ : updateRecipe()
+RecipeAdminController -> RecipeFacade++ : updateRecipe()
 
 RecipeFacade -> RecipeAbstractFactory++ : getRecipeDAO(): RecipeDAO
 return recipeDAO
@@ -25,12 +25,12 @@ return
 return
 
 alt return no errors
-  RecipeController -> RecipePage : updateSuccessful()
+  RecipeAdminController -> RecipePage : Notification("Success")
 
   RecipePage -> User : display("La recette a été mise à jour")
 
 else return Error
-  RecipeController -> RecipePage : updateFailed()
+  RecipeAdminController -> RecipePage : Notification("Failed")
 
   RecipePage -> User : display(Error)
 end
