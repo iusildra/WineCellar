@@ -1,7 +1,5 @@
 package com.cookingchef.model;
 
-import com.cookingchef.facade.RecipeFacade;
-
 import java.util.ArrayList;
 import java.util.Optional;
 
