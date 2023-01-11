@@ -46,7 +46,6 @@ public class HomeController implements Initializable {
     private void getRecettes() {
         try {
             this.listeRecipe.setItems(FXCollections.observableArrayList(this.recipeFacade.getAllRecipes()));
-            this.listeRecipe.refresh();
         } catch (SQLException e) {
             e.printStackTrace();
             Notifications.create()
@@ -120,8 +119,6 @@ public class HomeController implements Initializable {
                 }
             }
         }
-
-        this.listeRecipe.refresh();
     }
 
     /**
