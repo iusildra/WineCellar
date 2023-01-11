@@ -55,6 +55,15 @@ public class HomeController implements Initializable {
         }
     }
 
+    public void onClickButtonLogout() throws IOException {
+        Main.setUser(null);
+        Main.redirect("login");
+    }
+
+    public void onClickButtonProfile() throws IOException {
+        Main.redirect("profile");
+    }
+
     public void onClickSearch() {
         String search = searchField.getText();
         CategorySearch category = comboBox.getValue();
@@ -190,6 +199,4 @@ public class HomeController implements Initializable {
             }
         };
     }
-
-
 }

@@ -26,7 +26,6 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class PartnerController implements Initializable {
@@ -78,11 +77,9 @@ public class PartnerController implements Initializable {
     partner.ifPresent(part -> formController.fillInputs(part));
 
     formController.setCallback(callback);
-    VBox formPage = new VBox();
-    formPage.getChildren().add(form);
     Stage stage = new Stage();
     stage.setTitle("Modifying partner");
-    stage.setScene(new Scene(formPage, 450, 450));
+    stage.setScene(new Scene(form, 450, 450));
     stage.setOnCloseRequest(e -> formController.reset());
     stage.show();
   }

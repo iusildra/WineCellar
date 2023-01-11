@@ -22,7 +22,6 @@ import org.controlsfx.control.Notifications;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class AdController implements Initializable {
@@ -185,7 +184,7 @@ public class AdController implements Initializable {
         //Si champ description est vide
         if (this.formDescription.getText().isEmpty()) {
             Notifications.create()
-                    .title("Information")
+                    .title(INFORMATION_TITLE)
                     .text("Veuillez donner une description à votre publicité")
                     .showWarning();
             return;
@@ -194,7 +193,7 @@ public class AdController implements Initializable {
         //Si champ prix est vide
         if (this.formPrice.getText().isEmpty()) {
             Notifications.create()
-                    .title("Information")
+                    .title(INFORMATION_TITLE)
                     .text("Veuillez donner un prix à votre publicité")
                     .showWarning();
             return;
@@ -203,7 +202,7 @@ public class AdController implements Initializable {
         //Si le champ prix n'est pas un nombre
         if (!this.formPrice.getText().matches("[0-9]+")) {
             Notifications.create()
-                    .title("Information")
+                    .title(INFORMATION_TITLE)
                     .text("Veuillez donner un prix valide")
                     .showWarning();
             return;
@@ -212,7 +211,7 @@ public class AdController implements Initializable {
         //Si le champ partner n'est pas selectionné
         if (this.partnerComboBox.getValue().equals(null)) {
             Notifications.create()
-                    .title("Information")
+                    .title(INFORMATION_TITLE)
                     .text("Veuillez selectionner un partenaire")
                     .showWarning();
             return;
@@ -221,7 +220,7 @@ public class AdController implements Initializable {
         //Si le champ ingredient n'est pas selectionné
         if (this.ingredientComboBox.getValue().equals(null)) {
             Notifications.create()
-                    .title("Information")
+                    .title(INFORMATION_TITLE)
                     .text("Veuillez selectionner un ingredient")
                     .showWarning();
             return;
