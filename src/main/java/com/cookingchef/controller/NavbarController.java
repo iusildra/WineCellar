@@ -109,6 +109,7 @@ public class NavbarController implements Initializable {
 		list.add(category);
 		list.add(ingredient);
 		list.add(userManagement);
+		list.add(recipeAdmin);
 
 		return list;
 	}
