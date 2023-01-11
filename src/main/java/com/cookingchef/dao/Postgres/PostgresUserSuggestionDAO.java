@@ -1,5 +1,6 @@
 package com.cookingchef.dao.Postgres;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,8 @@ public class PostgresUserSuggestionDAO implements UserSuggestionDAO {
 
   @Override
   public Optional<Suggestion> getSuggestionById(int id) throws SQLException {
-    var query = "SELECT * FROM suggestion WHERE id = ?";
+    //TODO: unsafe query
+    var query = "SELECT * FROM suggestion s INNER JOIN suggestion_category sc ON s.category = sc.id WHERE s.id = ?";
     var conn = ConnectionManager.getConnection();
 
     try (var stmt = conn.prepareStatement(query)) {
@@ -56,21 +58,16 @@ public class PostgresUserSuggestionDAO implements UserSuggestionDAO {
 
       var rs = stmt.executeQuery();
 
-      if (rs.next()) {
-        return Optional.of(new Suggestion(
-            Optional.of(rs.getInt(SuggestionDbFields.ID.value)),
-            rs.getString(SuggestionDbFields.TITLE.value),
-            rs.getString(SuggestionDbFields.DESCRIPTION.value),
-            rs.getInt(SuggestionDbFields.CATEGORY_ID.value),
-            rs.getInt(SuggestionDbFields.AUTHOR_ID.value)));
-      }
+      if (rs.next())
+        return Optional.of(fetchSuggestionFromRS(rs));
     }
     return Optional.empty();
   }
 
   @Override
   public List<Suggestion> getSuggestionsByTitle(String title) throws SQLException {
-    var query = "SELECT * FROM suggestion WHERE title LIKE ?";
+    //TODO: unsafe query
+    var query = "SELECT * FROM suggestion s INNER JOIN suggestion_category sc ON s.category = sc.id WHERE title LIKE ?";
     var conn = ConnectionManager.getConnection();
 
     try (var stmt = conn.prepareStatement(query)) {
@@ -80,14 +77,8 @@ public class PostgresUserSuggestionDAO implements UserSuggestionDAO {
 
       var suggestions = new ArrayList<Suggestion>();
 
-      while (rs.next()) {
-        suggestions.add(new Suggestion(
-            Optional.of(rs.getInt(SuggestionDbFields.ID.value)),
-            rs.getString(SuggestionDbFields.TITLE.value),
-            rs.getString(SuggestionDbFields.DESCRIPTION.value),
-            rs.getInt(SuggestionDbFields.CATEGORY_ID.value),
-            rs.getInt(SuggestionDbFields.AUTHOR_ID.value)));
-      }
+      while (rs.next())
+        suggestions.add(fetchSuggestionFromRS(rs));
 
       return suggestions;
     }
@@ -95,7 +86,8 @@ public class PostgresUserSuggestionDAO implements UserSuggestionDAO {
 
   @Override
   public List<Suggestion> getSuggestions() throws SQLException {
-    var query = "SELECT * FROM suggestion";
+    //TODO: unsafe query
+    var query = "SELECT * FROM suggestion s INNER JOIN suggestion_category sc ON s.category = sc.id";
     var conn = ConnectionManager.getConnection();
 
     try (var stmt = conn.prepareStatement(query)) {
@@ -103,17 +95,20 @@ public class PostgresUserSuggestionDAO implements UserSuggestionDAO {
 
       var suggestions = new ArrayList<Suggestion>();
 
-      while (rs.next()) {
-        suggestions.add(new Suggestion(
-            Optional.of(rs.getInt(SuggestionDbFields.ID.value)),
-            rs.getString(SuggestionDbFields.TITLE.value),
-            rs.getString(SuggestionDbFields.DESCRIPTION.value),
-            rs.getInt(SuggestionDbFields.CATEGORY_ID.value),
-            rs.getInt(SuggestionDbFields.AUTHOR_ID.value)));
-      }
+      while (rs.next())
+        suggestions.add(fetchSuggestionFromRS(rs));
 
       return suggestions;
     }
   }
 
+  public Suggestion fetchSuggestionFromRS(ResultSet rs) throws SQLException {
+    return new Suggestion(
+        Optional.of(rs.getInt(SuggestionDbFields.ID.value)),
+        rs.getString(SuggestionDbFields.TITLE.value),
+        rs.getString(SuggestionDbFields.DESCRIPTION.value),
+        rs.getInt(SuggestionDbFields.CATEGORY.value),
+        rs.getString(SuggestionDbFields.CATEGORY_LABEL.value),
+        rs.getInt(SuggestionDbFields.AUTHOR.value));
+  }
 }

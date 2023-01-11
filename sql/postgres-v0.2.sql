@@ -104,7 +104,7 @@ CREATE TABLE "public"."ingredient" (
 );
 
 INSERT INTO "public"."ingredient" VALUES (0, 'dumb', false, NULL);
-INSERT INTO "public"."ingredient" ("name", "allergen", "src") VALUES (1, 'dummy', false, NULL), (2);
+INSERT INTO "public"."ingredient" ("name", "allergen", "src") VALUES ('dummy', false, NULL);
 
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
