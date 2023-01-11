@@ -412,8 +412,12 @@ public class RecipeAdminController implements Initializable {
                     List<CategoryRecipe> categoryIds = recipe.getListofCategories();
                     String categories = "";
                     for (CategoryRecipe categoryRecipe : categoryIds) {
-                        Category category = categoryFacade.getCategoryRecipeById(categoryRecipe.getCategoryId());
-                        categories += category.getNameCategory() + " ";
+                        try {
+                            categories += categoryFacade.getCategoryRecipeById(categoryRecipe.getCategoryId()).getNameCategory() + " ";
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+
                     }
                     Label categoryLabel = new Label(categories);
 
