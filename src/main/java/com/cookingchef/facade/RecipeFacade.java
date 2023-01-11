@@ -14,6 +14,8 @@ public class RecipeFacade {
     private static AtomicReference<RecipeFacade> instance = new AtomicReference<>();
     private final RecipeDAO recipeDAO;
 
+    private Recipe recipeChoice;
+
     protected RecipeFacade() {
         var factory = new PostgresFactory();
         this.recipeDAO = factory.getRecipeDAO();
@@ -59,5 +61,13 @@ public class RecipeFacade {
 
     public List<Recipe> getRecipesByIngredients(List<Integer> ingredientId) throws SQLException {
         return recipeDAO.getRecipesByIngredients(ingredientId);
+    }
+
+    public void setRecipeChoice(Recipe recetteToGo) {
+        this.recipeChoice = recetteToGo;
+    }
+
+    public Recipe getRecipeChoice() {
+        return this.recipeChoice;
     }
 }
