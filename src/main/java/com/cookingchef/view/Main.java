@@ -75,6 +75,8 @@ public class Main extends Application {
 		addScene("navbar", Main.class.getResource("navbar-view.fxml"));
 		addScene("partner", Main.class.getResource("partners/partner-view.fxml"));
 		addScene("profile", Main.class.getResource("users/profile-view.fxml"));
+		addScene("recipeAdmin", Main.class.getResource("recipe/recipe-admin-view.fxml"));
+		addScene("recipe", Main.class.getResource("recipe/recipe-view.fxml"));
 		addScene("register", Main.class.getResource("users/register-view.fxml"));
 		addScene("suggestion", Main.class.getResource("suggestions/suggestion-view.fxml"));
 		addScene("user-management", Main.class.getResource("users/user-management-view.fxml"));
