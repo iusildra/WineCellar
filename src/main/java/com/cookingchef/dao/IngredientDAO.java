@@ -10,70 +10,54 @@ import java.util.List;
  * The interface Ingredient dao.
  */
 public interface IngredientDAO {
-
     /**
-     * Gets all ingredients.
-     *
-     * @return the all ingredients
-     * @throws SQLException the sql exception
+     * Get all ingredients from the database.
+     * @return
+     * @throws SQLException
      */
     ArrayList<Ingredient> getAllIngredients() throws SQLException;
 
     /**
-     * Create ingredient boolean.
-     *
-     * @param name     the name
-     * @param img      the img
-     * @param allergen the allergen
-     * @return the boolean
-     * @throws SQLException the sql exception
+     * Add an ingredient to the database.
+     * @param name
+     * @param img
+     * @param allergen
+     * @return
+     * @throws SQLException
      */
     boolean createIngredient(String name, byte[] img, Boolean allergen) throws SQLException;
 
     /**
-     * Delete ingredient.
-     *
-     * @param idIngredient the id ingredient
-     * @throws SQLException the sql exception
+     * Delete an ingredient
+     * @param idIngredient
+     * @throws SQLException
      */
     void deleteIngredient(int idIngredient) throws SQLException;
 
     /**
-     * Update ingredient boolean.
-     *
-     * @param idIngredient       the id ingredient
-     * @param nameIngredient     the name ingredient
-     * @param imageIngredient    the image ingredient
-     * @param allergenIngredient the allergen ingredient
-     * @return the boolean
-     * @throws SQLException the sql exception
+     * Update an ingredient
+     * @param idIngredient
+     * @param nameIngredient
+     * @param imageIngredient
+     * @param allergenIngredient
+     * @return
+     * @throws SQLException
      */
     boolean updateIngredient(int idIngredient, String nameIngredient, byte[] imageIngredient, Boolean allergenIngredient) throws SQLException;
 
     /**
-     * Gets ingredient by id.
-     *
-     * @param idIngredient the id ingredient
-     * @return the ingredient by id
-     * @throws SQLException the sql exception
+     * Get an ingredient by its id.
+     * @param idIngredient
+     * @return
+     * @throws SQLException
      */
     Ingredient getIngredientById(int idIngredient) throws SQLException;
 
     /**
-     * Gets ingredient by name.
-     *
-     * @param nameIngredient the name ingredient
-     * @return the ingredient by name
-     * @throws SQLException the sql exception
-     */
-    Ingredient getIngredientByName(String nameIngredient) throws SQLException;
-
-    /**
-     * Ingredient already exist boolean.
-     *
-     * @param name the name
-     * @return the boolean
-     * @throws SQLException the sql exception
+     * Return if the ingredient already exist in database
+     * @param name
+     * @return
+     * @throws SQLException
      */
     boolean ingredientAlreadyExist(String name) throws SQLException;
 
@@ -85,4 +69,14 @@ public interface IngredientDAO {
      * @throws SQLException the sql exception
      */
     List<Integer> getIngredientsIdByNames(List<String> ingredientsNames) throws SQLException;
+
+
+    /**
+     * Gets ingredients by names.
+     *
+     * @param ingredientsNames the ingredients names
+     * @return the ingredients id by names
+     * @throws SQLException the sql exception
+     */
+    public Ingredient getIngredientByName(String nameIngredient) throws SQLException;
 }

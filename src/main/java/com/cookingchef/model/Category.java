@@ -8,10 +8,9 @@ public class Category {
     private String nameCategory;
 
     /**
-     * Instantiates a new Category.
-     *
-     * @param idCategory   the id category
-     * @param nameCategory the name category
+     * Constructor for the Category class
+     * @param idCategory
+     * @param nameCategory
      */
     public Category(int idCategory, String nameCategory) {
         this.idCategory = idCategory;
@@ -19,36 +18,32 @@ public class Category {
     }
 
     /**
-     * Gets id category.
      *
-     * @return the id category
+     * @return the id of the category
      */
     public int getIdCategory() {
         return idCategory;
     }
 
     /**
-     * Sets id category.
-     *
-     * @param idCategory the id category
+     * Set the id of the category
+     * @param idCategory
      */
     public void setIdCategory(int idCategory) {
         this.idCategory = idCategory;
     }
 
     /**
-     * Gets name category.
      *
-     * @return the name category
+     * @return the name of the category
      */
     public String getNameCategory() {
         return nameCategory;
     }
 
     /**
-     * Sets name category.
-     *
-     * @param nameCategory the name category
+     * Set the name of the category
+     * @param nameCategory
      */
     public void setNameCategory(String nameCategory) {
         this.nameCategory = nameCategory;

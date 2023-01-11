@@ -14,50 +14,45 @@ import java.util.List;
 public interface CategoryDAO {
 
     /**
-     * Gets all categories.
-     *
-     * @return the all categories
-     * @throws SQLException the sql exception
+     * Get all categories from the database
+     * @return List of categories
+     * @throws SQLException
      */
     List<Pair<CategoryDb, Category>> getAllCategories() throws SQLException;
 
     /**
-     * Create category boolean.
-     *
-     * @param tableCategory the table category
-     * @param nameCategory  the name category
-     * @return the boolean
-     * @throws SQLException the sql exception
+     * Add a category into the database
+     * @param tableCategory
+     * @param nameCategory
+     * @return
+     * @throws SQLException
      */
     boolean createCategory(CategoryDb tableCategory, String nameCategory) throws SQLException;
 
     /**
-     * Delete category.
-     *
-     * @param tableCategory the table category
-     * @param idCategory    the id category
-     * @throws SQLException the sql exception
+     * Delete a category
+     * @param tableCategory
+     * @param idCategory
+     * @throws SQLException
      */
     void deleteCategory(CategoryDb tableCategory, int idCategory) throws SQLException;
 
     /**
-     * Update category boolean.
-     *
-     * @param tableCategory the table category
-     * @param idCategory    the id category
-     * @param nameCategory  the name category
-     * @return the boolean
-     * @throws SQLException the sql exception
+     * Update a category
+     * @param tableCategory
+     * @param idCategory
+     * @param nameCategory
+     * @return
+     * @throws SQLException
      */
     boolean updateCategory(CategoryDb tableCategory, int idCategory, String nameCategory) throws SQLException;
 
     /**
-     * Is already exist boolean.
-     *
-     * @param tableCategory the table category
-     * @param nameCategory  the name category
-     * @return the boolean
-     * @throws SQLException the sql exception
+     * Return if the category already exist in the database
+     * @param tableCategory
+     * @param nameCategory
+     * @return
+     * @throws SQLException
      */
     boolean isAlreadyExist(CategoryDb tableCategory, String nameCategory) throws SQLException;
 

@@ -11,12 +11,11 @@ public class Ingredient {
     private Boolean allergen;
 
     /**
-     * Instantiates a new Ingredient.
-     *
-     * @param id       the id
-     * @param name     the name
-     * @param image    the image
-     * @param allergen the allergen
+     * Constructor for the Ingredient class
+     * @param id
+     * @param name
+     * @param image
+     * @param allergen
      */
     public Ingredient(int id, String name, byte[] image, Boolean allergen) {
         this.id = id;
@@ -26,72 +25,64 @@ public class Ingredient {
     }
 
     /**
-     * Gets id.
      *
-     * @return the id
+     * @return the id of the ingredient
      */
     public int getId() {
         return id;
     }
 
     /**
-     * Sets id.
-     *
-     * @param id the id
+     * Set the id of the ingredient
+     * @param id
      */
     public void setId(int id) {
         this.id = id;
     }
 
     /**
-     * Gets name.
      *
-     * @return the name
+     * @return the name of the ingredient
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Sets name.
-     *
-     * @param name the name
+     * Set the name of the ingredient
+     * @param name
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * Get image byte [ ].
      *
-     * @return the byte [ ]
+     * @return the image of the ingredient
      */
     public byte[] getImage() {
         return image;
     }
 
     /**
-     * Sets image.
-     *
-     * @param image the image
+     * Set the image of the ingredient
+     * @param image
      */
     public void setImage(byte[] image) {
         this.image = image;
     }
 
     /**
-     * Gets allergen.
      *
-     * @return the allergen
+     * @return if the ingredient is an allergen
      */
     public Boolean getAllergen() {
         return allergen;
     }
 
     /**
-     * Sets allergen.
-     *
-     * @param allergen the allergen
+     * Set if the ingredient is an allergen
+     * @param allergen
      */
     public void setAllergen(Boolean allergen) {
         this.allergen = allergen;
