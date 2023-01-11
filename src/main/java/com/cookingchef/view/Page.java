@@ -2,6 +2,7 @@ package com.cookingchef.view;
 
 public enum Page {
 	AD("ad"),
+	CART("cart"),
 	CATEGORY("category"),
 	HOME("home"),
 	INGREDIENT("ingredient"),

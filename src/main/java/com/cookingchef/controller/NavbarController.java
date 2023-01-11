@@ -80,10 +80,13 @@ public class NavbarController implements Initializable {
 		suggestions.setOnAction(event -> pageChange(Page.SUGGESTION));
 		var recipeList = new MenuItem("Recipe List");
 		recipeList.setOnAction(event -> pageChange(Page.RECIPE_LIST));
+		var cart = new MenuItem("Cart");
+		cart.setOnAction(event -> pageChange(Page.CART));
 		
 		list.add(partner);
 		list.add(suggestions);
 		list.add(recipeList);
+		list.add(cart);
 
 		return list;
 	}

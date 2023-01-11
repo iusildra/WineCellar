@@ -29,21 +29,17 @@ import java.util.ResourceBundle;
 public class HomeController implements Initializable {
 
     @FXML
-    private final TextField searchField = new TextField();
-
-
-    @FXML
-    private final ComboBox<CategorySearch> comboBox = new ComboBox<>();
-
+    private TextField searchField;
 
     @FXML
-    private final ListView<Recipe> listeRecipe = new ListView<>();
+    private ComboBox<CategorySearch> comboBox;
 
-    private final RecipeFacade recipeFacade = RecipeFacade.getRecipeFacade();
+    @FXML
+    private ListView<Recipe> listeRecipe;
+
+    private RecipeFacade recipeFacade = RecipeFacade.getRecipeFacade();
 
     private static final String ERROR_TITLE = "Erreur";
-
-
 
     private void getRecettes() {
         try {
@@ -56,25 +52,6 @@ public class HomeController implements Initializable {
                     .text("Erreur avec la base de donnée\nRelancer l'application")
                     .showError();
         }
-    }
-
-    /**
-     * On click button logout.
-     *
-     * @throws IOException the io exception
-     */
-    public void onClickButtonLogout() throws IOException {
-        Main.setUser(null);
-        Main.redirect("login");
-    }
-
-    /**
-     * On click button profile.
-     *
-     * @throws IOException the io exception
-     */
-    public void onClickButtonProfile() throws IOException {
-        Main.redirect("profile");
     }
 
     /**
@@ -99,8 +76,10 @@ public class HomeController implements Initializable {
                 case INGREDIENT -> {
                     List<String> ingredients = List.of(search.split(", "));
                     try {
-                        List<Integer> ingredientsId = IngredientFacade.getIngredientFacade().getIngredientsIdByNames(ingredients);
-                        this.listeRecipe.setItems(FXCollections.observableArrayList(this.recipeFacade.getRecipesByIngredients(ingredientsId)));
+                        List<Integer> ingredientsId = IngredientFacade.getIngredientFacade()
+                                .getIngredientsIdByNames(ingredients);
+                        this.listeRecipe.setItems(FXCollections
+                                .observableArrayList(this.recipeFacade.getRecipesByIngredients(ingredientsId)));
                     } catch (SQLException e) {
                         e.printStackTrace();
                         Notifications.create()
@@ -112,8 +91,10 @@ public class HomeController implements Initializable {
                 case CATEGORY -> {
                     List<String> categories = List.of(search.split(", "));
                     try {
-                        List<Integer> categoriesId = CategoryFacade.getCategoryFacade().getCategoriesIdByNames(categories);
-                        this.listeRecipe.setItems(FXCollections.observableArrayList(this.recipeFacade.getRecipesByCategories(categoriesId)));
+                        List<Integer> categoriesId = CategoryFacade.getCategoryFacade()
+                                .getCategoriesIdByNames(categories);
+                        this.listeRecipe.setItems(FXCollections
+                                .observableArrayList(this.recipeFacade.getRecipesByCategories(categoriesId)));
                     } catch (SQLException e) {
                         e.printStackTrace();
                         Notifications.create()
@@ -122,11 +103,11 @@ public class HomeController implements Initializable {
                                 .showError();
                     }
 
-
                 }
                 case RECIPE -> {
                     try {
-                        this.listeRecipe.setItems(FXCollections.observableArrayList(this.recipeFacade.getRecipesByName(search)));
+                        this.listeRecipe.setItems(
+                                FXCollections.observableArrayList(this.recipeFacade.getRecipesByName(search)));
                     } catch (SQLException e) {
                         e.printStackTrace();
                         Notifications.create()
@@ -149,7 +130,6 @@ public class HomeController implements Initializable {
         this.getRecettes();
     }
 
-
     /**
      * Redirect to.
      *
@@ -166,7 +146,7 @@ public class HomeController implements Initializable {
             e.printStackTrace();
             return;
         }
-        
+
         try {
             Main.addScene("recette", loader.getLocation());
             Main.redirect("recette");
@@ -177,12 +157,10 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         this.listeRecipe.setCellFactory(param -> cellFactory());
         this.getRecettes();
         this.comboBox.getItems().setAll(CategorySearch.INGREDIENT, CategorySearch.RECIPE, CategorySearch.CATEGORY);
         this.comboBox.setValue(CategorySearch.RECIPE);
-
     }
 
     /**
@@ -206,10 +184,12 @@ public class HomeController implements Initializable {
 
                 Label label = new Label(recipe.getName());
 
-                /* Récup plus tard l'image de la recette et l'afficher
-                    ImageView imageView = new ImageView(new Image(new ByteArrayInputStream(recette.getImage())));
-                    imageView.setFitHeight(50);
-                    imageView.setFitWidth(50);
+                /*
+                 * Récup plus tard l'image de la recette et l'afficher
+                 * ImageView imageView = new ImageView(new Image(new
+                 * ByteArrayInputStream(recette.getImage())));
+                 * imageView.setFitHeight(50);
+                 * imageView.setFitWidth(50);
                  */
 
                 Button checkButton = new Button("Voir");
