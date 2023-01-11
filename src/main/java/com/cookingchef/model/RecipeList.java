@@ -110,7 +110,7 @@ public class RecipeList {
     }
 
     /**
-     *
+     * Add a recipe into the RecipeList.
      */
     public void addARecipe(Recipe recipe) {
         this.recipeList.add(recipe);

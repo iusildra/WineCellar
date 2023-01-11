@@ -13,6 +13,9 @@ public class UserFacade {
 	private static AtomicReference<UserFacade> instance = new AtomicReference<>();
 	private UserDAO userDAO;
 
+	/**
+	 *
+	 */
 	private UserFacade() {
 		var factory = new PostgresFactory();
 		this.userDAO = factory.getUserDAO();

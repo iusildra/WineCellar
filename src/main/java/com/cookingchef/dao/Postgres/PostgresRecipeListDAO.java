@@ -2,6 +2,7 @@ package com.cookingchef.dao.Postgres;
 
 import com.cookingchef.dao.RecipeListDAO;
 import com.cookingchef.dbutils.ConnectionManager;
+import com.cookingchef.model.Recipe;
 import com.cookingchef.model.RecipeList;
 import com.cookingchef.model.RecipeListDbFields;
 
@@ -54,7 +55,7 @@ public class PostgresRecipeListDAO implements RecipeListDAO {
 
             // Inserting dependencies
             for (Recipe recipe : recipeList.getRecipeList()) {
-                createRecipeListLinkRecipeInDb(recipe.getId(), newId);
+                createRecipeListLinkRecipeInDb(recipe.getId().get(), newId);
             }
             return Optional.of(newId);
         }
@@ -149,7 +150,7 @@ public class PostgresRecipeListDAO implements RecipeListDAO {
                         new RecipeList(
                                 rs.getInt(RecipeListDbFields.ID.value),
                                 rs.getString(RecipeListDbFields.NAME.value),
-                                PostgresRecipeDAO.getPostgresRecipeDAO.getRecipebyId(rs.getInt(RecipeDbFields.ID.value)),
+                                PostgresRecipeDAO.getRecipebyId(rs.getInt(RecipeDbFields.ID.value)),
                                 // returns an ArrayList<Recipe> object for a recipeID (int) given.
                                 rs.getBoolean(RecipeListDbFields.IS_FAV.value)));
             }

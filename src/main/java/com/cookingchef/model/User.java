@@ -5,6 +5,7 @@ import javafx.beans.property.*;
 import java.util.Date;
 import java.util.Optional;
 
+
 public class User {
 	private Optional<Integer> id = Optional.empty();
 	private String name;
@@ -16,6 +17,16 @@ public class User {
 	private String answer;
 	private Boolean isAdmin;
 
+	/**
+	 * Constructor for the User class.
+	 * @param name
+	 * @param email
+	 * @param password
+	 * @param phone
+	 * @param birthdate
+	 * @param question
+	 * @param answer
+	 */
 	public User(String name, String email, String password, String phone, Date birthdate, String question,
 			String answer) {
 		this.name = name;
@@ -28,6 +39,18 @@ public class User {
 		this.isAdmin = false;
 	}
 
+	/**
+	 * Constructor for the User class.
+	 * @param id
+	 * @param name
+	 * @param email
+	 * @param password
+	 * @param phone
+	 * @param birthdate
+	 * @param question
+	 * @param answer
+	 * @param isAdmin
+	 */
 	public User(int id, String name, String email, String password, String phone, Date birthdate, String question,
 			String answer, Boolean isAdmin) {
 		this.id = Optional.of(id);
@@ -41,6 +64,10 @@ public class User {
 		this.isAdmin = isAdmin;
 	}
 
+	/**
+	 * Constructor for the User class.
+	 * @param user
+	 */
 	public User(User user) {
 		this.id = user.getId();
 		this.name = user.getName();
@@ -190,6 +217,7 @@ public class User {
 				'}';
 	}
 
+
 	@Override
 	public int hashCode() {
 		return id.hashCode() + name.hashCode() + email.hashCode() + password.hashCode() + phone.hashCode() + question.hashCode() + answer.hashCode() + isAdmin.hashCode();
@@ -230,6 +258,10 @@ public class User {
 		return new SimpleBooleanProperty(isAdmin);
 	}
 
+	/**
+	 * Set if the user is an admin or not.
+	 * @param isAdmin
+	 */
 	public void setAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
 	}
