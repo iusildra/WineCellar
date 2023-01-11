@@ -265,7 +265,6 @@ public class PostgresRecipeDAO implements RecipeDAO {
             var recipes = new ArrayList<Recipe>();
             while (rs.next()) {
                 ArrayList<IngredientRecipe> ingredients = this.getAllIngredientsRecipeByRecipeId(rs.getInt(RecipeDbFields.ID.value));
-
                 ArrayList<CategoryRecipe> categories = this.getAllCategoriesRecipeByRecipeId(rs.getInt(RecipeDbFields.ID.value));
 
                 recipes.add(
