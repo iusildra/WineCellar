@@ -17,7 +17,6 @@ import java.util.Optional;
 
 public class RegisterController {
 
-	public UserFacade userFacade = UserFacade.getUserFacade();
 	@FXML
 	private TextField email;
 	@FXML
@@ -34,6 +33,8 @@ public class RegisterController {
 	private TextField question;
 	@FXML
 	private TextField answer;
+
+	private UserFacade userFacade = UserFacade.getUserFacade();
 
 	private static final String LOGIN_PAGE = "login";
 	private static final String ERROR_TITLE = "Error";

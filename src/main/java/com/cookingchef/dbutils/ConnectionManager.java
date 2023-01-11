@@ -40,14 +40,8 @@ public class ConnectionManager {
   }
 
   /**
-   * If the connection pool is not open, open it, then get a connection from the
-   * pool.
-   * 
-   * @param dbName   The name of the database you want to connect to.
-   * @param user     The user name to use when connecting to the database.
-   * @param password The password for the database
-   * @param port     The port number of the database.
-   * @return A connection to the database.
+   * If the connection pool is not open, open it, then get a connection from the pool.
+   * @return
    */
   public static Connection getConnection() {
     try {

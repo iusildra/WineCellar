@@ -48,7 +48,7 @@ public class CartEntry {
     }
 
     /**
-     *
+     * Set the ingredient id
      * @param ingredientId
      */
     public void setIngredientId(int ingredientId) {
@@ -64,7 +64,7 @@ public class CartEntry {
     }
 
     /**
-     *
+     * Set the user id
      * @param userId
      */
     public void setUserId(int userId) {
@@ -80,7 +80,7 @@ public class CartEntry {
     }
 
     /**
-     *
+     * Set the quantity for ingredient
      * @param quantity
      */
     public void setQuantity(double quantity) {
@@ -96,7 +96,7 @@ public class CartEntry {
     }
 
     /**
-     *
+     * Set the unit of the quantity
      * @param unit
      */
     public void setUnit(int unit) {

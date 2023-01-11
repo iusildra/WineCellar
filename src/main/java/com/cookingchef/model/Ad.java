@@ -39,7 +39,7 @@ public class Ad {
     }
 
     /**
-     * @return the id
+     * @return the id of the ad
      */
     public Optional<Integer> getId() {
         return id;
@@ -64,7 +64,7 @@ public class Ad {
     }
 
     /**
-     *
+     * Set the description of the ad
      * @param descriptionPromotion
      */
     public void setDescriptionPromotion(String descriptionPromotion) {
@@ -80,7 +80,7 @@ public class Ad {
     }
 
     /**
-     *
+     * Set the price of the ad
      * @param price
      */
     public void setPrice(int price) {
@@ -96,7 +96,7 @@ public class Ad {
     }
 
     /**
-     *
+     * Set the partner id who propose this ad
      * @param partnerId
      */
     public void setPartnerId(int partnerId) {
@@ -112,7 +112,7 @@ public class Ad {
     }
 
     /**
-     *
+     * Set the ingredient id the ad is about
      * @param ingredientId
      */
     public void setIngredientId(int ingredientId) {

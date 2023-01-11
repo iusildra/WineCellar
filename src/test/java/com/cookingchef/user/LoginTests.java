@@ -24,15 +24,14 @@ public class LoginTests {
 
   @Test
   void validateLogin() throws SQLException {
-    var user = new User("abc", "abc", "$2y$10$QdCYs/d73sagv5Lm13ZJ8.lRAS0lT51fS9TsRa9zO6Kw5QOEIlNe6", "abc",
-        Date.from(Instant.now()), "none", "none");
+    // var user = new User("abc", "lucas.nouguier@protonmail.com", "$2y$10$QdCYs/d73sagv5Lm13ZJ8.lRAS0lT51fS9TsRa9zO6Kw5QOEIlNe6", "00000000", Date.from(Instant.now()), "none", "none");
 
-    userDAO.registerUserInDb(user);
+    // userDAO.registerUserInDb(user);
 
     UserFacade userFacade = UserFacade.getUserFacade();
-    var abc = userFacade.login("abc", "abc");
+    var abc = userFacade.login("lu.cas@nou.com", "abc");
 
-    userDAO.removeUserFromDb(user);
+    // userDAO.removeUserFromDb(user);
 
     assert abc.isPresent();
   }

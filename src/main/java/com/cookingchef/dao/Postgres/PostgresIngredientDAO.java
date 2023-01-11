@@ -8,14 +8,24 @@ import com.cookingchef.model.IngredientDbFields;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
+/**
+ * The type Postgres ingredient dao.
+ */
 public class PostgresIngredientDAO implements IngredientDAO {
     private static final AtomicReference<PostgresIngredientDAO> instance = new AtomicReference<>();
 
     private PostgresIngredientDAO() {
     }
 
+    /**
+     * Gets postgres ingredient dao.
+     *
+     * @return the postgres ingredient dao
+     */
     public static IngredientDAO getPostgresIngredientDAO() {
         instance.compareAndSet(null, new PostgresIngredientDAO());
         return instance.get();
@@ -58,9 +68,9 @@ public class PostgresIngredientDAO implements IngredientDAO {
     }
 
     @Override
-    public boolean createIngredient(String name, byte[] img, Boolean allergen) throws SQLException {
+    public boolean createIngredient(String name, byte[] img, Boolean allergen) throws SQLException, IllegalArgumentException {
         if (this.ingredientAlreadyExist(name)) {
-            return false;
+            throw new IllegalArgumentException("Ingredient already exist");
         } else {
             var query = "INSERT INTO ingredient (name, src, allergen) VALUES (?, ?, ?)";
             var conn = ConnectionManager.getConnection();
@@ -126,5 +136,52 @@ public class PostgresIngredientDAO implements IngredientDAO {
                 return null;
             }
         }
+    }
+
+    @Override
+    public Ingredient getIngredientByName(String nameIngredient) throws SQLException {
+        var query = "SELECT * FROM ingredient WHERE name = ?";
+        var conn = ConnectionManager.getConnection();
+
+        try(var stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, nameIngredient);
+            var rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new Ingredient(
+                        rs.getInt(IngredientDbFields.ID.value),
+                        rs.getString(IngredientDbFields.NAME.value),
+                        rs.getBytes(IngredientDbFields.IMAGE.value),
+                        rs.getBoolean(IngredientDbFields.ALLERGEN.value)
+                );
+            } else {
+                return null;
+            }
+        }
+    }
+
+    @Override
+    public List<Integer> getIngredientsIdByNames(List<String> ingredientsNames) throws SQLException {
+        var queryArgs = ingredientsNames.stream()
+                .distinct()
+                .map(x -> "LOWER(name) LIKE ?")
+                .collect(Collectors.joining(" OR "));
+        var query = "SELECT id FROM ingredient WHERE " + queryArgs;
+
+
+        var conn = ConnectionManager.getConnection();
+        List<Integer> ingredientsId = new ArrayList<>();
+
+        try(var stmt = conn.prepareStatement(query)) {
+            for (int i = 0; i < ingredientsNames.size(); i++) {
+                stmt.setString(i + 1, "%" + ingredientsNames.get(i).toLowerCase() + "%");
+            }
+            var rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                ingredientsId.add(rs.getInt(IngredientDbFields.ID.value));
+            }
+        }
+        return ingredientsId;
     }
 }

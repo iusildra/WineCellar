@@ -57,7 +57,7 @@ public class Cart {
     }
 
     /**
-     *
+     * Set the list of the entries of the cart
      * @param cartEntries
      */
     public void setCartEntries(List<CartEntry> cartEntries) {
@@ -83,7 +83,7 @@ public class Cart {
     }
 
     /**
-     *
+     * Get the user of the cart
      * @return the cart user
      */
     public User getUser() {
@@ -91,7 +91,7 @@ public class Cart {
     }
 
     /**
-     *
+     * Set the user of the cart
      * @param user
      */
     public void setUser(User user) {

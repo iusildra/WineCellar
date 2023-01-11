@@ -44,5 +44,4 @@ public class PostgresAdminSuggestionDAO extends PostgresUserSuggestionDAO implem
     }
 
   }
-
 }
