@@ -90,11 +90,6 @@ public class Ingredient {
 
     @Override
     public String toString() {
-        return "Ingredient {" +
-                "id: " + id +
-                ", name: " + name + "\'" +
-                ", image: " + image + "\'" +
-                ", allergen: " + allergen + "\'" +
-                "}";
+        return this.name;
     }
 }
