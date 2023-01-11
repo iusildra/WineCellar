@@ -95,13 +95,18 @@ public class PostgresFactory implements AbstractFactory {
     return PostgresAdDAO.getPostgresAdDAO();
   }
 
-    @Override
-    public CalendarDAO getCalendarDAO() {
+  @Override
+  public CalendarDAO getCalendarDAO() {
         return PostgresCalendarDAO.getPostgresCalendarDAO();
     }
 
-    @Override
-    public MealCategoryDAO getMealCategoryDAO() {
+  @Override
+  public MealCategoryDAO getMealCategoryDAO() {
         return PostgresMealCategoryDAO.getPostgresMealCategoryDAO();
     }
+
+  @Override
+  public UnitDAO getUnitDAO() {
+    return PostgresUnitDAO.getPostgresUnitDAO();
+  }
 }

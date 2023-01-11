@@ -67,4 +67,6 @@ public interface AbstractFactory {
   CalendarDAO getCalendarDAO();
 
   MealCategoryDAO getMealCategoryDAO();
+
+  UnitDAO getUnitDAO();
 }
