@@ -22,6 +22,18 @@ public class IngredientRecipe {
 
     /**
      *
+     * @param ingredientId
+     * @param quantity
+     * @param unit
+     */
+    public IngredientRecipe(int ingredientId, int quantity, int unit){
+        this.ingredientId = ingredientId;
+        this.quantity = quantity;
+        this.unit = unit;
+    }
+
+    /**
+     *
      * @return the recipe id
      */
     public int getRecipeId() {

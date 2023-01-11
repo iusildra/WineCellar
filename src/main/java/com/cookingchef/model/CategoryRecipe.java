@@ -15,6 +15,14 @@ public class CategoryRecipe {
     }
 
     /**
+     * Constructor for the CategoryRecipe Class
+     * @param categoryId
+     */
+    public CategoryRecipe(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    /**
      *
      * @return the id of the recipe
      */
