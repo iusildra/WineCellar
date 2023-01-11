@@ -183,7 +183,7 @@ public class IngredientController implements Initializable {
         // Création de la seconde fenêtre
         this.secondaryStage = new Stage();
         secondaryStage.initModality(Modality.WINDOW_MODAL);
-        secondaryStage.initOwner(Main.stage);
+        secondaryStage.initOwner(Main.getStage());
 
         Label labelName = new Label("Entrer le nom de l'ingrédient :");
         this.nameIngredient = new TextField();

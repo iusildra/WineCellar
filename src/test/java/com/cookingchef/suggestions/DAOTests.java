@@ -1,7 +1,5 @@
 package com.cookingchef.suggestions;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -103,26 +101,4 @@ public class DAOTests {
 
     assert newSugg.size() == 4;
   }
-
-  // @Test
-  // void getAllCategories() throws SQLException {
-  //   var categories = new ArrayList<SuggestionCategory>();
-  //   categories.add(new SuggestionCategory("abc"));
-  //   categories.add(new SuggestionCategory("abc"));
-  //   categories.add(new SuggestionCategory("abc"));
-  //   categories.add(new SuggestionCategory("def"));
-
-  //   for (var cat : categories) {
-  //     adminDAO.registerCategoryInDb(cat);
-  //   }
-
-  //   var newCat = userDAO.getCategories();
-
-  //   for (var cat : categories) {
-  //     adminDAO.removeCategoryFromDb(cat);
-  //   }
-
-  //   //TODO: fix this, there are already 3 categories from SQL
-  //   assertEquals(7, newCat.size());
-  // }
 }

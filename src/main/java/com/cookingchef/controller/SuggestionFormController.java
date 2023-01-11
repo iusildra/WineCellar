@@ -3,6 +3,7 @@ package com.cookingchef.controller;
 import com.cookingchef.dao.Postgres.PostgresCategoryDAO;
 import com.cookingchef.facade.AdminSuggestionFacade;
 import com.cookingchef.model.Suggestion;
+import com.cookingchef.view.Main;
 import com.cookingchef.model.Category;
 import com.cookingchef.model.CategoryDb;
 
@@ -22,6 +23,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import org.controlsfx.control.Notifications;
+
 public class SuggestionFormController implements Initializable {
   @FXML
   private Label welcomeText;
@@ -38,21 +41,23 @@ public class SuggestionFormController implements Initializable {
   @FXML
   private Button closeButton;
 
-  private Optional<Integer> userId = Optional.of(0);// TODO: patch to use logged user
+  private Optional<Integer> userId = Main.getUser().getId();
   private Optional<Integer> suggestionId = Optional.empty();
   private ObservableList<Category> categories;
+
+  private static final String ERROR_TITLE = "Error";
 
   private Optional<Runnable> callback = Optional.empty();
 
   @FXML
   protected void onClickValidateButton() {
     if (!Middlewares.mustBeLoggedIn(userId)) {
-      Popups.errorPopup("You must be logged in to create a suggestion");
+      Notifications.create().title(ERROR_TITLE).text("You must be logged in to create a suggestion").showError();
       return;
     }
 
     if (!checkInputs()) {
-      Popups.errorPopup("Please fill all fields");
+      Notifications.create().title(ERROR_TITLE).text("Please fill all the fields").showError();
       return;
     }
 
@@ -66,14 +71,14 @@ public class SuggestionFormController implements Initializable {
       try {
         suggestionFacade.addSuggestion(suggestion);
       } catch (SQLException e) {
-        Popups.errorPopup("Creation failed");
+        Notifications.create().title(ERROR_TITLE).text("Creation failed").showError();
         return;
       }
     } else {
       try {
         suggestionFacade.updateSuggestion(suggestion);
       } catch (SQLException e) {
-        Popups.errorPopup("Update failed");
+        Notifications.create().title(ERROR_TITLE).text("Update failed").showError();
         return;
       }
     }
@@ -121,7 +126,7 @@ public class SuggestionFormController implements Initializable {
               .filter(x -> x.getKey().equals(CategoryDb.SUGGESTION)).map(x -> x.getValue()).collect(Collectors.toList()));
       this.formCategory.setItems(this.categories);
     } catch (SQLException e) {
-      Popups.errorPopup("Failed to load categories");
+      Notifications.create().title(ERROR_TITLE).text("Failed to load categories").showError();
     }
   }
 }

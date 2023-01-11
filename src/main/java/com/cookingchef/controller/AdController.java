@@ -116,7 +116,7 @@ public class AdController implements Initializable {
         // Création de la seconde fenêtre
         this.secondaryStage = new Stage();
         secondaryStage.initModality(Modality.WINDOW_MODAL);
-        secondaryStage.initOwner(Main.stage);
+        secondaryStage.initOwner(Main.getStage());
 
         Label labelDescription = new Label("Entrer la description de votre pub :");
         this.formDescription = new TextField();
@@ -208,22 +208,21 @@ public class AdController implements Initializable {
             return;
         }
 
-        //Si le champ partner n'est pas selectionné
+        //Si le champ partner n'est pas sélectionné
         if (this.partnerComboBox.getValue().equals(null)) {
             Notifications.create()
                     .title(INFORMATION_TITLE)
-                    .text("Veuillez selectionner un partenaire")
+                    .text("Veuillez sélectionner un partenaire")
                     .showWarning();
             return;
         }
 
-        //Si le champ ingredient n'est pas selectionné
+        //Si le champ ingredient n'est pas sélectionné
         if (this.ingredientComboBox.getValue().equals(null)) {
             Notifications.create()
                     .title(INFORMATION_TITLE)
-                    .text("Veuillez selectionner un ingredient")
+                    .text("Veuillez sélectionner un ingredient")
                     .showWarning();
-            return;
         }
     }
 

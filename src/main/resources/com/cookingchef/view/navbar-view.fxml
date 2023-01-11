@@ -12,55 +12,56 @@
 <?import javafx.scene.text.Text?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="800.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.NavbarController">
-<children>
-      <MenuButton contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" style="-fx-background-color: WHITE;fx-border-color:WHITE" text="Menu" textAlignment="CENTER">
+<HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="800.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER"
+    xmlns="http://javafx.com/javafx/19"
+    xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.NavbarController">
+    <children>
+        <MenuButton fx:id="menuItems" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" style="-fx-background-color: WHITE;fx-border-color:WHITE" text="Menu" textAlignment="CENTER">
 
-        <items>
-          <MenuItem mnemonicParsing="false" onAction="#onClickButtonUserManagement" text="User Management" />
-        </items>
-         <graphic>
-             <FontIcon iconLiteral="fa-bars" iconSize="40" />
-         </graphic>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <font>
-            <Font size="1.0" />
-         </font>
-         <HBox.margin>
-            <Insets left="30.0" />
-         </HBox.margin>
-      </MenuButton>
-    <HBox alignment="CENTER_LEFT">
-        <children>
-            <Pane minWidth="100.0" prefHeight="200.0" prefWidth="200.0" />
-            <Text onMouseClicked="#onClickButtonHome" strokeType="OUTSIDE" strokeWidth="0.0" text="My ChiefCook" textAlignment="CENTER" wrappingWidth="378.15380859375">
-                <font>
-                    <Font size="63.0" />
-                </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Text>
-        </children>
-    </HBox>
-    <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-    <HBox alignment="CENTER_RIGHT">
-        <children>
-            <Button fx:id="" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onClickButtonProfile" text="Profile" textAlignment="CENTER" textFill="WHITE">
-                <font>
-                    <Font size="23.0" />
-                </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-        </children>
-        <opaqueInsets>
-            <Insets />
-        </opaqueInsets>
-    </HBox>
-    <Pane prefHeight="200.0" prefWidth="200.0" />
-</children>
+            <items>
+            </items>
+            <graphic>
+                <FontIcon iconLiteral="fa-bars" iconSize="40" />
+            </graphic>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+            <font>
+                <Font size="1.0" />
+            </font>
+            <HBox.margin>
+                <Insets left="30.0" />
+            </HBox.margin>
+        </MenuButton>
+        <HBox alignment="CENTER_LEFT">
+            <children>
+                <Pane minWidth="100.0" prefHeight="200.0" prefWidth="200.0" />
+                <Text onMouseClicked="#onClickButtonHome" strokeType="OUTSIDE" strokeWidth="0.0" text="MyChefCook" textAlignment="CENTER" wrappingWidth="378.15380859375">
+                    <font>
+                        <Font size="63.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Text>
+            </children>
+        </HBox>
+        <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+        <HBox alignment="CENTER_RIGHT">
+            <children>
+                <Button fx:id="" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onClickButtonProfile" text="Profile" textAlignment="CENTER" textFill="WHITE">
+                    <font>
+                        <Font size="23.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+            </children>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+        </HBox>
+        <Pane prefHeight="200.0" prefWidth="200.0" />
+    </children>
 </HBox>

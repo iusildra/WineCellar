@@ -174,7 +174,7 @@ public class CategoryController implements Initializable {
     private void showForm() {
         this.secondaryStage = new Stage();
         secondaryStage.initModality(Modality.WINDOW_MODAL);
-        secondaryStage.initOwner(Main.stage);
+        secondaryStage.initOwner(Main.getStage());
 
         Label label = new Label("Nom de la catégorie");
         this.chocoBox.setValue(CategoryDb.INGREDIENT);

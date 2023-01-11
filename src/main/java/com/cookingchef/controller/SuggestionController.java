@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.Notifications;
+
 import com.cookingchef.facade.AdminSuggestionFacade;
 import com.cookingchef.model.Suggestion;
 import com.cookingchef.model.User;
@@ -40,8 +42,10 @@ public class SuggestionController implements Initializable {
   @FXML
   private TableColumn<Suggestion, Integer> author = new TableColumn<>("Author");
 
+  private static final String ERROR_TITLE = "Error";
+
   private ObservableList<Suggestion> suggestionList = FXCollections.observableArrayList();
-  private User writer = new User(0, null, null, null, null, null, null, null, true);// TODO: patch to use logged user
+  private User writer = Main.getUser();
   private AdminSuggestionFacade facade;
 
   public SuggestionController() {
@@ -64,7 +68,7 @@ public class SuggestionController implements Initializable {
       form = loader.load();
       formController = loader.getController();
     } catch (IOException e) {
-      Popups.errorPopup("Could not properly load form");
+      Notifications.create().title(ERROR_TITLE).text("Error while opening form").showError();
       e.printStackTrace();
       return;
     }
@@ -86,7 +90,7 @@ public class SuggestionController implements Initializable {
       this.suggestionView.getItems().setAll(suggestionList);
       this.suggestionView.refresh();
     } catch (SQLException e) {
-      Popups.errorPopup("Error while fetching suggestions");
+      Notifications.create().title(ERROR_TITLE).text("Error while fetching suggestions").showError();
       e.printStackTrace();
     }
   }
@@ -121,18 +125,16 @@ public class SuggestionController implements Initializable {
     fetchSuggestions();
   }
 
-  public void confirmDelete(Suggestion suggestion) {
-    Popups.confirmationPopup("Delete suggestion ?", () -> {
+  public void deleteSuggestion(Suggestion suggestion) {
       try {
         facade.deleteSuggestion(suggestion);
         this.suggestionList.remove(suggestion);
         this.suggestionView.getItems().remove(suggestion);
         this.suggestionView.refresh();
       } catch (SQLException e) {
-        Popups.errorPopup("Error while deleting suggestion");
+        Notifications.create().title(ERROR_TITLE).text("Error while deleting suggestion").showError();
         e.printStackTrace();
       }
-    });
   }
 
   public TableCell<Suggestion, Suggestion> removeButtonFactory(Optional<Runnable> callback) {
@@ -150,7 +152,7 @@ public class SuggestionController implements Initializable {
 
         setGraphic(deleteButton);
         deleteButton.setOnAction(event -> {
-          confirmDelete(suggestion);
+          deleteSuggestion(suggestion);
           callback.ifPresent(Runnable::run);
         });
       }

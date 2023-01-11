@@ -30,6 +30,8 @@ import javafx.stage.Stage;
 
 public class PartnerController implements Initializable {
   @FXML
+  private Button createButton = new Button("");
+  @FXML
   private TableView<Partner> partnerView = new TableView<>();
   @FXML
   private TableColumn<Partner, Integer> id = new TableColumn<>("ID");
@@ -102,14 +104,30 @@ public class PartnerController implements Initializable {
     this.name.setCellValueFactory(new PropertyValueFactory<Partner, String>("name"));
     this.website.setCellValueFactory(new PropertyValueFactory<Partner, String>("website"));
     this.description.setCellValueFactory(new PropertyValueFactory<Partner, String>("description"));
+
+    if (Main.getUser() == null) {
+      Notifications.create().title(ERROR_TITLE).text("You are not logged in").showError();
+      return;
+    }
+
+    if (Main.getUser().getIsAdmin()) {
+      this.addAdminCommands();
+    } else {
+      this.editPartner.setVisible(false);
+      this.deletePartner.setVisible(false);
+      this.createButton.setVisible(false);
+    }
+    
+    fetchPartners();
+  }
+  
+  private void addAdminCommands() {
     this.editPartner.setCellValueFactory(
         param -> new ReadOnlyObjectWrapper<>(param.getValue()));
     this.editPartner.setCellFactory(param -> editButtonFactory(Optional.empty()));
     this.deletePartner.setCellValueFactory(
         param -> new ReadOnlyObjectWrapper<>(param.getValue()));
     this.deletePartner.setCellFactory(param -> removeButtonFactory(Optional.empty()));
-
-    fetchPartners();
   }
 
   public void deletePartner(Partner partner) {

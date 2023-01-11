@@ -9,12 +9,17 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.PartnerController">
+<BorderPane prefHeight="1080.0" prefWidth="1920.0"
+   xmlns="http://javafx.com/javafx/19"
+   xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.PartnerController">
+   <top>
+      <fx:include fx:id="navbar" source="../navbar-view.fxml" />
+   </top>
    <center>
       <VBox>
          <Pane>
             <children>
-               <Button layoutX="79.0" layoutY="1.0" maxHeight="100.0" mnemonicParsing="false" onAction="#onCreatePartner" text="Create partner" />
+               <Button fx:id="createButton" layoutX="79.0" layoutY="1.0" maxHeight="100.0" mnemonicParsing="false" onAction="#onCreatePartner" text="Create partner" />
             </children>
          </Pane>
          <ScrollPane>

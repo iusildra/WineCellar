@@ -12,24 +12,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.SuggestionController">
+<BorderPane prefHeight="1080.0" prefWidth="1920.0"
+   xmlns="http://javafx.com/javafx/19"
+   xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cookingchef.controller.SuggestionController">
    <top>
-      <Pane>
-         <children>
-            <HBox prefHeight="100.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="My Chef Cook" wrappingWidth="404.51012420654297">
-                     <font>
-                        <Font size="50.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets top="10.0" />
-                     </HBox.margin>
-                  </Text>
-               </children>
-            </HBox>
-         </children>
-      </Pane>
+      <fx:include fx:id="navbar" source="../navbar-view.fxml" />
    </top>
    <center>
       <VBox>
@@ -64,6 +51,6 @@
       </VBox>
    </center>
    <bottom>
-      
+
    </bottom>
 </BorderPane>

@@ -12,15 +12,24 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Main extends Application {
 
 	private static User user;
 
-	public static Stage stage;
+	private static AtomicReference<Stage> stage = new AtomicReference<>();
 
 	private static final VBox root = new VBox();
 	private static Map<String, URL> scenes = new HashMap<>();
+
+	public static Stage getStage() {
+		return stage.get();
+	}
+
+	public static void setStage(Stage stage) {
+		Main.stage.set(stage);
+	}
 
 	public static User getUser() {
 		return user;
@@ -55,7 +64,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) throws IOException {
-		this.stage = stage;
+		Main.stage.set(stage);
 		var defaultVal = "postgres";
 		ConnectionManager.openConnectionPool(defaultVal, defaultVal, defaultVal, 5432);
 		addScene("ad", Main.class.getResource("ads/ad-view.fxml"));
@@ -64,12 +73,12 @@ public class Main extends Application {
 		addScene("ingredient", Main.class.getResource("ingredient/ingredient-view.fxml"));
 		addScene("login", Main.class.getResource("users/login-view.fxml"));
 		addScene("navbar", Main.class.getResource("navbar-view.fxml"));
-		addScene("partnerView", Main.class.getResource("partners/partner-view.fxml"));
+		addScene("partner", Main.class.getResource("partners/partner-view.fxml"));
 		addScene("profile", Main.class.getResource("users/profile-view.fxml"));
 		addScene("register", Main.class.getResource("users/register-view.fxml"));
-		addScene("suggestionView", Main.class.getResource("suggestions/suggestion-view.fxml"));
+		addScene("suggestion", Main.class.getResource("suggestions/suggestion-view.fxml"));
 		addScene("user-management", Main.class.getResource("users/user-management-view.fxml"));
-		redirect("suggestionView");
+		redirect("login");
 		Scene scene = new Scene(root, 1920, 1080);
 		stage.setTitle("MyChefCook");
 		stage.setScene(scene);
